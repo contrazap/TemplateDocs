@@ -191,6 +191,8 @@ Roadmap entry: [Link]
 
 ## Tasks
 
+[Mark a finished task by appending ✅ to its heading; leave unfinished tasks unmarked. Keep this consistent with the plan state in PROGRESS.md.]
+
 ### 1. [Concrete action]
 
 [Steps, relevant locations and expected intermediate outcome.]
