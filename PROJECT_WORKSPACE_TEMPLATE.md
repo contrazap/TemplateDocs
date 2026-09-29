@@ -222,7 +222,7 @@ Limits: [What these checks cannot establish, if material.]
 [What review must establish, and which roadmap milestone follows.]
 ```
 
-Plans may contain small reference examples when they aid understanding. Under the default coaching agreement, they should not conceal a complete product implementation inside documentation.
+Plans may contain small reference examples when they aid understanding. Under the default coaching agreement, they should not conceal a complete product implementation inside documentation. Under the opt-in worked-example mode (`docs/conventions.md`), the agent appends each task's reference implementation to the plan when the user starts that task; acceptance criteria and verification are unchanged.
 
 ## 8. Progress and evidence
 
