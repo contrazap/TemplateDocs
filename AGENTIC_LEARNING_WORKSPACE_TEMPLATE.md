@@ -17,6 +17,7 @@ The agent should apply the process below to the actual workspace. Follow the app
 - **The agent implements; the user directs and learns.** Within the approved current detailed plan, the agent performs design within scope, implementation, documentation and authorized verification. The user sets direction, approves plans, reviews at boundaries and can take over any task.
 - **Plan approval is the execution mandate.** The agent does not start implementation before the first detailed plan is approved, does not start the next plan before the current plan has passed review, and does not outrun the user's ability to follow the work.
 - **Learning is a first-class outcome.** Every plan states what the user should be able to explain or do afterwards. The agent keeps the implementation legible: intent before changes, concise evidence after, rationale alongside results.
+- **Record the collaboration style.** Learning outcomes describe what the plan covers, not what the user must demonstrate. Record the user's role and preferred briefing depth when they are supplied — for example a project-manager or client collaborator at granular/technical depth who wants full technical detail at each task boundary and reviews by reading and asking questions. Reflection, explain-back and similar demonstrations are never required unless the user asks for them.
 - **Pause and brief at meaningful boundaries.** Under the default balanced rhythm (section 8), the agent ends its turn with a concise briefing — what is done, what comes next, why, and what to watch for — and waits for the user's confirmation. Reflection prompts are optional; the user is never required to answer.
 - **Respect the explanation and concept budgets** (section 9). Explain unfamiliar concepts at first use, adapt to the user's stated knowledge, and do not repeat generic lessons. Deeper explanations happen on request.
 - **Show the work.** Record exact commands or actions performed, observed output and files affected. Do not equate generated files with working behavior, or a claimed check with an executed one.
@@ -266,7 +267,7 @@ Briefing — [plan/task ID, boundary]
 - Awaiting your confirmation to proceed.
 ```
 
-The briefing is concise and specific; it is not a transcript or a lecture. The agent ends its turn and does not continue until the user confirms or redirects. Confirmation can be as short as "continue".
+The briefing is concise and specific; it is not a transcript or a lecture. Concision means no filler, not omitted technical substance: when the user requests it, briefings carry the files and locations touched, structures involved, exact commands and observed results, and alternatives considered, without summarizing them away. The agent ends its turn and does not continue until the user confirms or redirects. Confirmation can be as short as "continue".
 
 The user can change strictness per plan or temporarily: stricter (pause at every task) or flow (pause only at plan boundaries and authorization points, with catch-up notes). Record changes in learning.md or the plan. Under flow, boundary types 4 and 5 always apply.
 
@@ -295,7 +296,7 @@ Explanation budget:
 
 Concept budget: introduce at most one to three major new concepts per working session by default. Park additional topics in the revisit list with enough context to resume later. The user can raise or lower this budget.
 
-Learning interactions are optional suggestions, never obligations. A plan may suggest one at a natural point: predict-then-observe, explain-back, tweak-and-observe, guided-reproduce, debug drill or what-would-you-check-next. The user may skip without comment. No hands-on activity is mandatory.
+Learning interactions are optional suggestions, never obligations. A plan may suggest one at a natural point: predict-then-observe, explain-back, tweak-and-observe, guided-reproduce, debug drill or what-would-you-check-next. The user may skip without comment. No hands-on activity is mandatory. A user who prefers to review by reading briefings and asking questions, without ever explaining back, is a valid explain-level collaborator; record that preference in learning.md and do not treat it as an unmet learning objective.
 
 Catch-up notes: written into the plan's Learning notes when a pause is batched or skipped. Each note stands alone: what changed, why, how to inspect it. They never interrupt the flow and never replace required evidence.
 
@@ -446,7 +447,7 @@ The generated guide should be project-aware and operational. Include:
 1. The working agreement, plan-approval gate, boundary confirmation and how the user can reclaim tasks.
 2. The exact resume reading order with paths that exist in this workspace.
 3. The one-current-detailed-plan rule and review-before-next-plan process.
-4. Learning configuration that applies here: involvement defaults, boundary strictness, budgets and how to change them; link to learning.md rather than duplicating volatile details.
+4. Learning configuration that applies here: involvement defaults, boundary strictness, briefing detail level, budgets and how to change them; link to learning.md rather than duplicating volatile details. Record the user's collaboration role and review style when supplied (e.g., a project manager/client wanting full technical detail at every task boundary), and state that learning interactions and explain-back are optional and never required.
 5. Known user knowledge/preferences, only when actually supplied.
 6. Confirmed constraints or links to their authoritative documents; avoid duplicating long lists of volatile details.
 7. Implementation and documentation roots, review methods, source/research expectations, repository conventions and whether repository operations are delegated.
