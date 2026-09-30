@@ -1,14 +1,14 @@
-# Project workspace template
+# Manual implementation workspace template
 
-A reusable instruction template for creating and maintaining a single-project or multi-project workspace. It defines the planning process, agent role, documentation and records. It contains no product requirements, technology choices or domain-specific scope.
+A reusable instruction template for creating and maintaining a single-project or multi-project workspace in which the user implements the work while the agent plans, coaches, reviews and maintains records. It defines the planning process, agent role, documentation and records. It contains no product requirements, technology choices or domain-specific scope.
 
 ## 1. How to use this file
 
-Copy this file into a workspace and explicitly ask the agent to use it. Supply the actual requirements separately. For example:
+Provide this file to the agent temporarily (from its canonical repository or a local download) and explicitly ask it to use the workspace structure. Supply the actual requirements separately. For example:
 
-> Read PROJECT_WORKSPACE_TEMPLATE.md and use it to generate or adapt this workspace's documentation and AGENTS.md. Use the requirements I provide separately. Preserve existing work and create only the first detailed plan for each active project. This request is for documentation, not implementation.
+> Read MANUAL_IMPLEMENTATION_WORKSPACE_TEMPLATE.md and use it to generate or adapt this workspace's documentation and AGENTS.md. Use the requirements I provide separately. Preserve existing work and create only the first detailed plan for each active project. This request is for documentation, not implementation.
 
-The example invocation does not need to be stored in generated project documentation. This template is not an automatically active AGENTS.md and should not be copied verbatim into one.
+The example invocation does not need to be stored in generated project documentation. The template itself is not retained in generated workspaces by default; a provenance note pointing to its canonical source is enough. Keep a retained copy only if the user asks for one. This template is not an automatically active AGENTS.md and should not be copied verbatim into one.
 
 The agent should apply the process below to the actual workspace. Follow the applicable instruction hierarchy and the user's current directions. The user can override this template's workflow and role defaults. Preserve already-authorized scope instead of asking for the same permission again.
 
@@ -49,7 +49,6 @@ These are reference layouts. Preserve established naming/layout when it already 
 
 ```text
 <workspace>/
-  PROJECT_WORKSPACE_TEMPLATE.md       Optional retained copy of this template
   AGENTS.md                          Concise operational guide
   README.md                          Entry point and navigation
   STATUS.md                          Short current state and next action

@@ -4,11 +4,11 @@ A reusable instruction template for creating and maintaining a workspace where a
 
 ## 1. How to use this file
 
-Copy this file into a workspace and explicitly ask the agent to use it. Supply the actual requirements separately. For example:
+Provide this file to the agent temporarily (from its canonical repository or a local download) and explicitly ask it to use the workspace structure. Supply the actual requirements separately. For example:
 
 > Read AGENTIC_LEARNING_WORKSPACE_TEMPLATE.md and use it to generate or adapt this workspace's documentation and AGENTS.md. Use the requirements I provide separately. Preserve existing work and create only the first detailed plan for each active project. Present that plan for my approval before starting implementation.
 
-The example invocation does not need to be stored in generated project documentation. This template is not an automatically active AGENTS.md and should not be copied verbatim into one.
+The example invocation does not need to be stored in generated project documentation. The template itself is not retained in generated workspaces by default; a provenance note pointing to its canonical source is enough. Keep a retained copy only if the user asks for one. This template is not an automatically active AGENTS.md and should not be copied verbatim into one.
 
 The agent should apply the process below to the actual workspace. Follow the applicable instruction hierarchy and the user's current directions. The user can override this template's workflow, learning rhythm and role defaults at any time. Preserve already-authorized scope instead of asking for the same permission again.
 
@@ -54,7 +54,6 @@ These are reference layouts. Preserve established naming/layout when it already 
 
 ```text
 <workspace>/
-  AGENTIC_LEARNING_WORKSPACE_TEMPLATE.md   Optional retained copy of this template
   AGENTS.md                          Concise operational guide
   README.md                          Entry point and navigation
   STATUS.md                          Short current state and next action
