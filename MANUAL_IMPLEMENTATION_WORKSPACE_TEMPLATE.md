@@ -215,11 +215,11 @@ Roadmap entry: [Link]
 
 [Mark a finished task by appending ✅ to its heading; leave unfinished tasks unmarked. Keep this consistent with the plan state in PROGRESS.md.]
 
-### 1. [Concrete action] — Support: [L1 Guided / L2 Supported / L3 Independent]
+### 1. [Concrete action]
 
-[Task anatomy defined below: why, steps, task-scoped code delta, expected result, checkpoint.]
+[Task anatomy defined below: why, steps, task-scoped code delta, expected result, checkpoint. Write the task at the support level recorded in the skill ledger; do not label the heading with the level.]
 
-### 2. [Concrete action] — Support: [level]
+### 2. [Concrete action]
 
 [Continue only as far as this unit requires.]
 
@@ -268,7 +268,7 @@ Task detail adapts to demonstrated skill, not to a fixed global setting:
 | L2 Supported | One clean repetition completed | Concrete steps and expected result; code described (signature, location, behavior); provide a snippet on request or when the API is genuinely new. |
 | L3 Independent | Two clean repetitions completed | Goal, constraints and acceptance; code snippets only for genuinely new APIs; the agent reviews the result. |
 
-- Record the skill, the evidence and the current level in `curriculum.md` (or the equivalent coaching record) and reflect it in task headings.
+- Record the skill, the evidence and the current level in `curriculum.md` (or the equivalent coaching record). The recorded level drives how each task is written; task headings carry no level label.
 - A clean repetition means the task was completed and its checkpoint passed without correction. If the user struggles or the task introduces a new API, teach that occurrence one level more detailed, then return to the recorded level after a clean repetition.
 - Levels are per skill; a plan may mix them.
 - Support level changes presentation detail only. Acceptance criteria and verification requirements never change with the level.
@@ -418,7 +418,7 @@ Before reporting the workspace ready, check:
 - Single-project versus multi-project structure is coherent and documented.
 - Every active project has at most one current detailed plan; historical verified plans remain intact.
 - The current plan is one coherent slice; future roadmap milestones remain outcome-level, and the next plan is gated on review plus user confirmation.
-- Task detail matches the recorded support levels, and code appears as task-scoped deltas rather than unchanged full files.
+- Task detail matches the recorded support levels (headings carry no level label), and code appears as task-scoped deltas rather than unchanged full files.
 - Completed tasks are marked ✅ and agree with the plan state in PROGRESS.md; no ad-hoc completion text is used.
 - The previous plan's learnings are reflected in the new plan or roadmap, and coaching evidence agrees between the plan, the skill ledger and the session record.
 - Roadmap IDs, progress entries, dependencies, gate definitions and current-plan pointers agree.
