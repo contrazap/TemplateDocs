@@ -202,7 +202,7 @@ Learning outcomes: [What the user should be able to explain or do after this pla
 
 ## Tasks
 
-[Tags: `[core]` for tasks explained in depth, `[mechanical]` for routine work summarized in batches, `[your-turn]` for tasks offered to the user. Boundaries follow the balanced rhythm by default (section 8). Mark a finished task by appending `(done)` to its heading; leave unfinished tasks unmarked. Keep this consistent with the plan state in PROGRESS.md.]
+[Tags: `[core]` for tasks explained in depth, `[mechanical]` for routine work summarized in batches, `[your-turn]` for tasks offered to the user. Boundaries follow the balanced rhythm by default (section 8). Mark a finished task by appending ✅ to its heading; leave unfinished tasks unmarked. Keep this consistent with the plan state in PROGRESS.md.]
 
 ### 1. [Concrete action] [core]
 

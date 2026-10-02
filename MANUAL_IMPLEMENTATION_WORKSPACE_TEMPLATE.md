@@ -129,7 +129,7 @@ In the multi-project layout:
 | brief.md | Supplied requirements, success conditions, included/excluded scope | Invented requirements or unlabelled proposals |
 | PLAN.md | Ordered milestones, dependencies, risks and gates | Detailed tasks for every future milestone |
 | PROGRESS.md | Authoritative plan states, evidence pointers and resume position | Claims inferred from planned work |
-| conventions.md | Paths, stable IDs, terminology, formats, snippet style, support-level rules and repository conventions | Unrelated technology policy |
+| conventions.md | Paths, stable IDs, terminology, formats (including the completed-task ✅ marker), snippet style, support-level rules and repository conventions | Unrelated technology policy |
 | decisions.md | Requirements, choices, assumptions, open questions and rationale | Silent rewriting of decision history |
 | verification.md | Appropriate evidence methods, scenarios, environments and completion criteria | Claims that checks have run when they have not |
 | references.md | Checked sources, dates, versions and provenance | Unchecked links presented as verified facts |
@@ -150,7 +150,7 @@ Add domain-specific documents only when the actual project needs them. Do not ge
 - Outline future work at milestone level. Split an oversized upcoming milestone before authoring its detailed plan, then update dependencies and progress consistently.
 - Make prerequisites and verification environments explicit. Address risky assumptions early with a focused experiment or feasibility check.
 - Gates should express the evidence needed before dependent work begins. Do not impose a particular prototype, platform, deployment or testing strategy on every project.
-- When the user reports completion, review the implementation and evidence. Keep unresolved findings attached to the current plan.
+- When the user reports completion, review the implementation and evidence. Keep unresolved findings attached to the current plan. Mark a finished task by appending ✅ to its heading once its checkpoint has passed; leave unfinished tasks unmarked. Keep task markers, the plan state in PROGRESS.md and the session record consistent.
 - Author the next detailed plan only after the current plan has passed review, its applicable acceptance criteria have evidence and the user confirms the next plan. Fold the previous plan's recorded learnings into the new plan before finalizing it. An explicit user override can change this sequence and should be recorded.
 - Changes to acceptance criteria must be justified and recorded. Never narrow them silently to mark work complete.
 - Do not invent delivery dates, effort estimates, versions, tools or design commitments. Label estimates and proposed defaults clearly when useful.
@@ -419,6 +419,7 @@ Before reporting the workspace ready, check:
 - Every active project has at most one current detailed plan; historical verified plans remain intact.
 - The current plan is one coherent slice; future roadmap milestones remain outcome-level, and the next plan is gated on review plus user confirmation.
 - Task detail matches the recorded support levels, and code appears as task-scoped deltas rather than unchanged full files.
+- Completed tasks are marked ✅ and agree with the plan state in PROGRESS.md; no ad-hoc completion text is used.
 - The previous plan's learnings are reflected in the new plan or roadmap, and coaching evidence agrees between the plan, the skill ledger and the session record.
 - Roadmap IDs, progress entries, dependencies, gate definitions and current-plan pointers agree.
 - Local links and anchors resolve; optional documents are not linked unless created.
