@@ -10,6 +10,8 @@ Provide this file to the agent temporarily (from its canonical repository or a l
 
 The example invocation does not need to be stored in generated project documentation. The template itself is not retained in generated workspaces by default; a provenance note pointing to its canonical source is enough. Keep a retained copy only if the user asks for one. This template is not an automatically active AGENTS.md and should not be copied verbatim into one.
 
+Generated workspaces record the template's canonical path as a reference (in `references.md` provenance and the generated AGENTS.md), never as a local copy. If the recorded path is missing, ask the user for the updated path instead of guessing. When a workspace format or learning-rhythm change is agreed during the project, propose the matching template update so other workspaces inherit it.
+
 The agent should apply the process below to the actual workspace. Follow the applicable instruction hierarchy and the user's current directions. The user can override this template's workflow, learning rhythm and role defaults at any time. Preserve already-authorized scope instead of asking for the same permission again.
 
 ## 2. Default working agreement
@@ -448,11 +450,12 @@ The generated guide should be project-aware and operational. Include:
 2. The exact resume reading order with paths that exist in this workspace.
 3. The one-current-detailed-plan rule and review-before-next-plan process.
 4. Learning configuration that applies here: involvement defaults, boundary strictness, briefing detail level, budgets and how to change them; link to learning.md rather than duplicating volatile details. Record the user's collaboration role and review style when supplied (e.g., a project manager/client wanting full technical detail at every task boundary), and state that learning interactions and explain-back are optional and never required.
-5. Known user knowledge/preferences, only when actually supplied.
-6. Confirmed constraints or links to their authoritative documents; avoid duplicating long lists of volatile details.
-7. Implementation and documentation roots, review methods, source/research expectations, repository conventions and whether repository operations are delegated.
-8. Evidence rules, session bookkeeping and consistency checks.
-9. Authorization boundaries for risky, external or costly actions, and the delegation scope.
+5. The canonical template path as a reference only, the rule to ask the user when it is missing, and the rule to propose template updates when this workspace's formats or learning rhythm change.
+6. Known user knowledge/preferences, only when actually supplied.
+7. Confirmed constraints or links to their authoritative documents; avoid duplicating long lists of volatile details.
+8. Implementation and documentation roots, review methods, source/research expectations, repository conventions and whether repository operations are delegated.
+9. Evidence rules, session bookkeeping and consistency checks.
+10. Authorization boundaries for risky, external or costly actions, and the delegation scope.
 
 Do not copy this entire template into AGENTS.md. Do not insert a technology stack, fixed milestone count, domain-specific verification matrix or experience profile unless the user's requirements justify it.
 

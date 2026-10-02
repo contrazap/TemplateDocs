@@ -10,6 +10,8 @@ Provide this file to the agent temporarily (from its canonical repository or a l
 
 The example invocation does not need to be stored in generated project documentation. The template itself is not retained in generated workspaces by default; a provenance note pointing to its canonical source is enough. Keep a retained copy only if the user asks for one. This template is not an automatically active AGENTS.md and should not be copied verbatim into one.
 
+Generated workspaces record the template's canonical path as a reference (in `docs/references.md` provenance and the generated AGENTS.md), never as a local copy. If the recorded path is missing, ask the user for the updated path instead of guessing. When a workspace format or process change is agreed during the project, propose the matching template update so other workspaces inherit it.
+
 The agent should apply the process below to the actual workspace. Follow the applicable instruction hierarchy and the user's current directions. The user can override this template's workflow and role defaults. Preserve already-authorized scope instead of asking for the same permission again.
 
 ## 2. Default working agreement
@@ -62,7 +64,7 @@ These are reference layouts. Preserve established naming/layout when it already 
     verification.md                  Verification strategy and acceptance scenarios
     references.md                    Sources and provenance, when needed
     architecture.md                  Design boundaries, when needed
-    curriculum.md                    Learning sequence, when useful
+    curriculum.md                    Skill ledger and support levels, when coaching
     implementation-plans/
       01-<short-name>.md              Only the current detailed plan initially
   sessions/
@@ -96,7 +98,7 @@ These are reference layouts. Preserve established naming/layout when it already 
         verification.md
         references.md                When needed
         architecture.md              When needed
-        curriculum.md                When useful
+        curriculum.md                Skill ledger and support levels, when coaching
         implementation-plans/
           01-<short-name>.md          Only for an active project
       <delivery-root>/               Existing or suitable implementation layout
@@ -127,13 +129,13 @@ In the multi-project layout:
 | brief.md | Supplied requirements, success conditions, included/excluded scope | Invented requirements or unlabelled proposals |
 | PLAN.md | Ordered milestones, dependencies, risks and gates | Detailed tasks for every future milestone |
 | PROGRESS.md | Authoritative plan states, evidence pointers and resume position | Claims inferred from planned work |
-| conventions.md | Paths, stable IDs, terminology, formats and repository conventions | Unrelated technology policy |
+| conventions.md | Paths, stable IDs, terminology, formats, snippet style, support-level rules and repository conventions | Unrelated technology policy |
 | decisions.md | Requirements, choices, assumptions, open questions and rationale | Silent rewriting of decision history |
 | verification.md | Appropriate evidence methods, scenarios, environments and completion criteria | Claims that checks have run when they have not |
 | references.md | Checked sources, dates, versions and provenance | Unchecked links presented as verified facts |
 | architecture.md | Relevant structure, responsibilities, interfaces and data flow | Speculative frameworks without a demonstrated need |
-| curriculum.md | Concepts learned through the planned work | A second competing roadmap |
-| Current detailed plan | Implementable tasks, acceptance, verification and prerequisites | Unrequested finished implementation |
+| curriculum.md | Skill ledger: concepts taught, demonstrated completion, current support level | A second competing roadmap |
+| Current detailed plan | Implementable, right-sized tasks with support-level detail, acceptance, verification and prerequisites | Unrequested finished implementation |
 | Session record | Changes, observations, commands, outcomes and next steps | Unfiltered transcripts or copied secrets |
 
 Add domain-specific documents only when the actual project needs them. Do not generate empty documents for every imaginable system. Optional files omitted from the workspace must also be omitted from its navigation links.
@@ -142,15 +144,32 @@ Add domain-specific documents only when the actual project needs them. Do not ge
 
 - Maintain a broad roadmap and **one current detailed plan per active project**. Do not write all future detailed plans during bootstrap.
 - For an inactive project, a brief, roadmap and status may be enough. Record that it is inactive; do not invent implementation progress.
-- Keep plan IDs stable and monotonically numbered within the project. Completed plan files remain as records.
+- Keep plan IDs stable and monotonically numbered within the project. Completed plan files remain as records. Renumbering is allowed only before the affected work starts, requires the user's decision and must record the old-to-new mapping.
 - A plan should end with an observable, reviewable result. Its size should fit the user's learning needs and the complexity of the work, not an arbitrary number of tasks or sessions.
+- Keep future roadmap entries outcome-level. Treat their internals as provisional until their detailed plan is authored, so implementation discoveries can change them cheaply.
 - Outline future work at milestone level. Split an oversized upcoming milestone before authoring its detailed plan, then update dependencies and progress consistently.
 - Make prerequisites and verification environments explicit. Address risky assumptions early with a focused experiment or feasibility check.
 - Gates should express the evidence needed before dependent work begins. Do not impose a particular prototype, platform, deployment or testing strategy on every project.
 - When the user reports completion, review the implementation and evidence. Keep unresolved findings attached to the current plan.
-- Author the next detailed plan after the current plan has passed review and its applicable acceptance criteria have evidence, unless the user explicitly changes the sequence.
+- Author the next detailed plan only after the current plan has passed review, its applicable acceptance criteria have evidence and the user confirms the next plan. Fold the previous plan's recorded learnings into the new plan before finalizing it. An explicit user override can change this sequence and should be recorded.
 - Changes to acceptance criteria must be justified and recorded. Never narrow them silently to mark work complete.
 - Do not invent delivery dates, effort estimates, versions, tools or design commitments. Label estimates and proposed defaults clearly when useful.
+
+### Slicing and plan size
+
+Each plan delivers one coherent slice of working behavior, not a layer of the whole product:
+
+- **Enabling slice:** a foundation that is demoable on its own, such as a runnable project with correct display settings or a complete input system, even though the game loop does not exist yet.
+- **Vertical slice:** a player-visible behavior working end to end through the layers it needs.
+
+Split a roadmap milestone before authoring its detailed plan when any trigger holds:
+
+- Acceptance cannot be observed until one or more later milestones are implemented.
+- The plan mixes several independent systems whose only shared proof is the final result.
+- More than one risky unknown needs an early feasibility check.
+- A user learning the work cannot run or inspect something meaningful within each task group.
+
+When splitting, update the roadmap, dependencies and progress consistently, and record the reason whenever it changes existing guidance.
 
 Suggested roadmap table:
 
@@ -188,15 +207,19 @@ Roadmap entry: [Link]
 
 [Only unfamiliar concepts needed to perform this unit; omit if unnecessary.]
 
+## Learnings carried in
+
+[Findings from the previous plan that shape this one; "None (first plan)" when there are none.]
+
 ## Tasks
 
 [Mark a finished task by appending ✅ to its heading; leave unfinished tasks unmarked. Keep this consistent with the plan state in PROGRESS.md.]
 
-### 1. [Concrete action]
+### 1. [Concrete action] — Support: [L1 Guided / L2 Supported / L3 Independent]
 
-[Steps, relevant locations and expected intermediate outcome.]
+[Task anatomy defined below: why, steps, task-scoped code delta, expected result, checkpoint.]
 
-### 2. [Concrete action]
+### 2. [Concrete action] — Support: [level]
 
 [Continue only as far as this unit requires.]
 
@@ -216,12 +239,39 @@ Limits: [What these checks cannot establish, if material.]
 
 [Likely issues and focused diagnostic steps; omit if not useful.]
 
+## Learnings to carry forward
+
+[Confirmed during review: what changes future plans, roadmap risks or coaching levels; update the skill ledger for demonstrated skills.]
+
 ## Completion and next step
 
 [What review must establish, and which roadmap milestone follows.]
 ```
 
-Plans may contain small reference examples when they aid understanding. Under the default coaching agreement, they should not conceal a complete product implementation inside documentation. Under the opt-in worked-example mode (`docs/conventions.md`), the agent appends each task's reference implementation to the plan when the user starts that task; acceptance criteria and verification are unchanged.
+### Task anatomy
+
+Each task should be understandable and verifiable without reading a whole file:
+
+- **Why:** one or two sentences linking the task to the plan goal.
+- **Steps:** ordered, concrete actions with expected intermediate results. Exact editor paths, menu names and field values at L1; less hand-holding as the support level drops.
+- **Code:** when code is required, show a task-scoped delta — the file path, the function or nearby anchor lines, and only the lines to add, replace or delete, clearly marked. Show a complete file only when the task is to create that small file. Do not paste unchanged files or unrelated surrounding code. Explain only APIs the user has not met.
+- **Expected result:** what should be true or visible when the task is done correctly.
+- **Checkpoint:** the run, inspection or observation that confirms the task before the next one begins.
+
+### Support levels and graduated coaching
+
+Task detail adapts to demonstrated skill, not to a fixed global setting:
+
+| Level | Use when | Detail |
+|---|---|---|
+| L1 Guided | First occurrence of a skill | Exact steps and field values; code deltas with short per-line explanations; intermediate results stated. |
+| L2 Supported | One clean repetition completed | Concrete steps and expected result; code described (signature, location, behavior); provide a snippet on request or when the API is genuinely new. |
+| L3 Independent | Two clean repetitions completed | Goal, constraints and acceptance; code snippets only for genuinely new APIs; the agent reviews the result. |
+
+- Record the skill, the evidence and the current level in `curriculum.md` (or the equivalent coaching record) and reflect it in task headings.
+- A clean repetition means the task was completed and its checkpoint passed without correction. If the user struggles or the task introduces a new API, teach that occurrence one level more detailed, then return to the recorded level after a clean repetition.
+- Levels are per skill; a plan may mix them.
+- Support level changes presentation detail only. Acceptance criteria and verification requirements never change with the level.
 
 ## 8. Progress and evidence
 
@@ -270,6 +320,8 @@ Do not equate generated files with working behavior, a successful automated chec
 
 Use the smallest set of checks that provides adequate confidence. Add automated tests where they protect meaningful behavior; do not install a framework just to validate documentation. Re-run checks affected by changes or unresolved findings rather than repeating unrelated checks.
 
+When coaching uses support levels, record at each review which skills the user completed unaided, the checkpoint evidence and any level change in the skill ledger (`curriculum.md`). Learning evidence supplements behavior evidence and never replaces it. Confirm each plan's "learnings to carry forward" before the next plan is authored, and reconcile the roadmap if a learning changes a future milestone.
+
 Record review findings with a stable identifier when follow-up requires it:
 
 ```markdown
@@ -312,6 +364,8 @@ Default naming: sessions/YYYY-MM-DD-NN.md, where NN is a workspace-wide sequence
 - Findings and unresolved issues:
 - Checks not run / evidence limits:
 - Decisions changed:
+- Skills demonstrated / support-level changes:
+- Learnings to carry forward:
 - Next action by project:
 ```
 
@@ -344,12 +398,14 @@ The generated guide should be project-aware and operational. Include:
 
 1. The user/agent working agreement and how authorized implementation requests change it.
 2. The exact resume reading order with paths that exist in this workspace.
-3. The one-current-detailed-plan rule and review-before-next-plan process.
-4. Known user knowledge/preferences, only when actually supplied.
-5. Confirmed constraints or links to their authoritative documents; avoid duplicating long lists of volatile details.
-6. Implementation and documentation roots, review methods, source/research expectations and repository conventions that apply here.
-7. Evidence rules, session bookkeeping and consistency checks.
-8. Scope of repository/external actions and delegation, following the working agreement.
+3. The one-current-detailed-plan rule, the splitting triggers, and the review-plus-confirmation gate before the next plan is authored.
+4. Coaching calibration: support levels, where the skill ledger lives and when it is updated.
+5. The canonical template path as a reference only, the rule to ask the user when it is missing, and the rule to propose template updates when this workspace's formats change.
+6. Known user knowledge/preferences, only when actually supplied.
+7. Confirmed constraints or links to their authoritative documents; avoid duplicating long lists of volatile details.
+8. Implementation and documentation roots, review methods, source/research expectations and repository conventions that apply here.
+9. Evidence rules, session bookkeeping and consistency checks.
+10. Scope of repository/external actions and delegation, following the working agreement.
 
 Do not copy this entire template into AGENTS.md. Do not insert a technology stack, fixed milestone count, domain-specific verification matrix or experience profile unless the user's requirements justify it.
 
@@ -361,6 +417,9 @@ Before reporting the workspace ready, check:
 - Confirmed requirements, proposals, observations and unresolved questions are distinguishable.
 - Single-project versus multi-project structure is coherent and documented.
 - Every active project has at most one current detailed plan; historical verified plans remain intact.
+- The current plan is one coherent slice; future roadmap milestones remain outcome-level, and the next plan is gated on review plus user confirmation.
+- Task detail matches the recorded support levels, and code appears as task-scoped deltas rather than unchanged full files.
+- The previous plan's learnings are reflected in the new plan or roadmap, and coaching evidence agrees between the plan, the skill ledger and the session record.
 - Roadmap IDs, progress entries, dependencies, gate definitions and current-plan pointers agree.
 - Local links and anchors resolve; optional documents are not linked unless created.
 - Markdown tables and fences are valid, and generated actionable documents have no unresolved boilerplate.
