@@ -160,6 +160,7 @@ Add domain-specific documents only when the actual project needs them. Do not ge
 - Each roadmap milestone records the learning outcome the user should reach by its completion.
 - Author the next detailed plan after the current plan has passed review and its applicable acceptance criteria have evidence, unless the user explicitly changes the sequence.
 - Changes to acceptance criteria must be justified and recorded. Never narrow them silently to mark work complete.
+- When a plan reaches Verified, mark each applicable acceptance criterion `[x]`; it stays `[ ]` until its evidence exists.
 - Do not invent delivery dates, effort estimates, versions, tools or design commitments. Label estimates and proposed defaults clearly when useful.
 
 Suggested roadmap table:
@@ -468,6 +469,7 @@ Before reporting the workspace ready, check:
 - Single-project versus multi-project structure is coherent and documented.
 - Every active project has at most one current detailed plan; historical verified plans remain intact.
 - Roadmap IDs, learning outcomes, progress entries, learning states, dependencies, gate definitions and current-plan pointers agree.
+- Completed tasks are marked ✅ and acceptance criteria `[x]` for a Verified plan, agreeing with the evidence pointers.
 - learning.md reflects calibration actually provided; no preferences were invented.
 - Local links and anchors resolve; optional documents are not linked unless created.
 - Markdown tables and fences are valid, and generated actionable documents have no unresolved boilerplate.
