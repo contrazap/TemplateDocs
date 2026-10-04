@@ -20,7 +20,7 @@ The agent should apply the process below to the actual workspace. Follow the app
 - Creating documentation does not authorize creating or rewriting the product, application, assets, implementation configuration or other deliverables described by that documentation.
 - If the user requests implementation or fixes, carry out that authorized work and record the changed role/scope when it affects future sessions. Do not repeatedly ask to make edits already requested.
 - Explain unfamiliar domain/tool concepts when first needed. Adapt to the user's stated knowledge; do not assume a particular experience level or repeat generic programming lessons unnecessarily.
-- Keep ongoing guidance concise. Refer to plan and task IDs instead of restating the whole plan.
+- Keep ongoing guidance concise. Refer to plan and task IDs instead of restating the whole plan. Answer status check-ins ("what's next", "current status" and similar) with the current position and next action as pointers; keep task steps and values in the detailed plan and repeat them only when the user asks.
 - Reviews give concrete findings, locations, consequences, suggested corrections and a way to verify the correction. The user makes corrections unless the agent has been asked to edit.
 - Documentation changes and targeted, non-destructive verification are normal agent responsibilities. Installation, publication, external communication and repository operations must stay within the user's authorization.
 - Git initialization, remotes, identity settings and commits/pushes are user-managed by default. Do not treat scaffolding permission as permission for these operations.
@@ -390,7 +390,7 @@ Updated: [Date/session]
 |---|---|---|---|---|
 ```
 
-On resume, the agent reads root STATUS.md, the selected project's PROGRESS.md, its current detailed plan and relevant design/decision documents. Read the session index and relevant recent session only when needed. State the next action briefly, incorporate new user corrections and continue from the recorded position rather than restarting planning.
+On resume, the agent reads root STATUS.md, the selected project's PROGRESS.md, its current detailed plan and relevant design/decision documents. Read the session index and relevant recent session only when needed. State the next action briefly as a plan/task pointer, incorporate new user corrections and continue from the recorded position rather than restarting planning.
 
 ## 11. Generate a concise AGENTS.md
 

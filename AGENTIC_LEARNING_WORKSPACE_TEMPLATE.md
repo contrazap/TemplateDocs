@@ -29,7 +29,7 @@ The agent should apply the process below to the actual workspace. Follow the app
 - **Irreversible, destructive, costly or externally visible actions** — publishing, external communication, account or purchase operations, deleting work, system-wide changes — require explicit authorization for that action. Plan approval is not that authorization.
 - Routine dependency installation required by the approved plan is part of implementation when it stays within the project's environment policy. Account-bound, paid or security-sensitive changes require explicit permission.
 - **Sub-agents are used only when the user or other applicable instructions explicitly request them.**
-- **Keep ongoing guidance concise.** Refer to plan and task IDs instead of restating the whole plan.
+- **Keep ongoing guidance concise.** Refer to plan and task IDs instead of restating the whole plan. Answer status check-ins ("what's next", "current status" and similar) with the current position and next action as pointers; keep task steps and values in the detailed plan and repeat them only when the user asks.
 
 Use these defaults in the generated AGENTS.md, adjusted only for actual user instructions and relevant workspace constraints.
 
@@ -441,7 +441,7 @@ Updated: [Date/session]
 |---|---|---|---|---|
 ```
 
-On resume, the agent reads root STATUS.md, the selected project's PROGRESS.md, learning.md, its current detailed plan and relevant design/decision documents. Read the session index and relevant recent session only when needed. State the next action briefly, incorporate new user corrections and continue from the recorded position rather than restarting planning. Confirm the next boundary before proceeding.
+On resume, the agent reads root STATUS.md, the selected project's PROGRESS.md, learning.md, its current detailed plan and relevant design/decision documents. Read the session index and relevant recent session only when needed. State the next action briefly as a plan/task pointer, incorporate new user corrections and continue from the recorded position rather than restarting planning. Confirm the next boundary before proceeding.
 
 ## 13. Generate a concise AGENTS.md
 
