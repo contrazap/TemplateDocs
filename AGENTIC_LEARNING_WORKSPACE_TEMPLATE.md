@@ -37,7 +37,7 @@ The agent applies the process below to the actual workspace, following the appli
 5. Verify what the agent can verify itself — environment, installed tools, filesystem — before authoring plans.
 6. Ask only questions that materially affect scope, correctness or the immediate plan; request missing requirements without inventing a product or domain.
 7. Preserve useful existing documents; adapt or link them instead of duplicating conflicting versions.
-8. Generate the minimum coherent set: `README.md`, `AGENTS.md`, `docs/PLAN.md`, `docs/MEMORY.md`, a domain document only when the project has one, and the first detailed plan.
+8. Generate the minimum coherent set: `README.md`, `AGENTS.md`, `docs/ROADMAP.md`, `docs/MEMORY.md`, a domain document only when the project has one, and the first detailed plan.
 9. Check consistency of links, states and evidence labels; present the first plan for approval before implementation begins.
 
 Scaffolding produces documentation only. Do not create product files, install dependencies, contact external services or initialize source control unless separately requested or already authorized.
@@ -53,7 +53,7 @@ The same lean file set as the manual variant applies; the difference is the work
   README.md                Entry point: purpose, layout, how the workspace works
   AGENTS.md                Agent operating rules, resume routine, boundary rhythm, review protocol
   docs/
-    PLAN.md                Roadmap, plan states, resume pointer; gates and notes as needed
+    ROADMAP.md             Roadmap, plan states, resume pointer; gates and notes as needed
     MEMORY.md              Decisions, conventions, learning profile, references, history
     <domain>.md            Project-specific concept or design document(s), as needed
     implementation-plans/
@@ -72,7 +72,7 @@ Repeat the `docs/` set per project (for example under `projects/<id>/`), keep th
 |---|---|---|
 | README.md | Purpose, layout, how the workspace works, where to start | Progress history |
 | AGENTS.md | Working agreement, approval gate, boundary rhythm, resume routine, records maintenance | Roadmap, design, transcripts |
-| PLAN.md | Ordered milestones, plan states, resume pointer, gates, provisional estimates | Detailed tasks for future milestones |
+| ROADMAP.md | Ordered milestones, plan states, resume pointer, gates, provisional estimates | Detailed tasks for future milestones |
 | MEMORY.md | Decisions, conventions, learning profile and concept list, references, history | A second competing roadmap; invented preferences |
 | Domain document(s) | Project-specific concept or design that plans refer to | Progress claims |
 | Current detailed plan | User part: target, what's being built, scope, build log, review ask. Agent part: execution checklist, acceptance and verification, environment, records | Bookkeeping above the divider |
@@ -99,7 +99,7 @@ Add domain-specific documents only when the actual project needs them. Do not ge
 
 ```markdown
 # Plan NN — [Short title]
-`[Planned|Pending|In progress|Implemented|Verified]` · `⬜⬜⬜ n/N` · next → N · roadmap: docs/PLAN.md
+`[Planned|Pending|In progress|Implemented|Verified]` · `⬜⬜⬜ n/N` · next → N · roadmap: docs/ROADMAP.md
 
 🎯 [Target — the observable result, one or two lines.]
 
@@ -175,10 +175,10 @@ Plan states:
 | Implemented | Implementation complete with evidence; user review remains |
 | Verified | Review passed and applicable observable acceptance has evidence |
 
-- `PLAN.md` owns roadmap, plan states and the resume pointer. `MEMORY.md` owns decisions, conventions, the learning profile and concept list, references and history; history entries are labeled `YYYY-MM-DD-NN`.
+- `ROADMAP.md` owns roadmap, plan states and the resume pointer. `MEMORY.md` owns decisions, conventions, the learning profile and concept list, references and history; history entries are labeled `YYYY-MM-DD-NN`.
 - Records and compaction are agent-maintained; the user can inspect them. On "compact": condense history; never silently remove decisions, evidence labels or learning records. Correct errors by annotation.
 - Evidence categories, kept separate: inspection · executed checks · user-reported checks · not checked. The agent verifies what it can and clearly attributes user observations. Binary or non-text artifacts need suitable evidence — filenames alone are insufficient.
-- After meaningful work: update `PLAN.md` (states, resume pointer) and `MEMORY.md` (history entry, decisions, learning updates); keep them consistent. No session files.
+- After meaningful work: update `ROADMAP.md` (states, resume pointer) and `MEMORY.md` (history entry, decisions, learning updates); keep them consistent. No session files.
 
 ## 11. Decisions, conventions and sources
 
@@ -190,7 +190,7 @@ All three live in `MEMORY.md`.
 
 ## 12. Resume routine and AGENTS.md
 
-Resume routine: `docs/PLAN.md` (roadmap, states, resume pointer) → `docs/MEMORY.md` (decisions, conventions, learning profile, recent history) → the current detailed plan → domain document when design context matters. State the next action as a plan/task pointer and the next boundary; continue from the recorded position.
+Resume routine: `docs/ROADMAP.md` (roadmap, states, resume pointer) → `docs/MEMORY.md` (decisions, conventions, learning profile, recent history) → the current detailed plan → domain document when design context matters. State the next action as a plan/task pointer and the next boundary; continue from the recorded position.
 
 The generated `AGENTS.md` should include:
 
@@ -220,7 +220,7 @@ Before reporting the workspace ready, check:
 - Learning calibration reflects what was supplied; no preferences were invented.
 - Roadmap IDs, plan states, learning notes, gate definitions and current-plan pointers agree.
 - Completed checklist items are ✅; acceptance is `[x]` only for Verified plans.
-- Records live only in `PLAN.md` and `MEMORY.md`; no stray status, session or duplicate documents.
+- Records live only in `ROADMAP.md` and `MEMORY.md`; no stray status, session or duplicate documents.
 - The environment the agent can verify was verified before authoring plans.
 - Links resolve, tables and fences are valid, and actionable documents have no unresolved boilerplate.
 - Evidence labels are honest: only checks actually performed; missing evidence is identified.

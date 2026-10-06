@@ -17,7 +17,7 @@ The agent applies the process below to the actual workspace, following the appli
 ## 2. Default working agreement
 
 - **The user implements.** The agent plans, explains concepts when first needed, reviews work, performs authorized verification and maintains the records.
-- Records (`PLAN.md` states, `MEMORY.md` history, decisions, skill ledger) and their compaction are agent-maintained by default; the user can inspect them at any time.
+- Records (`ROADMAP.md` states, `MEMORY.md` history, decisions, skill ledger) and their compaction are agent-maintained by default; the user can inspect them at any time.
 - Creating or rewriting project code, assets, levels or configuration requires an explicit user request; documentation and non-destructive checks are normal agent work.
 - Explain unfamiliar domain/tool concepts at first use and adapt to the user's stated knowledge; do not repeat generic lessons the user's background covers.
 - Keep guidance concise: answer status check-ins ("what's next", "current status") with the current position and next action as pointers; keep steps and values in the plan and repeat them only when asked.
@@ -36,7 +36,7 @@ The agent applies the process below to the actual workspace, following the appli
 5. Resolve ordinary organizational choices from available context; ask only questions that materially affect scope, correctness or the immediate plan.
 6. If requirements are missing, request them without inventing a product or domain; neutral scaffolding may still be prepared.
 7. Preserve useful existing documents; adapt or link them instead of duplicating conflicting versions.
-8. Generate the minimum coherent set: `README.md`, `AGENTS.md`, `docs/PLAN.md`, `docs/MEMORY.md`, a domain document only when the project has one, and the first detailed plan. No session files, no separate status, brief, conventions, decisions, references or verification documents.
+8. Generate the minimum coherent set: `README.md`, `AGENTS.md`, `docs/ROADMAP.md`, `docs/MEMORY.md`, a domain document only when the project has one, and the first detailed plan. No session files, no separate status, brief, conventions, decisions, references or verification documents.
 9. Check consistency of links, states and evidence labels; report the entry point, current plan and next action.
 
 Scaffolding produces documentation only. Do not create product files, install dependencies, contact external services or initialize source control unless that work is separately requested or already authorized.
@@ -52,7 +52,7 @@ Preserve established naming/layout when it already provides the same responsibil
   README.md                Entry point: purpose, layout, how the workspace works
   AGENTS.md                Agent operating rules, resume routine, review protocol
   docs/
-    PLAN.md                Roadmap, plan states, resume pointer; gates and notes as needed
+    ROADMAP.md             Roadmap, plan states, resume pointer; gates and notes as needed
     MEMORY.md              Decisions, conventions, skill ledger, references, history
     <domain>.md            Project-specific concept or design document(s), as needed
     implementation-plans/
@@ -71,7 +71,7 @@ Repeat the `docs/` set per project (for example under `projects/<id>/`), keep th
 |---|---|---|
 | README.md | Purpose, layout, how the workspace works, where to start | Progress history |
 | AGENTS.md | Working agreement, resume routine, planning rules, review protocol, records maintenance | Roadmap, design, transcripts |
-| PLAN.md | Ordered milestones, plan states, resume pointer, gates, provisional estimates | Detailed tasks for future milestones |
+| ROADMAP.md | Ordered milestones, plan states, resume pointer, gates, provisional estimates | Detailed tasks for future milestones |
 | MEMORY.md | Decisions, conventions, skill ledger, references, history (session entries) | A second competing roadmap; invented preferences |
 | Domain document(s) | Project-specific concept or design that the plan refers to | Progress claims |
 | Current detailed plan | User part: target, tasks, send line. Agent part: acceptance, known traps, scope guard, environment, inspection, limits, record | Unrequested finished implementation |
@@ -87,7 +87,7 @@ Add domain-specific documents only when the actual project needs them. Do not ge
 - A plan ends in an observable, reviewable result; its size fits the work and the user's learning pace.
 - Split a milestone before authoring its detailed plan when: acceptance depends on later milestones · independent systems share only a final proof · several risky unknowns need early checks · no meaningful result is runnable or inspectable within each task group.
 - Keep plan IDs stable and monotonically numbered. Completed plan files remain as records.
-- Mark a finished task by appending ✅ to its heading once its checkpoint passes; acceptance criteria stay `[ ]` until the plan is Verified, then mark `[x]`.
+- Mark a finished step with ✅ leading its line, and a finished task by appending ✅ to its heading once its checkpoint passes; acceptance criteria stay `[ ]` until the plan is Verified, then mark `[x]`.
 - Changes to acceptance criteria must be justified and recorded. Never narrow them silently.
 - Keep future roadmap entries outcome-level; treat their internals as provisional.
 - Label estimates as rough and provisional; never invent delivery dates or commitments.
@@ -97,14 +97,18 @@ Add domain-specific documents only when the actual project needs them. Do not ge
 
 ```markdown
 # Plan NN — [Short title]
-`[Planned|Pending|In progress|Done|Verified]` · `⬜⬜⬜⬜⬜⬜⬜ n/N` · next → N · roadmap: docs/PLAN.md
+`[Planned|Pending|In progress|Done|Verified]` · `⬜⬜⬜⬜⬜⬜⬜ n/N` · next → N · roadmap: docs/ROADMAP.md
 
 🎯 [Target — the observable result, one or two lines.]
 
 ### 1. [Action]
-1. [Step]
+&emsp;&emsp;1.1 [Step]
+
+&emsp;&emsp;1.2 [Step]
+
 💡 [Colocated note — only where a new concept or a genuine trap sits.]
-✅ [Done-when for this task.]
+
+**Done when:** [what is true when this task is complete.]
 
 ### 2. [Action]
 …
@@ -126,8 +130,9 @@ Add domain-specific documents only when the actual project needs them. Do not ge
 Format rules:
 
 - The user part comes first: target, tasks, send line. Everything after the divider is agent bookkeeping and can be skipped once implementation is done.
+- Tasks are numbered `1`, `2`, …; steps are numbered `1.1`, `1.2`, … under their task, each on its own line indented with `&emsp;&emsp;` — Markdown lists cannot express `1.1`.
 - Tasks are actions. Use exact steps where the tooling is first-time (support levels, section 8); explanations are colocated at the step that needs them — never a separate study section before the steps.
-- Each `✅` is the task's done-when statement; the aggregate acceptance list lives in the agent block.
+- Each task closes with a `**Done when:**` statement; the aggregate acceptance list lives in the agent block.
 - The send line asks only for evidence the agent cannot produce or inspect itself.
 - Known traps and verified environment let the agent answer quickly and cold-start safely.
 
@@ -136,7 +141,7 @@ Format rules:
 - **Why (optional):** one line linking the task to the target, only when non-obvious.
 - **Steps:** ordered, concrete actions. Exact editor paths, menu names and field values at L1; less hand-holding as the level drops.
 - **Code:** task-scoped deltas only — file path, anchor, the lines to add/replace/delete, clearly marked. A complete file only when the task creates that small file. Explain only APIs the user has not met.
-- **Done-when:** what is true, visible or runnable when the task is complete; add an evidence hint where non-obvious.
+- **Done when:** what is true, visible or runnable when the task is complete; add an evidence hint where non-obvious.
 
 ## 8. Support levels and graduated coaching
 
@@ -165,8 +170,8 @@ Plan states:
 | Done | User reports completion; review or required evidence remains |
 | Verified | Review passed and applicable observable acceptance has evidence |
 
-- `PLAN.md` owns roadmap, plan states and the resume pointer. `MEMORY.md` owns decisions, conventions, the skill ledger, references and history; history entries are labeled `YYYY-MM-DD-NN` (workspace-wide sequence).
-- After meaningful work: update `PLAN.md` (states, resume pointer) and `MEMORY.md` (history entry, decisions, ledger); keep them consistent. No session files.
+- `ROADMAP.md` owns roadmap, plan states and the resume pointer. `MEMORY.md` owns decisions, conventions, the skill ledger, references and history; history entries are labeled `YYYY-MM-DD-NN` (workspace-wide sequence).
+- After meaningful work: update `ROADMAP.md` (states, resume pointer) and `MEMORY.md` (history entry, decisions, ledger); keep them consistent. No session files.
 - On the user's "compact": condense history (recent detailed → older one-liners); never silently remove decisions, evidence labels or skill levels. Correct errors by annotation, not silent rewriting.
 
 Evidence categories, kept separate:
@@ -195,7 +200,7 @@ All three live in `MEMORY.md`.
 
 ## 11. Resume routine and AGENTS.md
 
-Resume routine: `docs/PLAN.md` (roadmap, states, resume pointer) → `docs/MEMORY.md` (decisions, conventions, ledger, recent history) → the current detailed plan → domain document when design context matters. State the next action as a plan/task pointer and continue from the recorded position; do not restart planning.
+Resume routine: `docs/ROADMAP.md` (roadmap, states, resume pointer) → `docs/MEMORY.md` (decisions, conventions, ledger, recent history) → the current detailed plan → domain document when design context matters. State the next action as a plan/task pointer and continue from the recorded position; do not restart planning.
 
 The generated `AGENTS.md` should include:
 
@@ -205,7 +210,7 @@ The generated `AGENTS.md` should include:
 4. Coaching: support levels, ledger location, how detail adapts.
 5. The review protocol and evidence categories.
 6. Records maintenance and compaction rules.
-7. The plan markers legend (states, `🎯 💡 ✅ ⬜ 📤 🔧`).
+7. The plan markers legend (states, `🎯 💡 ✅ ⬜ 📤 🔧`, `**Done when:**` checkpoints).
 8. Implementation and documentation roots, repository conventions.
 9. Known user knowledge and preferences, only when actually supplied.
 10. The canonical template path as a reference only, the rule to ask the user when it is missing, and the rule to propose template updates when workspace formats change.
@@ -222,8 +227,8 @@ Before reporting the workspace ready, check:
 - The current plan is one coherent slice; future milestones stay outcome-level; the next plan is gated on review plus user confirmation.
 - Plans follow the format: user part first (target, tasks, send line), agent notes below the divider; explanations are colocated, not study sections.
 - Task detail matches the recorded support levels; headings carry no level label; acceptance criteria are unchanged by level.
-- Completed tasks are marked ✅; acceptance is `[x]` only for Verified plans; states agree with `PLAN.md`.
-- Records live only in `PLAN.md` and `MEMORY.md`; no stray status, session or duplicate documents.
+- Completed steps and tasks are marked ✅; acceptance is `[x]` only for Verified plans; states agree with `ROADMAP.md`.
+- Records live only in `ROADMAP.md` and `MEMORY.md`; no stray status, session or duplicate documents.
 - The environment the agent can verify was verified; plans contain only user actions.
 - Links resolve, tables and fences are valid, and actionable documents have no unresolved boilerplate.
 - Evidence labels are honest: only checks actually performed; missing evidence is identified.
