@@ -22,7 +22,7 @@ The agent applies the process below to the actual workspace, following the appli
 - Explain unfamiliar domain/tool concepts at first use and adapt to the user's stated knowledge; do not repeat generic lessons the user's background covers.
 - Keep guidance concise: answer status check-ins ("what's next", "current status") with the current position and next action as pointers; keep steps and values in the plan and repeat them only when asked.
 - Reviews give finding, location, consequence, suggested correction and a way to verify. The user applies corrections unless the agent has been asked to edit.
-- Git, tool installs, publishing and external communication are user-managed unless explicitly delegated or requested.
+- Git, tool installs, publishing and external communication are user-managed unless explicitly delegated or requested. Once source control is set up, individual commit/push operations are not tracked in the records — check the repository state directly when needed.
 - Preserve existing work; do not reset, clean, move or overwrite unrelated material.
 - No sub-agents unless the user or applicable instructions explicitly request them.
 - The user can stop and resume at any point: the records must stand alone.
