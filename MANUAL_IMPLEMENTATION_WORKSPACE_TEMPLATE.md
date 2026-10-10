@@ -1,6 +1,6 @@
 # Manual implementation workspace template
 
-A reusable instruction template for creating and maintaining a workspace where the user implements the work while the agent plans, coaches, reviews and maintains records. It defines the workspace structure, working agreement, records and plan format. It contains no product requirements or domain-specific content. A companion template (`AGENTIC_LEARNING_WORKSPACE_TEMPLATE.md`) covers workspaces where the agent implements while the user directs and learns.
+A reusable instruction template for creating and maintaining a workspace where the user implements the work while the agent plans, coaches, reviews and maintains records. It defines the workspace structure, working agreement, records and plan format. It contains no product requirements or domain-specific content. A companion template (`AGENTIC_LEARNING_WORKSPACE_TEMPLATE.md`) covers workspaces where the agent implements while the user directs and learns. Optional tooling companions may ship alongside this template — documents covering extra tooling for specific environments (for example, a bridge giving the agent direct access to a project's editor). Provide the applicable companions when the project uses that tooling; they supplement, and do not change, the working agreement.
 
 ## 1. How to use this file
 

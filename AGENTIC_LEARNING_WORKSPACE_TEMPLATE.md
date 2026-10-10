@@ -1,6 +1,6 @@
 # Agentic learning workspace template
 
-A reusable instruction template for creating and maintaining a workspace where the agent implements the project while the user directs, reviews and learns from reading how it is built. It defines the workspace structure, working agreement, learning rhythm, records and plan format. It contains no product requirements or domain-specific content. A companion template (`MANUAL_IMPLEMENTATION_WORKSPACE_TEMPLATE.md`) covers workspaces where the user implements and the agent coaches.
+A reusable instruction template for creating and maintaining a workspace where the agent implements the project while the user directs, reviews and learns from reading how it is built. It defines the workspace structure, working agreement, learning rhythm, records and plan format. It contains no product requirements or domain-specific content. A companion template (`MANUAL_IMPLEMENTATION_WORKSPACE_TEMPLATE.md`) covers workspaces where the user implements and the agent coaches. Optional tooling companions may ship alongside this template — documents covering extra tooling for specific environments (for example, a bridge giving the agent direct access to a project's editor). Provide the applicable companions when the project uses that tooling; they supplement, and do not change, the working agreement.
 
 ## 1. How to use this file
 

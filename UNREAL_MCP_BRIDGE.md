@@ -1,0 +1,207 @@
+# Unreal MCP bridge — setup and workspace integration
+
+An optional tooling companion for Unreal Engine workspaces created from `MANUAL_IMPLEMENTATION_WORKSPACE_TEMPLATE.md` or `AGENTIC_LEARNING_WORKSPACE_TEMPLATE.md`. It documents the Unreal MCP bridge: an MCP server that lets the agent inspect and drive a running Unreal Editor over a local connection (engine and project status, asset and level queries, actor inspection, screenshots returned to the agent, Play-In-Editor control) plus process-level tools that open, close, build and package projects without the editor.
+
+**Scope and modes.** The bridge gives the agent local access to the editor and to the engine's process tools. In manual workspaces it is a verification and evidence instrument — the user implements, the bridge observes, and it reduces what the user must capture by hand. In agentic workspaces it is also an implementation tool: editor work happens through it, within approved plans and the template's authorization rules, and screenshots make that work visible. In both modes, gameplay feel, difficulty and visual judgment still require user evidence.
+
+This file is not retained in generated workspaces by default; record its canonical source as a reference instead (same rule as the templates).
+
+## 1. What it is
+
+- One machine-level setup drives whichever Unreal Editor instance is running on the PC (the server auto-detects it; `UE_MCP_PROJECT` disambiguates when several editors are open). Each Unreal project needs a two-step enablement (section 4).
+- Verified stack (2026-10-10, Windows 11): OpenCode V2 (2.0.26) · `unreal-engine-mcp` 0.10.0 — PyPI, MIT, github.com/FFZackFair92/unreal-engine-mcp, developed against UE 5.8 — · Unreal Engine 5.8.3. Transport: the engine's built-in Python remote execution ("pyremote"); the Remote Control API is not required.
+- Process level (works without the editor): find engine installs, create projects from a spec, open and close the editor, compile C++, package the game.
+- Editor level (editor must be running): engine, project and level status; asset and actor queries and edits; level, material, Blueprint, behavior-tree and audio operations; Play-In-Editor control; viewport screenshots returned to the agent as images; arbitrary in-editor Python for checks or scripted edits.
+- Verified during first setup: editor discovery, engine/project status, viewport screenshots (returned to the agent as images), editor open/close. The remaining tools in the server's catalogue (actor/asset queries and edits, Blueprint and material APIs, PIE control, build/package) come from its documented surface — re-verify the ones a project relies on.
+- On UE 5.8 the server reports `blueprint_graph_authoring` available; older engines fall back to a C++-parent pattern (see the server repository).
+- Capability limits to plan around (server-documented): Niagara emitter stacks and EQS are not scriptable; a landscape must already exist (it cannot be created from Python); UMG layout needs an existing root widget; compiling C++ needs the editor closed (Live Coding covers function-body changes only) and packaging always needs the editor closed.
+
+## 2. Where to start
+
+Check whether this machine is already set up:
+
+1. The isolated environment exists: `%LOCALAPPDATA%\opencode-mcp\unreal-engine-mcp\Scripts\python.exe`.
+2. The OpenCode global config has the server: `%USERPROFILE%\.config\opencode\opencode.json` → `mcp.servers.unreal`.
+3. With an enabled project open in the editor, the discovery probe (Appendix A) finds the node.
+
+If all three hold, skip section 3. Otherwise do section 3, then the per-project steps (4–5) and verify (6).
+
+## 3. Machine setup (once per PC)
+
+Prerequisites: Python 3.10–3.13 on PATH; OpenCode V2; Unreal Engine installed via the Epic Games Launcher (installs are auto-detected; otherwise see `UE_MCP_ENGINE_DIRS` in the server README).
+
+**3.1 Create the isolated environment** — keeps the server's pinned `mcp` 1.x dependency away from other Python work:
+
+```powershell
+python -m venv "$env:LOCALAPPDATA\opencode-mcp\unreal-engine-mcp"
+```
+
+**3.2 Install the server** — pin the version that was verified; upgrade deliberately later (section 8):
+
+```powershell
+& "$env:LOCALAPPDATA\opencode-mcp\unreal-engine-mcp\Scripts\python.exe" -m pip install unreal-engine-mcp==0.10.0
+```
+
+**3.3 Register it with OpenCode** — user-level, so every project on the PC can use it:
+
+```powershell
+opencode mcp add unreal --global -- "$env:LOCALAPPDATA\opencode-mcp\unreal-engine-mcp\Scripts\python.exe" -m unreal_mcp.server
+```
+
+**3.4 Add the discovery environment variable** to the generated entry in `%USERPROFILE%\.config\opencode\opencode.json` — final shape:
+
+```jsonc
+{
+  "mcp": {
+    "servers": {
+      "unreal": {
+        "type": "local",
+        "command": [
+          "C:\\Users\\<user>\\AppData\\Local\\opencode-mcp\\unreal-engine-mcp\\Scripts\\python.exe",
+          "-m",
+          "unreal_mcp.server"
+        ],
+        "environment": {
+          "UE_MCP_MULTICAST_BIND": "127.0.0.1"
+        }
+      }
+    }
+  }
+}
+```
+
+Why the bind matters: Unreal's Python plugin joins the discovery multicast (239.0.0.1:6766, TTL 0) on **loopback** by default. The server's default bind (all adapters) sends discovery out the default network adapter, which never reaches a loopback-bound editor — discovery fails with "no editor found" even though the editor is running. Matching both sides to loopback fixes it and also sidesteps multi-adapter machines (VPN, WSL, Hyper-V). If a project instead sets the editor's "Multicast Bind Address" to `0.0.0.0`, the server's default bind works — either side may be aligned, but the loopback pairing is the recorded standard.
+
+Notes: the global config shape is OpenCode V2 (`mcp.servers`); OpenCode V1 placed server names directly under `mcp`. Tools appear to the agent as `tools.<server>.<tool>` (Code Mode groups them under the server name). New sessions pick the server up automatically; an existing session reconnects when the config content changes. Keep the setup local: loopback discovery only, nothing published — the in-editor Python channel executes arbitrary code, so do not tunnel or expose it beyond this machine.
+
+## 4. Project enable (once per Unreal project)
+
+Two editor-only settings (packaged games are unaffected). Restart the editor after changing them. Use the editor route or the file route — they write the same entries.
+
+**4.1 Enable the plugin.** Editor: *Edit ▸ Plugins* → search "Python" → **Python Editor Script Plugin** → restart when prompted. File route — add to the `Plugins` array of the `.uproject`:
+
+```json
+{ "Name": "PythonScriptPlugin", "Enabled": true }
+```
+
+**4.2 Allow remote execution.** Editor: *Edit ▸ Project Settings* → search "Python" → check **Enable Remote Execution** → restart. File route — append to `Config/DefaultEngine.ini`:
+
+```ini
+; MCP bridge (unreal-engine-mcp): allow Python remote execution from the local machine
+[/Script/PythonScriptPlugin.PythonScriptPluginSettings]
+bRemoteExecution=True
+```
+
+After enabling on a new project, run one package to reconfirm packaging is unaffected (expected: the plugin is editor-only and is skipped).
+
+## 5. Workspace integration (records)
+
+For a workspace generated from the template family, fold the bridge into its records when the user asks for it. Adapt IDs and dates; keep evidence labels honest — record what was actually verified on this machine. Suggested entries:
+
+- `AGENTS.md` (repository specifics, one line — use the variant matching the workspace's working agreement):
+  - Manual: `- MCP: OpenCode's `unreal` server (user-level; see `docs/MEMORY.md` environment) is the agent's verification/evidence instrument for the editor — the working agreement is unchanged: the user implements, the agent observes and verifies.`
+  - Agentic: `- MCP: OpenCode's `unreal` server (user-level; see `docs/MEMORY.md` environment) is the agent's editor tool — editor work happens through it within approved plans, and its screenshots and status outputs are part of the work record.`
+- `MEMORY.md` — decision row: `Unreal MCP bridge adopted for this workspace (user-level `unreal` server in OpenCode; per-project enable = PythonScriptPlugin + bRemoteExecution; loopback multicast bind required on this machine) — manual: verification/evidence only, the user implements; agentic: editor implementation and visual verification within approved plans.`
+- `MEMORY.md` — conventions bullet: `MCP (unreal bridge): what the agent may change follows the applicable working agreement (manual: observe only; agentic: within approved plans). Editor-layer tools need the editor open; the local layer (open/close/build/package) does not. Screenshots complete after the call returns — call `ue_screenshot` again with the same filename to attach the image. Run `ue_save_all` before `ue_editor_close` (clean close can fall back to process termination).`
+- `MEMORY.md` — environment block: server environment path and package version; OpenCode global config path and the `UE_MCP_MULTICAST_BIND` requirement; which projects have the enable applied; what was verified and when.
+- `MEMORY.md` — references row: `unreal-engine-mcp — github.com/FFZackFair92/unreal-engine-mcp (PyPI: unreal-engine-mcp) | <date checked> | version, license, engine compatibility, tool count.`
+
+The records are the same in both modes — in agentic workspaces, performed editor actions are recorded like other executed work, screenshots included.
+
+## 6. Verification checklist
+
+Run after setup and after any upgrade; record the results in the workspace history.
+
+1. **Server launches:** the environment's python runs `-m unreal_mcp.server` without import errors, and the OpenCode config lists the server.
+2. **Editor ready:** the project is open; the editor log shows `Python enabled` and no load errors for `PythonScriptPlugin`.
+3. **Discovery:** Appendix A finds one node whose `engine_version` matches the installed engine.
+4. **Session:** in OpenCode, the server is connected and reports tools; `ue_status` returns the expected engine version, project file, current level, actor count, `transport: "pyremote"` and capabilities.
+5. **Vision:** `ue_screenshot` followed by a second call with the same filename attaches the image; the image matches the editor viewport.
+6. **Lifecycle:** `ue_save_all` then `ue_editor_close` leaves no editor process behind; `ue_editor_open` brings the editor back and `ue_editor_status` reaches `bridge_ready`.
+
+## 7. Troubleshooting
+
+| Symptom | Cause | Fix |
+|---|---|---|
+| "No editor found" / errors about `127.0.0.1:30010` | Plugin or checkbox missing; editor not restarted; multicast bind mismatch; VPN or firewall swallowing multicast | Re-check section 4; align the bind per section 3; confirm with the probe; fallback: `UE_MCP_TRANSPORT=remotecontrol` (see the server README and SECURITY.md) |
+| Tools missing from a session | Server process stopped or connection dropped | Content change in the global config triggers a reconnect, or start a new session; do not manage server processes manually — killing them removes the tools until reconnection |
+| `opencode mcp list` reports `failed: exited with code 255` | The CLI's own probe teardown is reported as a failure even when the server serves sessions fine | Ignore; verify via a session or the probe instead |
+| `ue_screenshot` returns `captured: false` | The capture completes only after the call returns (the game thread services it after the snippet finishes) | Call again with the same filename to attach the image; keep the editor window rendering (not minimized/frozen) |
+| `ue_editor_close` fell back to "process terminated" | The clean close path was unavailable (e.g., a pyremote-only setup) | Expected; run `ue_save_all` first so nothing is lost; the close path may auto-save dirty assets — review unexpected binary diffs (e.g., level files) before committing |
+| Discovery worked earlier, tool calls now fail | Editor closed or crashed | Confirm with `ue_editor_status`/`ue_status`; reopen the editor (`ue_editor_open`) |
+| Packaging fails after the enable | Plugin not treated as editor-only | Check the failure; keep the plugin entry editor-only — do not disable the bridge wholesale |
+
+## 8. Maintenance
+
+- **Server upgrades:** `pip install --upgrade unreal-engine-mcp` in the environment, then re-run section 6; re-pin deliberately.
+- **Engine upgrades:** check the server's version-compatibility table before upgrading UE; the plugin enable and loopback bind carry over unchanged.
+- **OpenCode upgrades:** the config shape can change between majors (V1 vs V2); re-check the MCP panel if a server stops connecting.
+- **Document maintenance:** when the setup process changes during a project, update this file (it is the template family's shared reference) and keep the companion references in the two templates in sync.
+
+## Appendix A — discovery probe
+
+Standard library only; run with any Python 3.10+ (works without OpenCode). Finds every editor publishing Python remote execution on this machine. Adjust `ENGINE_PY` to the installed engine version.
+
+```python
+# ue-discovery-probe.py
+import sys, time
+
+ENGINE_PY = r"C:\Program Files\Epic Games\UE_5.8\Engine\Plugins\Experimental\PythonScriptPlugin\Content\Python"
+sys.path.insert(0, ENGINE_PY)
+
+import remote_execution as re
+
+config = re.RemoteExecutionConfig()  # defaults: 239.0.0.1:6766 · bind 127.0.0.1 · TTL 0 (this host only)
+session = re.RemoteExecution(config)
+session.start()
+
+deadline = time.time() + 6
+nodes = []
+while time.time() < deadline and not nodes:
+    nodes = session.remote_nodes
+    time.sleep(0.5)
+
+print("FOUND:", nodes if nodes else "none")
+session.stop()
+```
+
+## Appendix B — MCP stdio smoke test
+
+Handshake, tool count and `ue_status` without OpenCode — useful to separate server problems from client problems.
+
+```python
+# mcp-smoke.py
+import json, os, queue, subprocess, threading, time
+
+PY = os.path.expandvars(r"%LOCALAPPDATA%\opencode-mcp\unreal-engine-mcp\Scripts\python.exe")
+env = dict(os.environ, UE_MCP_MULTICAST_BIND="127.0.0.1")
+
+proc = subprocess.Popen([PY, "-m", "unreal_mcp.server"], stdin=subprocess.PIPE,
+    stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, encoding="utf-8", bufsize=1, env=env)
+inbox = queue.Queue()
+threading.Thread(target=lambda: [inbox.put(l) for l in proc.stdout], daemon=True).start()
+
+def send(obj): proc.stdin.write(json.dumps(obj) + "\n"); proc.stdin.flush()
+def wait(want, timeout=120):
+    end = time.time() + timeout
+    while time.time() < end:
+        try: line = inbox.get(timeout=1)
+        except queue.Empty: continue
+        msg = json.loads(line)
+        if msg.get("id") == want: return msg
+    return None
+
+send({"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {
+    "protocolVersion": "2025-06-18", "capabilities": {}, "clientInfo": {"name": "smoke", "version": "0"}}})
+print("init:", "ok" if wait(1) else "FAILED")
+send({"jsonrpc": "2.0", "method": "notifications/initialized"})
+send({"jsonrpc": "2.0", "id": 2, "method": "tools/list"})
+r = wait(2); print("tools:", len(r["result"]["tools"]) if r else "FAILED")
+send({"jsonrpc": "2.0", "id": 3, "method": "tools/call", "params": {"name": "ue_status", "arguments": {}}})
+r = wait(3); print("ue_status:", json.dumps(r)[:400] if r else "FAILED")
+proc.terminate()
+```
+
+---
+
+*First authored 2026-10-10 from a verified setup (Windows 11 · OpenCode 2.0.26 · unreal-engine-mcp 0.10.0 · Unreal Engine 5.8.3). When the setup process changes, update this file and the repository index (`README.md`) together.*
