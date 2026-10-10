@@ -11,8 +11,9 @@ This file is not retained in generated workspaces by default; record its canonic
 - One machine-level setup drives whichever Unreal Editor instance is running on the PC (the server auto-detects it; `UE_MCP_PROJECT` disambiguates when several editors are open). Each Unreal project needs a two-step enablement (section 4).
 - Verified stack (2026-10-10, Windows 11): OpenCode V2 (2.0.26) · `unreal-engine-mcp` 0.10.0 — PyPI, MIT, github.com/FFZackFair92/unreal-engine-mcp, developed against UE 5.8 — · Unreal Engine 5.8.3. Transport: the engine's built-in Python remote execution ("pyremote"); the Remote Control API is not required.
 - Process level (works without the editor): find engine installs, create projects from a spec, open and close the editor, compile C++, package the game.
-- Editor level (editor must be running): engine, project and level status; asset and actor queries and edits; level, material, Blueprint, behavior-tree and audio operations; Play-In-Editor control; viewport screenshots returned to the agent as images; arbitrary in-editor Python for checks or scripted edits.
-- Verified during first setup: editor discovery, engine/project status, viewport screenshots (returned to the agent as images), editor open/close. The remaining tools in the server's catalogue (actor/asset queries and edits, Blueprint and material APIs, PIE control, build/package) come from its documented surface — re-verify the ones a project relies on.
+- Editor level (editor must be running): engine, project and level status; asset and actor queries and edits; level, material, Blueprint, behavior-tree and audio operations; Play-In-Editor control; viewport screenshots returned to the agent as images; arbitrary in-editor Python for checks or scripted edits (conventions and 5.8 traps: Appendix D).
+- Verified in practice (2026-10-10, setup session plus the first project-verification session): editor discovery, engine/project status and capabilities, editor open/close, viewport screenshots (returned to the agent as images), the Python escape hatch, actor and asset queries, Blueprint graph dumps (`ue_bp_list_graphs`, `ue_bp_graph_info` — node/pin/connection reads that make editor logic reviewable), skeleton inspection, and Play-In-Editor start/stop with read-only in-session inspection (Appendix C). Build/package and the remaining edit APIs come from the server's documented surface — re-verify the ones a project relies on.
+- Usage discipline: issue editor-layer calls one at a time. A concurrent burst can time out even on a healthy editor (five parallel calls against a freshly started editor all hit the ~180 s timeout; the same calls succeed when issued sequentially).
 - On UE 5.8 the server reports `blueprint_graph_authoring` available; older engines fall back to a C++-parent pattern (see the server repository).
 - Capability limits to plan around (server-documented): Niagara emitter stacks and EQS are not scriptable; a landscape must already exist (it cannot be created from Python); UMG layout needs an existing root widget; compiling C++ needs the editor closed (Live Coding covers function-body changes only) and packaging always needs the editor closed.
 
@@ -102,7 +103,7 @@ For a workspace generated from the template family, fold the bridge into its rec
   - Manual: `- MCP: OpenCode's `unreal` server (user-level; see `docs/MEMORY.md` environment) is the agent's verification/evidence instrument for the editor — the working agreement is unchanged: the user implements, the agent observes and verifies.`
   - Agentic: `- MCP: OpenCode's `unreal` server (user-level; see `docs/MEMORY.md` environment) is the agent's editor tool — editor work happens through it within approved plans, and its screenshots and status outputs are part of the work record.`
 - `MEMORY.md` — decision row: `Unreal MCP bridge adopted for this workspace (user-level `unreal` server in OpenCode; per-project enable = PythonScriptPlugin + bRemoteExecution; loopback multicast bind required on this machine) — manual: verification/evidence only, the user implements; agentic: editor implementation and visual verification within approved plans.`
-- `MEMORY.md` — conventions bullet: `MCP (unreal bridge): what the agent may change follows the applicable working agreement (manual: observe only; agentic: within approved plans). Editor-layer tools need the editor open; the local layer (open/close/build/package) does not. Screenshots complete after the call returns — call `ue_screenshot` again with the same filename to attach the image. Run `ue_save_all` before `ue_editor_close` (clean close can fall back to process termination).`
+- `MEMORY.md` — conventions bullet: `MCP (unreal bridge): what the agent may change follows the applicable working agreement (manual: observe only; agentic: within approved plans). Editor-layer tools need the editor open; the local layer (open/close/build/package) does not. Screenshots complete after the call returns — call `ue_screenshot` again with the same filename to attach the image. Run `ue_save_all` before `ue_editor_close` (clean close can fall back to process termination). Issue editor calls one at a time — a concurrent burst can time out. Read-only runtime inspection: `ue_start_pie` runs the *Simulate* mode (no game pawn) — spawn into the throwaway world, inspect, then stop; assets and levels stay untouched (Appendix C).`
 - `MEMORY.md` — environment block: server environment path and package version; OpenCode global config path and the `UE_MCP_MULTICAST_BIND` requirement; which projects have the enable applied; what was verified and when.
 - `MEMORY.md` — references row: `unreal-engine-mcp — github.com/FFZackFair92/unreal-engine-mcp (PyPI: unreal-engine-mcp) | <date checked> | version, license, engine compatibility, tool count.`
 
@@ -118,6 +119,7 @@ Run after setup and after any upgrade; record the results in the workspace histo
 4. **Session:** in OpenCode, the server is connected and reports tools; `ue_status` returns the expected engine version, project file, current level, actor count, `transport: "pyremote"` and capabilities.
 5. **Vision:** `ue_screenshot` followed by a second call with the same filename attaches the image; the image matches the editor viewport.
 6. **Lifecycle:** `ue_save_all` then `ue_editor_close` leaves no editor process behind; `ue_editor_open` brings the editor back and `ue_editor_status` reaches `bridge_ready`.
+7. **In-session inspection (optional):** `ue_start_pie` reaches a running session; the Appendix C recipe can summon, inspect and destroy an actor inside it; `ue_stop_pie` ends it with no leftovers.
 
 ## 7. Troubleshooting
 
@@ -125,16 +127,18 @@ Run after setup and after any upgrade; record the results in the workspace histo
 |---|---|---|
 | "No editor found" / errors about `127.0.0.1:30010` | Plugin or checkbox missing; editor not restarted; multicast bind mismatch; VPN or firewall swallowing multicast | Re-check section 4; align the bind per section 3; confirm with the probe; fallback: `UE_MCP_TRANSPORT=remotecontrol` (see the server README and SECURITY.md) |
 | Tools missing from a session | Server process stopped or connection dropped | Content change in the global config triggers a reconnect, or start a new session; do not manage server processes manually — killing them removes the tools until reconnection |
+| `ue_exec_python` returns `null` | The snippet's value was not assigned to the `result` variable (`print()` output is not captured) | Assign the value to be returned to `result`; conventions in Appendix D |
+| Several editor calls made at once all time out | The calls were issued concurrently, possibly against a busy or just-started editor | Re-issue them one at a time — the editor is usually fine |
 | `opencode mcp list` reports `failed: exited with code 255` | The CLI's own probe teardown is reported as a failure even when the server serves sessions fine | Ignore; verify via a session or the probe instead |
 | `ue_screenshot` returns `captured: false` | The capture completes only after the call returns (the game thread services it after the snippet finishes) | Call again with the same filename to attach the image; keep the editor window rendering (not minimized/frozen) |
-| `ue_editor_close` fell back to "process terminated" | The clean close path was unavailable (e.g., a pyremote-only setup) | Expected; run `ue_save_all` first so nothing is lost; the close path may auto-save dirty assets — review unexpected binary diffs (e.g., level files) before committing |
+| `ue_editor_close` fell back to "process terminated" | The clean close path is unavailable in some setups (e.g., pyremote-only) — observed even with `ue_save_all` returning `saved: true` and no dirty assets | Expected; the fallback exits cleanly (confirm with `ue_editor_status`: `running: false`, no orphans). Run `ue_save_all` first anyway; the close path may auto-save dirty assets — review unexpected binary diffs (e.g., level files) before committing |
 | Discovery worked earlier, tool calls now fail | Editor closed or crashed | Confirm with `ue_editor_status`/`ue_status`; reopen the editor (`ue_editor_open`) |
 | Packaging fails after the enable | Plugin not treated as editor-only | Check the failure; keep the plugin entry editor-only — do not disable the bridge wholesale |
 
 ## 8. Maintenance
 
 - **Server upgrades:** `pip install --upgrade unreal-engine-mcp` in the environment, then re-run section 6; re-pin deliberately.
-- **Engine upgrades:** check the server's version-compatibility table before upgrading UE; the plugin enable and loopback bind carry over unchanged.
+- **Engine upgrades:** check the server's version-compatibility table before upgrading UE; the plugin enable and loopback bind carry over unchanged. The Appendix D notes are version-bound — re-verify them after an engine upgrade.
 - **OpenCode upgrades:** the config shape can change between majors (V1 vs V2); re-check the MCP panel if a server stops connecting.
 - **Document maintenance:** when the setup process changes during a project, update this file (it is the template family's shared reference) and keep the companion references in the two templates in sync.
 
@@ -202,6 +206,54 @@ r = wait(3); print("ue_status:", json.dumps(r)[:400] if r else "FAILED")
 proc.terminate()
 ```
 
+## Appendix C — read-only in-session inspection
+
+Some things exist only while a game session runs: a pawn's constructed component hierarchy, attachment sockets, live transforms, animation state. Blueprint construction scripts do not run in the asset (Appendix D), so read them from a live instance instead.
+
+Recipe — nothing is saved; assets and levels are untouched:
+
+1. Start the session: `ue_start_pie`. In this server version it starts the **Simulate** mode — a throwaway world with no possessed pawn. Editor Python reaches it via `unreal.get_editor_subsystem(unreal.UnrealEditorSubsystem).get_game_world()` (poll briefly if the session is still starting).
+2. Spawn the Blueprint to inspect into that world. The `GameplayStatics` spawn helpers are not bound in this build; the reliable route is the console: `unreal.SystemLibrary.execute_console_command(world, 'summon /Game/Path/BP_Thing.BP_Thing_C')`, then fetch the instance with `unreal.GameplayStatics.get_all_actors_of_class(world, cls)`.
+3. Read what you need — `get_components_by_class(unreal.SceneComponent)` returns the full constructed tree; per component: `get_attach_parent()`, `get_attach_socket_name()` (a bone name works as a socket), `get_world_location()`, `get_socket_location('<bone>')`.
+4. Destroy the instance (`destroy_actor`) and stop the session (`ue_stop_pie`).
+5. If a snippet raises, the tool returns the traceback but the session keeps running — stop it explicitly.
+
+Compact example:
+
+```python
+import unreal, time
+world = unreal.get_editor_subsystem(unreal.UnrealEditorSubsystem).get_game_world()  # poll with time.sleep if the session just started
+cls = unreal.load_class(None, '/Game/Path/BP_Thing.BP_Thing_C')
+unreal.SystemLibrary.execute_console_command(world, 'summon /Game/Path/BP_Thing.BP_Thing_C')
+time.sleep(2)
+actor = unreal.GameplayStatics.get_all_actors_of_class(world, cls)[0]
+for c in actor.get_components_by_class(unreal.SceneComponent):
+    parent = c.get_attach_parent()
+    print(c.get_name(), '->', parent.get_name() if parent else '(root)', '| socket:', c.get_attach_socket_name())
+actor.destroy_actor()
+result = 'inspection done'
+```
+
+This route resolved a first-person camera's attach chain on UE 5.8 when the static APIs were blocked.
+
+## Appendix D — UE 5.8 in-editor Python notes
+
+Verified on 5.8.3 (2026-10-10); re-verify after engine upgrades (Maintenance).
+
+**Escape-hatch conventions.** `ue_exec_python` returns the snippet's `result` variable — assign the value you want back (`print()` is not captured). The snippet runs with the `unreal` module and the server's own `mcp_*` helpers available; exceptions return a traceback and leave any running session alive.
+
+**Reading Blueprints — prefer live instances.**
+- Components added in a Blueprint's construction script (SCS) do not appear in `get_components_by_class` on the generated class's default object — construction does not run on CDOs; the attach/socket chain cannot be read that way.
+- `SubobjectDataSubsystem.k2_gather_subobject_data_for_blueprint()` returns handles, but the data fields (parent handle, etc.) are Python-protected and `SCS_Node` objects come back as untyped objects — `component_template` and attach/variable names cannot be read. Do not build tooling on this path.
+- Use the Appendix C recipe instead; a live instance exposes everything: parents, sockets/bones, world transforms, per-component flags.
+- Static reads that do work: class defaults via `unreal.get_default_object(bp.generated_class())` (movement settings, camera classes, property values), subobject templates via `unreal.load_object(outer, name)` (names carry generated suffixes like `_GEN_VARIABLE` / `__CCE3C0B4`). Caveat: component *transform* values can be constructor-set and read as zeroes on default subobjects — read placements from a live instance.
+
+**Enhanced Input.** Read a mapping context as `get_editor_property('default_key_mappings').mappings` — the plain `mappings` property reads empty on 5.8. A mapping's key is an `FKey` whose name reads via `export_text()` (e.g. `Gamepad_Left2D`, `Mouse2D`); `to_dict()`/`to_tuple()` return empty. Modifier objects read normally via `get_editor_property` (including `InputModifierNegate`'s X/Y/Z flags).
+
+**Binding names.** `unreal.SystemLibrary` is the Python name (no `Kismet` prefix) — `unreal.KismetSystemLibrary` does not exist. A skeleton's `sockets` property is protected — use the `ue_skeleton_info` tool; a skeleton may have no sockets at all (attach points can be pure bones, and the editor's parent-socket picker accepts them).
+
+**Session control.** `unreal.LevelEditorSubsystem` carries `editor_play_simulate`, `editor_request_end_play` and `is_in_play_in_editor`; the running world comes from `unreal.get_editor_subsystem(unreal.UnrealEditorSubsystem).get_game_world()`. In this server version `ue_start_pie` maps to Simulate (no possessed pawn).
+
 ---
 
-*First authored 2026-10-10 from a verified setup (Windows 11 · OpenCode 2.0.26 · unreal-engine-mcp 0.10.0 · Unreal Engine 5.8.3). When the setup process changes, update this file and the repository index (`README.md`) together.*
+*First authored 2026-10-10 from a verified setup (Windows 11 · OpenCode 2.0.26 · unreal-engine-mcp 0.10.0 · Unreal Engine 5.8.3); extended 2026-10-10 with in-session verification learnings (Appendices C–D, verified-list refresh, usage discipline). When the setup process changes, update this file and the repository index (`README.md`) together.*
