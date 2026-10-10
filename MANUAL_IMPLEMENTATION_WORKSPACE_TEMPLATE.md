@@ -181,6 +181,8 @@ Evidence categories, kept separate:
 3. **User-reported checks:** what the user says they tested, clearly attributed.
 4. **Not checked:** missing environments, omitted scenarios, unresolved findings.
 
+Match the check to the claim: use the cheapest check that settles it — targeted inspection before full runs — and escalate only when the scenario requires it.
+
 Standard review protocol: the user provides run evidence (short clip or screenshots, what was tested, versions); the agent inspects `.uproject`-style project files, configuration and structure where the domain allows, and reviews user-provided evidence of behavior. Binary or non-text artifacts (compiled assets, graphs, levels) need suitable user evidence — filenames alone are insufficient. Never equate generated files with working behavior or a planned check with an executed one.
 
 Record review findings with a stable identifier when follow-up requires it:

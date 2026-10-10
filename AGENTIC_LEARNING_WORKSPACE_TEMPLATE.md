@@ -178,6 +178,7 @@ Plan states:
 - `ROADMAP.md` owns roadmap, plan states and the resume pointer. `MEMORY.md` owns decisions, conventions, the learning profile and concept list, references and history; history entries are labeled `YYYY-MM-DD-NN`.
 - Records and compaction are agent-maintained; the user can inspect them. On "compact": condense history; never silently remove decisions, evidence labels or learning records. Correct errors by annotation.
 - Evidence categories, kept separate: inspection · executed checks · user-reported checks · not checked. The agent verifies what it can and clearly attributes user observations. Binary or non-text artifacts need suitable evidence — filenames alone are insufficient.
+- Match the check to the claim: use the cheapest check that settles it — targeted inspection before full runs — and escalate only when the scenario requires it.
 - After meaningful work: update `ROADMAP.md` (states, resume pointer) and `MEMORY.md` (history entry, decisions, learning updates); keep them consistent. No session files.
 
 ## 11. Decisions, conventions and sources
