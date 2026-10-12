@@ -163,6 +163,7 @@ For a workspace generated from the template family, fold the bridges into its re
 - `MEMORY.md` — environment block: per bridge — official: plugin entries and the auto-start ini key, the client entry, toolset count and what was verified/when; community: environment path and package version, config path and the `UE_MCP_MULTICAST_BIND` requirement, which projects have the enable applied, verified dates.
 - `MEMORY.md` — references rows: `Unreal MCP (official) — dev.epicgames.com "Unreal MCP in Unreal Editor" documentation; engine plugins at Engine/Plugins/Experimental/ModelContextProtocol and .../Experimental/Toolsets | <date checked> | verified toolset count, transport, config shapes.` and `unreal-engine-mcp — github.com/FFZackFair92/unreal-engine-mcp (PyPI: unreal-engine-mcp) | <date checked> | version, license, engine compatibility, tool count.`
 - Plan-writing rule: quote every value exactly as the editor's UI shows it so the user can type it without translating — e.g. UE rotators are displayed as X/Y/Z (rotation about X/Y/Z = Roll/Pitch/Yaw), so write panel-ready numbers, not the classic Pitch/Yaw/Roll order.
+- `MEMORY.md` — conventions bullet (reference material, for reference-driven projects): `Reference library docs/refs/<topic>/ — user captures at the root (NN_what.png), agent-fetched sets under web/ with a _sources.md provenance note (source, date, captions, usage), generated diagrams as named images. Build steps link the picture that shows them (../refs/…). Third-party material is reference-only; repository inclusion is the user's decision. Tooling: Appendix F.`
 
 The records are the same in both modes — in agentic workspaces, performed editor actions are recorded like other executed work, screenshots included.
 
@@ -357,6 +358,29 @@ _, ts = rpc({"jsonrpc": "2.0", "id": 3, "method": "tools/call",
 print("toolsets:", ts["result"]["content"][0]["text"][:300])
 ```
 
+## Appendix F — reference material pipeline (agent-side)
+
+Reference-driven projects (recreating a level, UI or asset from source material) need the agent to fetch, convert, compose and generate images. All of it runs on a stock Windows machine with Windows PowerShell — no ImageMagick, Pillow or ffmpeg required.
+
+**Finding and fetching.**
+- Sites behind Cloudflare (most wikis, including Fandom) block plain HTTP clients with a challenge page — use the site's API instead. MediaWiki: `…/api.php?action=query&list=allimages&aiprefix=<prefix>&ailimit=200&format=json` lists files; `action=query&titles=File:<name>&prop=imageinfo&iiprop=url|size` resolves direct URLs. The HTML page fails; the API passes.
+- Guide/portal pages often serve responsive image sets — the `<picture>` element names the real files (typically `<name>-medium.webp` for desktop); fetch those, never the thumbnails.
+- Download with `Invoke-WebRequest -Uri <url> -OutFile <path> -UseBasicParsing`.
+
+**Converting and composing (WPF imaging in Windows PowerShell).**
+- Decode anything the OS has a codec for (webp included) and re-encode: `System.Windows.Media.Imaging.BitmapImage` (`CacheOption = OnLoad`) → `PngBitmapEncoder` / `JpegBitmapEncoder` (`QualityLevel = 85` turns 1024×576 screenshots from ~430 KB PNG into ~60 KB JPEG).
+- Contact sheet: draw the decoded frames into a `DrawingVisual` (`DrawImage` per cell, `FormattedText` for labels), render with `RenderTargetBitmap`, encode once.
+- PowerShell trap: inline arithmetic inside `New-Object Type($a, $b + $c)` can parse as extra arguments ("Cannot find an overload … argument count 4") — assign compound values to variables first.
+
+**Generating diagrams.**
+- Deterministic diagrams (plan views, coordinate grids, zone maps) are drawn from the project's own numbers, so they stay true to the spec and are cheap to redraw — use them instead of AI-generated imagery for build work. `System.Drawing` (GDI+) covers grids, rectangles and labels; save PNG or JPEG. Scale grids to the project's real dimensions, label a datum and the cell size, and mark the image as a template in its corner.
+- Keep generator scripts in one place so a diagram can be re-drawn when its numbers change.
+
+**Storing and using.**
+- One library per topic under `docs/refs/<topic>/`: user captures at the root (`NN_what.png`), agent-fetched sets in a `web/` subfolder with a `_sources.md` beside them (source URLs with dates, cleaned captions, usage note), generated diagrams as named images.
+- Plans wrap the pictures into the build steps (relative `../refs/…` links render in most viewers and repositories). Open frames at full size — previews hide detail. Portals' frames carry watermarks and HUD; the user's own captures stay primary where they exist.
+- Third-party material is reference-only — never shipped with the project; whether the repository carries it is the user's decision (and an explicit ignore/attribute decision, e.g. plain binary images next to LFS-tracked assets).
+
 ---
 
-*First authored 2026-10-10 from a verified setup (Windows 11 · OpenCode 2.0.26 · unreal-engine-mcp 0.10.0 · Unreal Engine 5.8.3); extended 2026-10-10 with in-session verification learnings (Appendices C–D, verified-list refresh, usage discipline), the checks discipline (probe-before-acting, cheapest-first, ask before opening; screenshot focus) and the evidence-economy rule (panel values evidenced by screenshots; sessions reserved for construction/runtime facts) with panel-ready plan values. Extended 2026-10-11 with the official Unreal MCP — two-bridge structure and capability table, official setup (plugins, auto-start, client config) and operational notes, verification checklists, troubleshooting rows and Appendix E (verified against the live server). When the setup process changes, update this file and the repository index (`README.md`) together.*
+*First authored 2026-10-10 from a verified setup (Windows 11 · OpenCode 2.0.26 · unreal-engine-mcp 0.10.0 · Unreal Engine 5.8.3); extended 2026-10-10 with in-session verification learnings (Appendices C–D, verified-list refresh, usage discipline), the checks discipline (probe-before-acting, cheapest-first, ask before opening; screenshot focus) and the evidence-economy rule (panel values evidenced by screenshots; sessions reserved for construction/runtime facts) with panel-ready plan values. Extended 2026-10-11 with the official Unreal MCP — two-bridge structure and capability table, official setup (plugins, auto-start, client config) and operational notes, verification checklists, troubleshooting rows and Appendix E (verified against the live server). Extended 2026-10-12 with the reference-material pipeline (Appendix F — fetching, conversion, contact sheets, generated diagrams) and the matching record snippet in section 6. When the setup process changes, update this file and the repository index (`README.md`) together.*

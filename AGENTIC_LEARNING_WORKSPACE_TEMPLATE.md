@@ -58,7 +58,7 @@ The same lean file set as the manual variant applies; the difference is the work
     <domain>.md            Project-specific concept or design document(s), as needed
     implementation-plans/
       NN-<name>.md         One current detailed plan; completed plans remain as records
-    refs/                  Optional reference images (created when generated)
+    refs/                  Optional reference library: captures, fetched sets (+ `_sources.md` provenance), generated diagrams
   <delivery-root>/         Implementation lives where the project needs it
 ```
 
@@ -87,8 +87,9 @@ Add domain-specific documents only when the actual project needs them. Do not ge
 - Author the next plan only after the current one has passed review and the user confirms.
 - Verify what is verifiable before authoring (environment, filesystem, installed tools).
 - A plan ends in an observable, result the user can review; its size fits the work and the user's learning pace.
-- Split a milestone before authoring its detailed plan when: acceptance depends on later milestones · independent systems share only a final proof · several risky unknowns need early checks · no reviewable result appears within each task group.
-- Keep plan IDs stable and monotonically numbered. Completed plan files remain as records.
+- Split a milestone before authoring its detailed plan when: acceptance depends on later milestones · independent systems share only a final proof · several risky unknowns need early checks · no reviewable result appears within each task group · a first-contact slice (what the next plans immediately depend on) separates cleanly from a completion slice that can wait until those plans need it.
+- Design decisions the user may not be able to judge (layout, composition, structure) are drafted by the agent into a spec built from the reference material and corrected by the user; build steps then link that spec so the user directs and reviews concrete options instead of inventing.
+- Keep plan IDs stable; a split after authoring keeps the number with letter suffixes (`03a`, `03b`), and any divergence between run order and numeric order is stated explicitly (for example under the roadmap table). Completed plan files remain as records.
 - Roadmap milestones record what the user will be able to understand or evaluate by their completion.
 - Mark the agent checklist items ✅ as they complete; acceptance criteria stay `[ ]` until the plan is Verified, then mark `[x]`.
 - Changes to acceptance criteria must be justified and recorded. Never narrow them silently.
@@ -128,6 +129,7 @@ Format rules:
 - The user part comes first and is written for understanding — no bookkeeping. Everything after the divider is agent execution and can be skipped.
 - "What's being built" is the learning content: intent, approach, trade-offs, concepts at first use. Deep dives happen on request and may be appended to the build log.
 - The build log is written so it stands alone: what changed, why, how to inspect.
+- Reference material is linked where it explains intent — the applicable image or generated diagram next to the description or build-log note it belongs to (`../refs/…`).
 - The plan is the approval artifact: the first plan is presented for approval; later plans are authored after review and confirmation.
 
 ## 8. Working rhythm: boundaries and briefings
@@ -186,7 +188,7 @@ Plan states:
 All three live in `MEMORY.md`.
 
 - **Decisions:** stable IDs; states Confirmed, Proposed, Deferred, Superseded. One line each with basis and revisit trigger; never silently rewritten. The rationale doubles as teaching material, so keep it precise and self-contained.
-- **Conventions:** paths, IDs, naming, markers, evidence labels, repository rules, compaction rules.
+- **Conventions:** paths, IDs, naming, markers, evidence labels, repository rules (including an explicit ignore/attribute decision when a new artifact class first appears), compaction rules; fetched third-party material keeps a provenance note beside it (source, date, usage) and stays reference-only.
 - **References:** checked sources with dates and versions; unchecked items labeled as to-verify. Research prefers official/primary sources; documentation about a tool is not evidence that the local environment was tested.
 
 ## 12. Resume routine and AGENTS.md

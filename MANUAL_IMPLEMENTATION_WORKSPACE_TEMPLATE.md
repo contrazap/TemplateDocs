@@ -57,7 +57,7 @@ Preserve established naming/layout when it already provides the same responsibil
     <domain>.md            Project-specific concept or design document(s), as needed
     implementation-plans/
       NN-<name>.md         One current detailed plan; completed plans remain as records
-    refs/                  Optional reference images (created when generated)
+    refs/                  Optional reference library: captures, fetched sets (+ `_sources.md` provenance), generated diagrams
   <delivery-root>/         Implementation lives where the project needs it
 ```
 
@@ -85,8 +85,9 @@ Add domain-specific documents only when the actual project needs them. Do not ge
 - Author the next plan only after the current one is reviewed with evidence and the user confirms.
 - Verify what is verifiable before authoring (environment, filesystem, installed tools). Plans contain only user actions.
 - A plan ends in an observable, reviewable result; its size fits the work and the user's learning pace.
-- Split a milestone before authoring its detailed plan when: acceptance depends on later milestones · independent systems share only a final proof · several risky unknowns need early checks · no meaningful result is runnable or inspectable within each task group.
-- Keep plan IDs stable and monotonically numbered. Completed plan files remain as records.
+- Split a milestone before authoring its detailed plan when: acceptance depends on later milestones · independent systems share only a final proof · several risky unknowns need early checks · no meaningful result is runnable or inspectable within each task group · a first-contact slice (what the next plans immediately depend on) separates cleanly from a completion slice that can wait until those plans need it.
+- When tasks carry design judgment the user may not have (layout, composition, structure), the agent drafts the design into a spec built from the reference material and the user corrects it; build tasks then link that spec so the user places and judges instead of inventing.
+- Keep plan IDs stable; a split after authoring keeps the number with letter suffixes (`03a`, `03b`), and any divergence between run order and numeric order is stated explicitly (for example under the roadmap table). Completed plan files remain as records.
 - Mark a finished step with ✅ leading its line, and a finished task by appending ✅ to its heading once its checkpoint passes; acceptance criteria stay `[ ]` until the plan is Verified, then mark `[x]`.
 - Changes to acceptance criteria must be justified and recorded. Never narrow them silently.
 - Keep future roadmap entries outcome-level; treat their internals as provisional.
@@ -131,6 +132,7 @@ Format rules:
 
 - The user part comes first: target, tasks, send line. Everything after the divider is agent bookkeeping and can be skipped once implementation is done.
 - Tasks are numbered `1`, `2`, …; steps are numbered `1.1`, `1.2`, … under their task, each on its own line indented with `&emsp;&emsp;` — Markdown lists cannot express `1.1`.
+- Build steps that recreate something visual link the reference or the generated diagram that shows it (relative path, for example `../refs/<topic>/…`) so the picture sits inside the step.
 - Tasks are actions. Use exact steps where the tooling is first-time (support levels, section 8); explanations are colocated at the step that needs them — never a separate study section before the steps.
 - Each task closes with a `**Done when:**` statement; the aggregate acceptance list lives in the agent block.
 - The send line asks only for evidence the agent cannot produce or inspect itself.
@@ -155,6 +157,7 @@ Task detail adapts to demonstrated skill, not a fixed global setting:
 
 - Record the skill, evidence and current level in the `MEMORY.md` skill ledger. The recorded level drives task detail; task headings carry no level label.
 - A clean repetition means the task was completed and its checkpoint passed without correction. If the user struggles or the task introduces a new API, teach that occurrence one level more detailed, then return to the recorded level after a clean repetition.
+- For a first occurrence whose deliverable spans many similar units (zones, screens, systems), checkpoint after each unit — build it, look at it, short check — rather than only at the task's end.
 - Levels are per skill; a plan may mix them. Adjust remaining task detail when checkpoint evidence warrants; record changes at review.
 - Support levels change presentation detail only. Acceptance criteria and verification requirements never change with the level.
 
@@ -197,7 +200,7 @@ Record review findings with a stable identifier when follow-up requires it:
 All three live in `MEMORY.md`.
 
 - **Decisions:** stable IDs scoped to the workspace or project; states Confirmed, Proposed, Deferred, Superseded. One line each: decision, basis, revisit trigger. Never silently rewritten.
-- **Conventions:** paths, IDs, naming, markers, support levels, evidence labels, repository rules (for example which build artifacts to ignore) and compaction rules.
+- **Conventions:** paths, IDs, naming, markers, support levels, evidence labels, repository rules (for example which build artifacts to ignore, and an explicit ignore/attribute decision when a new artifact class first appears), compaction rules; fetched third-party material keeps a provenance note beside it (source, date, usage) and stays reference-only.
 - **References:** checked sources with dates and versions; unchecked items are labeled as to-verify. Research prefers official/primary sources; documentation about a tool's behavior is not evidence that the local environment was tested.
 
 ## 11. Resume routine and AGENTS.md
