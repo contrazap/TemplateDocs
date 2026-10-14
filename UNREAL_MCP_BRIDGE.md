@@ -40,8 +40,8 @@ This file is not retained in generated workspaces by default; record its canonic
 
 Check both bridges:
 
-1. Official: the project's `.uproject` lists `ModelContextProtocol` + `AllToolsets`; `Config/DefaultEditorPerProjectUserSettings.ini` contains `bAutoStartServer=True`; the OpenCode config has the `unreal-official` entry; with the editor running, the smoke test (Appendix E) answers.
-2. Community: the isolated environment exists (`%LOCALAPPDATA%\opencode-mcp\unreal-engine-mcp\Scripts\python.exe`); the OpenCode config lists `unreal`; with an enabled project open, the discovery probe (Appendix A) finds the node.
+1. Official: the project's `.uproject` lists `ModelContextProtocol` + `AllToolsets`; `Config/DefaultEditorPerProjectUserSettings.ini` contains `bAutoStartServer=True`; the project's `opencode.json` has the `unreal-official` entry; with the editor running, the smoke test (Appendix E) answers.
+2. Community: the isolated environment exists (`%LOCALAPPDATA%\opencode-mcp\unreal-engine-mcp\Scripts\python.exe`); the project's `opencode.json` lists `unreal`; with an enabled project open, the discovery probe (Appendix A) finds the node.
 
 If both hold, skip ahead to verification (section 7). Otherwise: official → section 4; community → sections 3 and 5.
 
@@ -63,13 +63,15 @@ python -m venv "$env:LOCALAPPDATA\opencode-mcp\unreal-engine-mcp"
 & "$env:LOCALAPPDATA\opencode-mcp\unreal-engine-mcp\Scripts\python.exe" -m pip install unreal-engine-mcp==0.10.0
 ```
 
-**3.3 Register it with OpenCode** — user-level, so every project on the PC can use it:
+**3.3 Register it with OpenCode** — in the Unreal project's own config, so the bridges load only where an editor can answer (run it from the repository root; the CLI writes `opencode.json` there):
 
 ```powershell
-opencode mcp add unreal --global -- "$env:LOCALAPPDATA\opencode-mcp\unreal-engine-mcp\Scripts\python.exe" -m unreal_mcp.server
+opencode mcp add unreal -- "$env:LOCALAPPDATA\opencode-mcp\unreal-engine-mcp\Scripts\python.exe" -m unreal_mcp.server
 ```
 
-**3.4 Add the discovery environment variable** to the generated entry in `%USERPROFILE%\.config\opencode\opencode.json` — final shape:
+Why project-scoped: registered globally, `unreal-official` reports a connection failure in every other project on the PC, and the community server adds its full tool catalog to every session there — observed 2026-10-14 with both entries in `%USERPROFILE%\.config\opencode\opencode.json`, and fixed by moving them into the Unreal repo's `opencode.json`. A global entry also works when the user prefers it; the trade is that noise.
+
+**3.4 Add the discovery environment variable** to the generated entry in the Unreal project's `opencode.json` — final shape:
 
 ```jsonc
 {
@@ -93,7 +95,7 @@ opencode mcp add unreal --global -- "$env:LOCALAPPDATA\opencode-mcp\unreal-engin
 
 Why the bind matters: Unreal's Python plugin joins the discovery multicast (239.0.0.1:6766, TTL 0) on **loopback** by default. The server's default bind (all adapters) sends discovery out the default network adapter, which never reaches a loopback-bound editor — discovery fails with "no editor found" even though the editor is running. Matching both sides to loopback fixes it and also sidesteps multi-adapter machines (VPN, WSL, Hyper-V). If a project instead sets the editor's "Multicast Bind Address" to `0.0.0.0`, the server's default bind works — either side may be aligned, but the loopback pairing is the recorded standard.
 
-Notes: the global config shape is OpenCode V2 (`mcp.servers`); OpenCode V1 placed server names directly under `mcp`. Tools appear to the agent as `tools.<server>.<tool>` (Code Mode groups them under the server name). New sessions pick the server up automatically; an existing session reconnects when the config content changes — this applies to both bridges. Keep the setup local: loopback discovery only, nothing published — the in-editor Python channel executes arbitrary code, so do not tunnel or expose it beyond this machine. On Windows with a restricted PowerShell execution policy, run the OpenCode CLI as `cmd /c "opencode …"` — the `.ps1` shim is otherwise blocked.
+Notes: the config shape is OpenCode V2 (`mcp.servers`); OpenCode V1 placed server names directly under `mcp`. Project files are discovered from the workspace directory upward — a repo-root `opencode.json` covers sessions opened in subfolders — and a project entry replaces a global entry with the same name. Tools appear to the agent as `tools.<server>.<tool>` (Code Mode groups them under the server name). New sessions pick the server up automatically; an existing session reconnects when the config content changes — this applies to both bridges. Keep the setup local: loopback discovery only, nothing published — the in-editor Python channel executes arbitrary code, so do not tunnel or expose it beyond this machine. On Windows with a restricted PowerShell execution policy, run the OpenCode CLI as `cmd /c "opencode …"` — the `.ps1` shim is otherwise blocked.
 
 ## 4. Official Unreal MCP — setup (primary)
 
@@ -115,7 +117,7 @@ bAutoStartServer=True
 
 On demand instead: leave auto-start off and run `ModelContextProtocol.StartServer` (optional port argument) in the editor console. Related commands: `ModelContextProtocol.StopServer`, `…RefreshTools` (re-poll the registry after authoring tools), `…GenerateClientConfig <Client|All>`. Tool-search mode (`bEnableToolSearch`, default on) is what exposes the three meta-tools — keep it on; it keeps `tools/list` small.
 
-**4.3 Client config.** The plugin writes client configs for Claude Code, Cursor, VS Code, Gemini and Codex (`ModelContextProtocol.GenerateClientConfig <Client|All>` — it merges existing JSON configs; the Codex TOML is write-once). OpenCode is not among them — add the entry by hand to `mcp.servers` in the global config:
+**4.3 Client config.** The plugin writes client configs for Claude Code, Cursor, VS Code, Gemini and Codex (`ModelContextProtocol.GenerateClientConfig <Client|All>` — it merges existing JSON configs; the Codex TOML is write-once). OpenCode is not among them — add the entry by hand to `mcp.servers` in the Unreal project's `opencode.json` (the same file that carries the community entry):
 
 ```jsonc
 "unreal-official": {
@@ -158,6 +160,7 @@ For a workspace generated from the template family, fold the bridges into its re
   - Manual: `- MCP: the official Unreal MCP (`unreal-official`, the editor's built-in ModelContextProtocol server, http://127.0.0.1:8000/mcp) is the primary editor bridge; the community pyremote server (`unreal`) covers the local layer (open/close/build/package while the editor is closed) and gaps (Python escape hatch, viewable screenshots). The working agreement is unchanged: the user implements, the agent observes and verifies; checks run cheapest-first and the agent asks before opening a closed editor — never auto-opens.`
   - Agentic: `- MCP: editor work goes through the official Unreal MCP (`unreal-official`) within approved plans; the community server (`unreal`) covers the local layer and gaps (Python, viewable screenshots). Its captures and status outputs are part of the work record.`
 - `MEMORY.md` — decision rows: `Official Unreal MCP (ModelContextProtocol + AllToolsets plugins; editor HTTP server at 127.0.0.1:8000/mcp) adopted as the primary agent bridge — manual: verification/evidence only, the user implements; agentic: editor implementation within approved plans.` and `Community server (unreal-engine-mcp, pyremote) retained as fallback for the local layer (editor open/close, build/package while the editor is closed) and gaps (Python exec, viewable screenshots).`
+- `MEMORY.md` — conventions bullet (config): `OpenCode MCP entries are project-scoped in this repository's opencode.json (both bridges); the user's global config carries none, so other projects on the machine load no Unreal servers.`
 - `MEMORY.md` — conventions bullet (community): `MCP (community bridge): what the agent may change follows the applicable working agreement (manual: observe only; agentic: within approved plans). Editor-layer tools need the editor open; the local layer (open/close/build/package) does not. Screenshots need the editor window focused and rendering — retry with the same filename to attach the image (captures fail while the editor is in the background). Run `ue_save_all` before `ue_editor_close` (clean close can fall back to process termination). Issue editor calls one at a time — a concurrent burst can time out. Read-only runtime inspection: `ue_start_pie` runs the *Simulate* mode (no game pawn) — spawn into the throwaway world, inspect, then stop; assets and levels stay untouched (Appendix C).`
 - `MEMORY.md` — conventions bullet (official): `Official MCP (unreal-official): editor-layer only — no server while the editor is closed (local layer stays on the community bridge); calls serialize on the game thread; discovery is two-hop (list_toolsets → describe_toolset → call_tool; pass toolset_name + the short tool_name); object refs are {"refPath": "<object path>"} (CDO subobjects like .../BP_X.Default__BP_X_C.Comp resolve); property names are the reflected camelCase keys from ObjectTools.list_properties — never guess them; CaptureViewport returns 1–3 MB base64 — for viewable captures use the community ue_screenshot trigger → same-filename check; StartPIE takes options {bSimulate, playMode, warmupSeconds}; StopPIE can ECONNRESET while the session tears down — verify or retry; aiming the PIE pawn is done via the community bridge (set_control_rotation; pawn property reads are protected in 5.8); a config-content edit hot-reloads MCP servers in a running session.`
 - `MEMORY.md` — environment block: per bridge — official: plugin entries and the auto-start ini key, the client entry, toolset count and what was verified/when; community: environment path and package version, config path and the `UE_MCP_MULTICAST_BIND` requirement, which projects have the enable applied, verified dates.
@@ -171,7 +174,7 @@ The records are the same in both modes — in agentic workspaces, performed edit
 
 Run after setup and after any upgrade; record the results in the workspace history.
 
-1. **Community server launches:** the environment's python runs `-m unreal_mcp.server` without import errors, and the OpenCode config lists the server.
+1. **Community server launches:** the environment's python runs `-m unreal_mcp.server` without import errors, and the project's `opencode.json` lists the server.
 2. **Official server up:** the editor log shows `LogModelContextProtocol: Tool search enabled: registered 3 meta-tools (<N> toolsets discoverable)`, and the port is bound to the editor process (`netstat -ano | findstr :8000`).
 3. **Official handshake:** the smoke test (Appendix E) negotiates a protocol version, `tools/list` returns the three meta-tools and `list_toolsets` returns the toolsets.
 4. **Editor ready:** the project is open; the editor log shows `Python enabled` (community) and no load errors for the enabled plugins.
@@ -191,10 +194,12 @@ Run after setup and after any upgrade; record the results in the workspace histo
 | A Blueprint asset is rejected as "not a valid Actor" | Some component tools require live instances | Spawn the class into the level (SceneTools), read the instance, remove it — or use the documented asset-level tools |
 | Property write fails / unknown property | Reflected property names cannot be guessed | `ObjectTools.list_properties` first, then `get_properties`/`set_properties` with those exact keys |
 | Huge inline base64 from `CaptureViewport` | Captures return PNG base64 (1–3 MB) | Use the community `ue_screenshot` route for viewable captures |
-| Tools missing from a session | Server process stopped or connection dropped | Content change in the global config triggers a reconnect, or start a new session; do not manage server processes manually — killing them removes the tools until reconnection |
+| Tools missing from a session | Server process stopped or connection dropped | Content change in the config (global or project) triggers a reconnect, or start a new session; do not manage server processes manually — killing them removes the tools until reconnection |
+| Unrelated projects show `unreal-official` failed or list Unreal tools | Both entries were registered in the user's global config, but the bridges only have reach around the editor project | Move both entries into the Unreal project's `opencode.json` (sections 3.3–3.4, 4.3) |
 | `ue_exec_python` returns `null` | The snippet's value was not assigned to the `result` variable (`print()` output is not captured) | Assign the value to be returned to `result`; conventions in Appendix D |
 | Several editor calls made at once all time out | The calls were issued concurrently, possibly against a busy or just-started editor | Re-issue them one at a time — the editor is usually fine |
 | `opencode mcp list` reports `failed: exited with code 255` | The CLI's own probe teardown is reported as a failure even when the server serves sessions fine | Ignore; verify via a session or the probe instead |
+| `opencode mcp list` shows no servers (or another project's) for a repo that has a project config | The CLI queries the shared background service, whose config resolves for the service's own location | Check per-directory resolution instead: `opencode debug config` run in the repo or `/mcps` in the TUI opened there |
 | `ue_screenshot` returns `captured: false` | The editor window is not in the foreground — viewport rendering pauses in the background, so the deferred capture never completes (nor does `HighResShot` write) | Refocus the editor window, then retry with the same filename to attach the image |
 | `ue_editor_close` fell back to "process terminated" | The clean close path is unavailable in some setups (e.g., pyremote-only) — observed even with `ue_save_all` returning `saved: true` and no dirty assets | Expected; the fallback exits cleanly (confirm with `ue_editor_status`: `running: false`, no orphans). Run `ue_save_all` first anyway; the close path may auto-save dirty assets — review unexpected binary diffs (e.g., level files) before committing |
 | Discovery worked earlier, tool calls now fail | Editor closed or crashed | Confirm with `ue_editor_status`/`ue_status`; if closed, ask before reopening (`ue_editor_open` — deliberate, takes minutes) |
@@ -383,4 +388,4 @@ Reference-driven projects (recreating a level, UI or asset from source material)
 
 ---
 
-*First authored 2026-10-10 from a verified setup (Windows 11 · OpenCode 2.0.26 · unreal-engine-mcp 0.10.0 · Unreal Engine 5.8.3); extended 2026-10-10 with in-session verification learnings (Appendices C–D, verified-list refresh, usage discipline), the checks discipline (probe-before-acting, cheapest-first, ask before opening; screenshot focus) and the evidence-economy rule (panel values evidenced by screenshots; sessions reserved for construction/runtime facts) with panel-ready plan values. Extended 2026-10-11 with the official Unreal MCP — two-bridge structure and capability table, official setup (plugins, auto-start, client config) and operational notes, verification checklists, troubleshooting rows and Appendix E (verified against the live server). Extended 2026-10-12 with the reference-material pipeline (Appendix F — fetching, conversion, contact sheets, generated diagrams) and the matching record snippet in section 6. When the setup process changes, update this file and the repository index (`README.md`) together.*
+*First authored 2026-10-10 from a verified setup (Windows 11 · OpenCode 2.0.26 · unreal-engine-mcp 0.10.0 · Unreal Engine 5.8.3); extended 2026-10-10 with in-session verification learnings (Appendices C–D, verified-list refresh, usage discipline), the checks discipline (probe-before-acting, cheapest-first, ask before opening; screenshot focus) and the evidence-economy rule (panel values evidenced by screenshots; sessions reserved for construction/runtime facts) with panel-ready plan values. Extended 2026-10-11 with the official Unreal MCP — two-bridge structure and capability table, official setup (plugins, auto-start, client config) and operational notes, verification checklists, troubleshooting rows and Appendix E (verified against the live server). Extended 2026-10-12 with the reference-material pipeline (Appendix F — fetching, conversion, contact sheets, generated diagrams) and the matching record snippet in section 6. Extended 2026-10-14 with project-scoped client entries — both bridges in the Unreal project's `opencode.json` instead of the user's global config (sections 2–4, 6–8) — after the global-entry failure mode was hit in a non-Unreal project, and with the `opencode mcp list` location note. When the setup process changes, update this file and the repository index (`README.md`) together.*
