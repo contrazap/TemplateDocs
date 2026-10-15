@@ -136,6 +136,8 @@ Evidence categories, kept separate:
 
 Match the check to the claim: use the cheapest check that settles it — targeted inspection before full runs — and escalate only when the scenario requires it. Distinguish "configured correctly" from "actually works": values visible in the tool's UI are evidenced by user screenshots (user-reported), while heavier runtime or session checks are reserved for claims configuration alone cannot settle — constructed state, runtime wiring, integration, feel. Binary or non-text artifacts need suitable evidence — filenames alone are insufficient. Never equate generated files with working behavior, or a planned check with an executed one.
 
+Visual defects (rendering artifacts, misplaced or missing elements): reproduce before fixing, isolate by toggling the suspect element at runtime, and close only on an executed before/after capture where the tooling allows — "it went away" after an unrelated change is not a closure. Parity checks against a reference (template, earlier version) diff the full property set, not a hand-picked list.
+
 ## 8. Decisions, conventions and sources
 
 All three live in `MEMORY.md`.
