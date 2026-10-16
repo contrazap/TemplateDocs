@@ -4,6 +4,7 @@ The shared part of the workspace template family: structure, records, planning, 
 
 - `MANUAL_IMPLEMENTATION_WORKSPACE_TEMPLATE.md` — the user implements; the agent plans, coaches, reviews and maintains records.
 - `AGENTIC_LEARNING_WORKSPACE_TEMPLATE.md` — the agent implements; the user directs, reviews and learns.
+- `AUTONOMOUS_AGENTIC_WORKSPACE_TEMPLATE.md` — agents implement end to end, optionally an orchestrator dispatching to cheaper worker agents; the user directs and approves at milestone gates.
 
 Where a variant says something different from this file, the variant wins. Optional tooling companions (for example, a bridge giving the agent direct access to a project's editor) supplement both and do not change the working agreement.
 
@@ -37,7 +38,7 @@ The variant states the working role; these rules hold in both.
 5. Verify what the agent can verify itself — environment, installed tools, filesystem — before authoring plans.
 6. Resolve ordinary organizational choices from available context; ask only questions that materially affect scope, correctness or the immediate plan. If requirements are missing, request them without inventing a product or domain; neutral scaffolding may still be prepared.
 7. Preserve useful existing documents; adapt or link them instead of duplicating conflicting versions.
-8. Generate the minimum coherent set: `README.md`, `AGENTS.md`, `docs/ROADMAP.md`, `docs/MEMORY.md`, a domain document only when the project has one, the first detailed plan, and the agent-client entry files the user's clients need (section 9). No session files, no separate status, conventions, decisions, references or verification documents.
+8. Generate the minimum coherent set: `README.md`, `AGENTS.md`, `docs/ROADMAP.md`, `docs/MEMORY.md`, a domain document only when the project has one (several → `docs/design/` with an index), the first detailed plan, and the agent-client entry files the user's clients need (section 9). No session files, no separate status, conventions, decisions, references or verification documents.
 9. Check consistency of links, states and evidence labels; finish with the variant's handoff (section 10).
 
 Scaffolding produces documentation only. Do not create product files, install dependencies, contact external services or initialize source control unless that work is separately requested or already authorized.
@@ -56,8 +57,11 @@ Preserve established naming and layout when they already provide the same respon
   docs/
     ROADMAP.md             Roadmap, plan states, resume pointer; gates and notes as needed
     MEMORY.md              Decisions, conventions, skill ledger or learning profile, references, history
+    history/YYYY-MM.md     Optional: archived history moved out of MEMORY at compaction (section 7)
     <domain>.md            Project-specific concept or design document(s), as needed
+    design/                Optional, when there are several domain docs: README.md index + one doc per system
     tooling-notes.md       Optional: tool recipes and environment reference too long for MEMORY (section 7)
+    tooling/               Optional, when several tools need recipes: one file per tool instead of tooling-notes.md
     implementation-plans/
       NN-<name>.md         One current detailed plan; completed plans remain as records
     refs/                  Optional reference library: captures, fetched sets (+ `_sources.md` provenance), generated diagrams
@@ -76,9 +80,10 @@ Repeat the `docs/` set per project (for example under `projects/<id>/`), keep th
 | AGENTS.md | Working agreement, resume routine, planning rules, role-specific protocol, records maintenance | Roadmap, design, transcripts |
 | Client entry files (`CLAUDE.md` …) | A pointer to `AGENTS.md`; client-only notes | A copy of `AGENTS.md` |
 | ROADMAP.md | Ordered milestones, plan states, resume pointer, gates, provisional estimates | Detailed tasks for future milestones; history |
-| MEMORY.md | Decisions, conventions, the variant's skill ledger or learning profile, references, history | A second competing roadmap; invented preferences; long tool recipes |
+| MEMORY.md | Decisions, conventions, the variant's skill ledger or learning profile, references, recent history | A second competing roadmap; invented preferences; long tool recipes |
+| History archive (optional) | Older history entries moved out of MEMORY at compaction, one file per month | Decisions or conventions (those stay in MEMORY) |
 | Tooling notes (optional) | Tool recipes, API quirks, environment reference material | Decisions, progress |
-| Domain document(s) | Project-specific concept or design that plans refer to | Progress claims |
+| Domain document(s) | Project-specific concept or design that plans refer to — the *what and why*; with several, a `design/README.md` index (one line per doc) | Progress claims; plan steps |
 | Current detailed plan | User part first, agent part below the divider — content per the variant's plan format | Bookkeeping above the divider |
 | Completed plan files | Record of what was planned and delivered | Rewritten history |
 
@@ -104,6 +109,8 @@ Shared plan-format rules (the variant gives the full format):
 - The user part comes first and carries no bookkeeping; everything after the `---` divider is agent material and can be skipped by the user.
 - Build steps that recreate something visual link the reference or generated diagram that shows it (relative path, for example `../refs/<topic>/…`) so the picture sits inside the step.
 - The plan header line carries the state, a progress grid (`⬜`/`✅`), the next item and the roadmap link.
+- Plans are agent-neutral: they name files, commands and outcomes, not client-specific tool names, so any supported agent client can execute them.
+- Each fact has one home — design docs (what/why), plans (how/now), `MEMORY.md` (decisions, history), `ROADMAP.md` (where we are); other documents link to it (`../design/<doc>.md#<section>`) instead of repeating it.
 
 ## 7. Records, states and evidence
 
@@ -126,6 +133,8 @@ Plan states (the fourth state is variant-specific):
 - `MEMORY.md` targets ≤ ~25 KB. History keeps the current plan's entries (at most ~5) detailed, each ≤ ~5 lines; older entries are one line each (label — what happened — outcome, with pointers to decisions or commits). When the file exceeds the budget, compact proactively and say so in the history entry; the compaction rules above still apply.
 - Conventions are rules, one or two lines each. Tool recipes, API quirks, long environment inventories and engine/tool reference material go in `docs/tooling-notes.md` (or the applicable companion) with a one-line pointer in Conventions.
 - `ROADMAP.md`'s resume block is a few lines: position, current plan, next action, gate. No history — that lives in `MEMORY.md`.
+- Long-running workspaces may move older one-line history into `docs/history/YYYY-MM.md` at compaction, leaving one pointer line per archived month in `MEMORY.md`. Archived entries are moved verbatim — never rewritten — and decisions, conventions and evidence labels stay in `MEMORY.md`.
+- Other documents have soft budgets so no file becomes the one large document: `AGENTS.md` ~10 KB (recipes move to tooling notes), `ROADMAP.md` ~10 KB (outcome-level only), each domain/design doc ~15 KB (split by system and update the index), each plan ~20 KB (split with letter suffixes, section 6).
 
 Evidence categories, kept separate:
 
@@ -174,7 +183,7 @@ Before reporting the workspace ready, check (plus the variant's additions):
 - Single-project versus multi-project structure is coherent and documented.
 - Every active project has at most one current detailed plan; completed plans remain intact; future milestones stay outcome-level.
 - Completed items are ✅; acceptance is `[x]` only for Verified plans; states agree with `ROADMAP.md`.
-- Records live only in `ROADMAP.md` and `MEMORY.md` (plus optional tooling notes); no stray status, session or duplicate documents; both records are within the size budget.
+- Records live only in `ROADMAP.md` and `MEMORY.md` (plus optional tooling notes and history archive); no stray status, session or duplicate documents; records and documents are within their size budgets.
 - The README holds no progress state; the roadmap's resume block is current.
 - The environment the agent can verify was verified before authoring plans.
 - Links resolve, tables and fences are valid, and actionable documents have no unresolved boilerplate.
