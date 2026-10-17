@@ -31,7 +31,7 @@ Shared rules: core section 2. In this variant:
 - Roadmap milestones record what the user will be able to see, run or evaluate by their completion; that is what the milestone demo shows (section 6).
 - Checklist tasks have IDs (`T1`, `T2`, …) and an owner: the agent by default, the user only for an accepted hands-on offer. Offers are made when the plan is authored, so the user approves them with the plan.
 - Where the project defines verification levels (core section 7), each checklist task names one.
-- When repository operations are delegated, commit once per completed task as `[P<NN>-T<n>] <title>`; the build log cites the hash, so each change and the decision behind it can be inspected as a diff.
+- When repository operations are delegated, commit once per completed task as `[P<NN>-T<n>] <title>` and push each commit right away, record-only commits included, so the remote always matches the records. The build log cites the hash, so each change and the decision behind it can be inspected as a diff.
 - Items only the user can do — accounts, logins, purchases, installs that need an interactive session, taste calls — go to a **📤 Needs you** section in `ROADMAP.md`, one line each: `- [ ] [Item] — why · needed by Plan NN / T<n> · effort ≈ [minutes/hours]`. The agent continues with unblocked work meanwhile. Optional hands-on offers live in the plan, not in this queue.
 
 ## 5. Detailed plan format
@@ -161,7 +161,7 @@ Beyond core section 9, the generated `AGENTS.md` includes:
 1. The plan-approval gate, how the user can reclaim tasks, and hands-on offers: criteria, alternatives, the per-plan default and graduation.
 2. Boundary rhythm, pause modes, briefing and milestone-demo formats, and the rule that briefings are recorded in the plan's 📣 section; where to record mode changes.
 3. Learning configuration: default explanation depth, concept budget, glossary path and how to change them — link to `MEMORY.md` rather than duplicating volatile details. State that learning interactions and hands-on offers are optional and never required.
-4. The needs-you queue in `ROADMAP.md` and, when repository operations are delegated, the per-task commit convention.
+4. The needs-you queue in `ROADMAP.md` and, when repository operations are delegated, the per-task commit-and-push convention.
 5. The plan markers legend: states Planned → Pending → In progress → Implemented → Verified; `🎯 🧭 📦 🙋 📝 📣 📤 ✅ ⬜ 🔧`.
 
 ## 10. Audit additions
