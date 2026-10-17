@@ -6,7 +6,7 @@ The shared part of the workspace template family: structure, records, planning, 
 - `AGENTIC_LEARNING_WORKSPACE_TEMPLATE.md` — the agent implements; the user directs, reviews and learns.
 - `AUTONOMOUS_AGENTIC_WORKSPACE_TEMPLATE.md` — agents implement end to end, optionally an orchestrator dispatching to cheaper worker agents; the user directs and approves at milestone gates.
 
-Where a variant says something different from this file, the variant wins. Optional tooling companions (for example, a bridge giving the agent direct access to a project's editor) supplement both and do not change the working agreement.
+Where a variant says something different from this file, the variant wins. Optional tooling companions (for example, a bridge giving the agent direct access to a project's editor) supplement any variant and do not change the working agreement.
 
 ## 1. How to use the template family
 
@@ -14,12 +14,12 @@ Provide this file and the applicable variant to the agent temporarily (from the 
 
 - The templates are not retained in generated workspaces by default; a provenance note pointing to the canonical source is enough. Keep a retained copy only if the user asks for one. A template is not an automatically active `AGENTS.md` and is never copied verbatim into one.
 - Generated workspaces record the canonical path (core + variant) as a reference in `docs/MEMORY.md` references and in the generated `AGENTS.md` — once each, never as a local copy. If the recorded path is missing, ask the user for the updated path instead of guessing.
-- When a workspace format or process change is agreed during a project, propose the matching template update so other workspaces inherit it: to this file when it applies to both roles, to the variant when it is role-specific.
+- When a workspace format or process change is agreed during a project, propose the matching template update so other workspaces inherit it: to this file when it applies to every variant, to the variant when it is role-specific.
 - The agent applies the process to the actual workspace, following the applicable instruction hierarchy and the user's current directions. The user can override the workflow and role defaults at any time. Preserve already-authorized scope instead of asking for the same permission again.
 
 ## 2. Shared working rules
 
-The variant states the working role; these rules hold in both.
+The variant states the working role; these rules hold in every variant.
 
 - Records (`ROADMAP.md` states, `MEMORY.md` history, decisions, conventions, the variant's skill or learning record) and their compaction are agent-maintained; the user can inspect them at any time.
 - Keep guidance concise: answer status check-ins ("what's next", "current status") with the current position and next action as pointers; keep steps and values in the plan and repeat them only when asked.
@@ -34,7 +34,7 @@ The variant states the working role; these rules hold in both.
 1. Inspect existing instructions, files, documentation, implementation and repository state; identify what exists before proposing a structure.
 2. Determine whether this is one project or a workspace of independently managed projects; use existing organization and user intent.
 3. Extract confirmed requirements from the supplied material; keep proposals, assumptions, open questions and observed facts distinct.
-4. Apply the variant's calibration step (support levels or learning profile). Do not invent preferences.
+4. Apply the variant's calibration step (support levels, learning profile or gate cadence). Default user profile when nothing else is supplied: comfortable with general programming; no experience with this project's tools, frameworks, engine or conventions — explain those at first use and skip generic programming lessons. Record only knowledge the user states for this workspace; do not carry it over from elsewhere or invent preferences.
 5. Verify what the agent can verify itself — environment, installed tools, filesystem — before authoring plans.
 6. Resolve ordinary organizational choices from available context; ask only questions that materially affect scope, correctness or the immediate plan. If requirements are missing, request them without inventing a product or domain; neutral scaffolding may still be prepared.
 7. Preserve useful existing documents; adapt or link them instead of duplicating conflicting versions.
@@ -60,6 +60,7 @@ Preserve established naming and layout when they already provide the same respon
     history/YYYY-MM.md     Optional: archived history moved out of MEMORY at compaction (section 7)
     <domain>.md            Project-specific concept or design document(s), as needed
     design/                Optional, when there are several domain docs: README.md index + one doc per system
+    concepts.md            Optional: glossary of the project's tool, framework and engine concepts (section 5)
     tooling-notes.md       Optional: tool recipes and environment reference too long for MEMORY (section 7)
     tooling/               Optional, when several tools need recipes: one file per tool instead of tooling-notes.md
     implementation-plans/
@@ -84,6 +85,7 @@ Repeat the `docs/` set per project (for example under `projects/<id>/`), keep th
 | History archive (optional) | Older history entries moved out of MEMORY at compaction, one file per month | Decisions or conventions (those stay in MEMORY) |
 | Tooling notes (optional) | Tool recipes, API quirks, environment reference material | Decisions, progress |
 | Domain document(s) | Project-specific concept or design that plans refer to — the *what and why*; with several, a `design/README.md` index (one line per doc) | Progress claims; plan steps |
+| Concept glossary (optional) | The project's tool, framework and engine concepts, each explained once and linked from plans and briefings; created when the first concept is explained | Progress; decisions; generic programming lessons |
 | Current detailed plan | User part first, agent part below the divider — content per the variant's plan format | Bookkeeping above the divider |
 | Completed plan files | Record of what was planned and delivered | Rewritten history |
 
@@ -107,10 +109,10 @@ Add domain-specific documents only when the actual project needs them. Do not ge
 Shared plan-format rules (the variant gives the full format):
 
 - The user part comes first and carries no bookkeeping; everything after the `---` divider is agent material and can be skipped by the user.
-- Build steps that recreate something visual link the reference or generated diagram that shows it (relative path, for example `../refs/<topic>/…`) so the picture sits inside the step.
+- Plan content that describes or recreates something visual — a build step, an approach description, a build-log note — links the reference or generated diagram that shows it (relative path, for example `../refs/<topic>/…`) so the picture sits beside the text.
 - The plan header line carries the state, a progress grid (`⬜`/`✅`), the next item and the roadmap link.
 - Plans are agent-neutral: they name files, commands and outcomes, not client-specific tool names, so any supported agent client can execute them.
-- Each fact has one home — design docs (what/why), plans (how/now), `MEMORY.md` (decisions, history), `ROADMAP.md` (where we are); other documents link to it (`../design/<doc>.md#<section>`) instead of repeating it.
+- Each fact has one home — design docs (what/why), plans (how/now), the glossary (concepts), `MEMORY.md` (decisions, history), `ROADMAP.md` (where we are); other documents link to it (`../design/<doc>.md#<section>`) instead of repeating it.
 
 ## 7. Records, states and evidence
 
@@ -121,10 +123,10 @@ Plan states (the fourth state is variant-specific):
 | Planned | Roadmap entry only; detailed plan not authored |
 | Pending | Detailed plan exists; approval or start pending |
 | In progress | Implementation or correction is underway |
-| Done (manual) / Implemented (agentic) | See the variant |
+| Done (manual) / Implemented (agentic, autonomous) | See the variant |
 | Verified | Review passed and applicable observable acceptance has evidence |
 
-- `ROADMAP.md` owns roadmap, plan states and the resume pointer. `MEMORY.md` owns decisions, conventions, the skill ledger or learning profile, references and history; history entries are labeled `YYYY-MM-DD-NN` (workspace-wide sequence).
+- `ROADMAP.md` owns roadmap, plan states and the resume pointer. `MEMORY.md` owns decisions, conventions, the skill ledger or learning profile (where the variant keeps one), references and history; history entries are labeled `YYYY-MM-DD-NN` (workspace-wide sequence).
 - After meaningful work: update `ROADMAP.md` (states, resume pointer) and `MEMORY.md` (history entry, decisions, skill or learning updates); keep them consistent. No session files.
 - On the user's "compact": condense history (recent detailed → older one-liners); never silently remove decisions, evidence labels or skill/learning records. Correct errors by annotation, not silent rewriting.
 
@@ -147,11 +149,22 @@ Match the check to the claim: use the cheapest check that settles it — targete
 
 Visual defects (rendering artifacts, misplaced or missing elements): reproduce before fixing, isolate by toggling the suspect element at runtime, and close only on an executed before/after capture where the tooling allows — "it went away" after an unrelated change is not a closure. Parity checks against a reference (template, earlier version) diff the full property set, not a hand-picked list.
 
+**Verification levels** (optional; recommended once checks can be automated). Each task names one level; the project's tooling notes give the exact commands, and engine companions give recipes (for Unreal: `UNREAL_TEST_AUTOMATION.md`). Variants set where each level is required.
+
+| Level | When | Typical content | Budget |
+|---|---|---|---|
+| **Fast** | Every change | Build, static and data validation, unit tests, headless | minutes |
+| **Standard** | Every task (default) | Fast plus functional or integration tests of the task's behavior, including networked or multi-process checks where the behavior spans processes | ≤ ~15 min |
+| **Full** | Plan end where acceptance needs it; milestone gates and demos | Standard plus multi-client or integration runs, performance budgets, visual captures compared with references, packaging; then the user's manual check | ~1 h + user time |
+
+Evidence lines record the level, command, result and artifact path, using the evidence categories above. A planned check is never reported as an executed one.
+
 ## 8. Decisions, conventions and sources
 
 All three live in `MEMORY.md`.
 
-- **Decisions:** stable IDs scoped to the workspace or project; states Confirmed, Proposed, Deferred, Superseded. One line each: decision, basis, revisit trigger. Never silently rewritten; a superseded decision names its successor. Ratify Proposed decisions once the work they govern is underway. The basis lives in the repository (a history entry or a file in the workspace), not only in an external file.
+- **Decisions:** stable IDs scoped to the workspace or project; states Confirmed, Proposed, Deferred, Superseded. One line each: decision, basis, rejected alternatives (a few words on why each lost), revisit trigger, and a pointer to where the full reasoning sits (plan section or history entry). Never silently rewritten; a superseded decision names its successor. Ratify Proposed decisions once the work they govern is underway. The basis lives in the repository (a history entry or a file in the workspace), not only in an external file.
+- **Tried and dropped:** an approach abandoned during the work is recorded where it happened (the plan's build log or a history entry): what was tried, the evidence that ruled it out, what replaced it. A dead end that shaped a decision is also listed among that decision's rejected alternatives.
 - **Conventions:** paths, IDs, naming, markers, evidence labels, repository rules (for example which build artifacts to ignore, and an explicit ignore/attribute decision when a new artifact class first appears), compaction rules, supported agent clients; fetched third-party material keeps a provenance note beside it (source, date, usage) and stays reference-only.
 - **References:** checked sources with dates and versions; unchecked items labeled as to-verify. Research prefers official/primary sources; documentation about a tool is not evidence that the local environment was tested.
 
@@ -168,7 +181,7 @@ The generated `AGENTS.md` includes, beyond the variant's additions:
 5. Records maintenance, compaction rules and the record size budget.
 6. The plan markers legend (variant).
 7. Implementation and documentation roots, repository conventions.
-8. Known user knowledge and preferences, only when actually supplied.
+8. The user profile: the default (section 3) plus knowledge and preferences actually supplied.
 9. The canonical template path (core + variant) as a reference only, the rule to ask the user when it is missing, and the rule to propose template updates when formats change.
 
 Do not copy the templates into `AGENTS.md`. Do not insert a technology stack, fixed milestone count, domain-specific verification matrix or experience profile unless the user's requirements justify it.
@@ -188,6 +201,7 @@ Before reporting the workspace ready, check (plus the variant's additions):
 - The environment the agent can verify was verified before authoring plans.
 - Links resolve, tables and fences are valid, and actionable documents have no unresolved boilerplate.
 - Evidence labels are honest: only checks actually performed; missing evidence is identified.
+- Decisions carry their rejected alternatives and a pointer to the full reasoning; dead ends are recorded where they happened.
 - The generated `AGENTS.md` is concise, uses correct paths and agrees with the working role; client entry files point to it.
 - The next action is concrete and feasible, or the exact missing prerequisite is identified.
 

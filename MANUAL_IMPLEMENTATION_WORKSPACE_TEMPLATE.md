@@ -1,6 +1,6 @@
 # Manual implementation workspace template
 
-The **manual** variant of the workspace template family: the user implements the work while the agent plans, coaches, reviews and maintains records. Use it together with `WORKSPACE_TEMPLATE_CORE.md`, which holds the shared structure, records, planning, evidence and resume rules; this file adds the working agreement, plan format, support levels, review protocol and the role-specific `AGENTS.md` and audit items, and wins where the two differ. The other variant, `AGENTIC_LEARNING_WORKSPACE_TEMPLATE.md`, covers workspaces where the agent implements.
+The **manual** variant of the workspace template family: the user implements the work while the agent plans, coaches, reviews and maintains records. Use it together with `WORKSPACE_TEMPLATE_CORE.md`, which holds the shared structure, records, planning, evidence and resume rules; this file adds the working agreement, plan format, support levels, review protocol and the role-specific `AGENTS.md` and audit items, and wins where the two differ. The other variants, `AGENTIC_LEARNING_WORKSPACE_TEMPLATE.md` and `AUTONOMOUS_AGENTIC_WORKSPACE_TEMPLATE.md`, cover workspaces where agents implement.
 
 ## 1. How to use this file
 
@@ -29,7 +29,7 @@ Shared rules: core section 2. In this variant:
 
 ```markdown
 # Plan NN — [Short title]
-`[Planned|Pending|In progress|Done|Verified]` · `⬜⬜⬜⬜⬜⬜⬜ n/N` · next → N · roadmap: docs/ROADMAP.md
+`[Planned|Pending|In progress|Done|Verified]` · `⬜⬜⬜⬜⬜⬜⬜ n/N` · next → N · roadmap: ../ROADMAP.md
 
 🎯 [Target — the observable result, one or two lines.]
 

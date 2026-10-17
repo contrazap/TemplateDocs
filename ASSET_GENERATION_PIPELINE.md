@@ -9,7 +9,7 @@ An optional tooling companion for workspaces where agents source, generate and p
 3. **Authored or kitbashed in Blender** for project-specific landmarks and vehicle rigs built on pack meshes.
 4. **Engine modeling tools** for blockout only.
 
-Pick the tool per asset class with a small bake-off (about 5 representative assets, judged in the engine at the minimum-spec preset) before committing to a subscription. Subscriptions and API spend need user authorization (`AUTONOMOUS_AGENTIC_WORKSPACE_TEMPLATE.md`, section 2).
+Pick the tool per asset class with a small bake-off (about 5 representative assets, judged in the engine at the minimum-spec preset) before committing to a subscription. Subscriptions and API spend need explicit user authorization (core section 2; the autonomous variant also records budgets, section 8).
 
 ## 2. Provenance and licences
 
@@ -39,4 +39,4 @@ Purpose: direction-setting images for design review packs (zone moods, vehicle c
 ## 5. Workspace integration
 
 - `MEMORY.md` conventions: source priority, register location, LFS paths, image API, budget.
-- The design review pack (variant section 5, design before build) links the diagrams, concept images and reference sets it presents.
+- The design review pack (core section 6, design specs; autonomous variant section 5, design before build) links the diagrams, concept images and reference sets it presents.

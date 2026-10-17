@@ -1,6 +1,6 @@
 # Autonomous agentic workspace template
 
-The **autonomous** variant of the workspace template family. Agents implement the project end to end; the user directs, makes taste calls and approves work at milestone gates. Use it together with `WORKSPACE_TEMPLATE_CORE.md`, which holds the shared structure, records, planning, evidence and resume rules. This file adds the working agreement, the roles and orchestrated mode, the plan format (task cards), verification levels, guard rails, the needs-you queue, and the role-specific `AGENTS.md` and audit items. Where this file and the core differ, this file wins.
+The **autonomous** variant of the workspace template family. Agents implement the project end to end; the user directs, makes taste calls and approves work at milestone gates. Use it together with `WORKSPACE_TEMPLATE_CORE.md`, which holds the shared structure, records, planning, evidence and resume rules. This file adds the working agreement, the roles and orchestrated mode, the plan format (task cards), how verification levels apply, guard rails, the needs-you queue, and the role-specific `AGENTS.md` and audit items. Where this file and the core differ, this file wins.
 
 How it differs from the other variants:
 
@@ -118,15 +118,7 @@ Format rules (in addition to core section 6):
 
 ## 7. Verification levels
 
-Every card names one level. The project's tooling notes give the exact commands; engine companions give recipes (for Unreal: `UNREAL_TEST_AUTOMATION.md`).
-
-| Level | When | Typical content | Budget |
-|---|---|---|---|
-| **Fast** | Every change | Build, static and data validation, unit tests, headless | minutes |
-| **Standard** | Every card | Fast plus functional or integration tests of the card's behavior, including networked checks where the behavior is replicated | ≤ ~15 min |
-| **Full** | Plan end where acceptance needs it; always at milestone gates | Standard plus multi-client or integration runs, performance budgets, visual captures compared with references, packaging; then the user's manual check at gates | ~1 h + user time |
-
-Evidence lines record the level, command, result and artifact path, using the core evidence categories. A planned check is never reported as an executed one.
+The levels (Fast, Standard, Full) and their evidence lines are defined in core section 7; in this variant they are required. Every card names one level, Standard by default. Full runs at plan end where acceptance needs it and always at milestone gates, followed by the user's manual check. The project's tooling notes give the exact commands; engine companions give recipes (for Unreal: `UNREAL_TEST_AUTOMATION.md`).
 
 ## 8. Guard rails
 
