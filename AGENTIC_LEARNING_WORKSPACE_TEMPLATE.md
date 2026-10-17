@@ -101,11 +101,14 @@ Briefing B<n> — [plan/task ID, boundary] · [YYYY-MM-DD]
 - Tried and dropped: [approach — the evidence that ruled it out; omit when none]
 - Next: [the immediate next increment and why this approach]
 - Watch for: [real risks, limitations, open questions]
+- Tour: [code files to read in order (per task commit), assets to open in the tool and what to look at in each]
 - Hands-on: [a task offered to the user, if any (section 7)]
 - Awaiting your confirmation to proceed.
 ```
 
 Briefings are numbered per plan (`B1`, `B2`, …) and written only in the plan's 📣 section, the single place of reference. The chat doesn't repeat them: it names the ready briefing (plan + ID) and adds only what needs the user now (a confirmation, a decision, a needs-you step). Answers to status check-ins between boundaries are not briefings and are not recorded.
+
+**Tour.** The Tour turns a briefing into a reading path: the user reads the briefing, then each task's diff and the Tour, then asks questions. Binary or tool-owned assets (engine assets, scenes, design files) show nothing useful in a diff, so the Tour names where to open them and what to look at, and the agent records text read-backs of their key settings next to the evidence. **Decision links:** the first mention of a new decision ID in a plan links its row in the `MEMORY.md` decisions table, so an ID is never met without its source.
 
 **Milestone demo.** At the end of a milestone's last plan, the boundary briefing is a demo, written so the user can walk through the milestone cold or replay it later:
 
@@ -118,6 +121,7 @@ Demo — M<x> [title] · [YYYY-MM-DD]
 - Changed from plan: [deviations from the roadmap or acceptance, with reasons]
 - Evidence: [key checks and results; captures linked]
 - Concepts: [concepts met in the milestone, glossary-linked]
+- Tour: [as in briefings, for the whole milestone]
 - Open: [risks, open questions, known limitations]
 - Next: [the next milestone and what it will make demonstrable]
 ```
