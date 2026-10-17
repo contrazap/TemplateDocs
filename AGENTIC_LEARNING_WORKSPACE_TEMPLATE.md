@@ -55,7 +55,7 @@ alternative. An accepted task gets its guided steps here. Omit the section when 
 how to inspect it (file, command, commit); decisions taken (IDs); approaches tried and dropped, with the
 evidence that ruled them out.]
 
-📣 Briefings — [each boundary briefing, appended verbatim and dated (section 6); the last plan of a
+📣 Briefings — [each boundary briefing, written here only, with its ID and date (section 6); the last plan of a
 milestone ends with the milestone demo.]
 
 📤 Review — Judge: [what the user is asked to judge — behavior, look, feel, whether the explanation holds
@@ -94,7 +94,7 @@ Pause and brief at:
 Briefing format:
 
 ```markdown
-Briefing — [plan/task ID, boundary] · [YYYY-MM-DD]
+Briefing B<n> — [plan/task ID, boundary] · [YYYY-MM-DD]
 - Done: [what is now true]
 - Evidence: [command or observation and its result; level where defined]
 - Decisions: [IDs new or changed — choice, why, rejected alternatives; or "none"]
@@ -105,7 +105,7 @@ Briefing — [plan/task ID, boundary] · [YYYY-MM-DD]
 - Awaiting your confirmation to proceed.
 ```
 
-The agent presents the briefing and appends it unchanged to the plan's 📣 section. Answers to status check-ins between boundaries are not briefings and are not recorded.
+Briefings are numbered per plan (`B1`, `B2`, …) and written only in the plan's 📣 section, the single place of reference. The chat doesn't repeat them: it names the ready briefing (plan + ID) and adds only what needs the user now (a confirmation, a decision, a needs-you step). Answers to status check-ins between boundaries are not briefings and are not recorded.
 
 **Milestone demo.** At the end of a milestone's last plan, the boundary briefing is a demo, written so the user can walk through the milestone cold or replay it later:
 
@@ -122,7 +122,7 @@ Demo — M<x> [title] · [YYYY-MM-DD]
 - Next: [the next milestone and what it will make demonstrable]
 ```
 
-The demo is stored in that plan's 📣 section and linked from the milestone's row in `ROADMAP.md`.
+The demo is stored only in that plan's 📣 section, linked from the milestone's row in `ROADMAP.md`, and pointed to from the chat like a briefing.
 
 Between boundaries the agent continues mechanical or already-explained work and appends build-log notes for later reading. Waiting for the user at a boundary is normal, not a blocker. Pause modes: **boundary** (default) pauses at all six points; **flow** pauses only at 1, 4, 5 and 6 — points 2 and 3 are still briefed in writing in the 📣 section, and the next pause summarizes them; **strict** also pauses after every task. Record mode changes in `MEMORY.md`.
 
@@ -159,7 +159,7 @@ The variant state (core section 7): **Implemented** — implementation complete 
 Beyond core section 9, the generated `AGENTS.md` includes:
 
 1. The plan-approval gate, how the user can reclaim tasks, and hands-on offers: criteria, alternatives, the per-plan default and graduation.
-2. Boundary rhythm, pause modes, briefing and milestone-demo formats, and the rule that briefings are recorded in the plan's 📣 section; where to record mode changes.
+2. Boundary rhythm, pause modes, briefing and milestone-demo formats, and the rule that briefings and demos live only in the plan's 📣 section, with the chat pointing to them; where to record mode changes.
 3. Learning configuration: default explanation depth, concept budget, glossary path and how to change them — link to `MEMORY.md` rather than duplicating volatile details. State that learning interactions and hands-on offers are optional and never required.
 4. The needs-you queue in `ROADMAP.md` and, when repository operations are delegated, the per-task commit-and-push convention.
 5. The plan markers legend: states Planned → Pending → In progress → Implemented → Verified; `🎯 🧭 📦 🙋 📝 📣 📤 ✅ ⬜ 🔧`.
@@ -172,6 +172,6 @@ Beyond core section 10:
 - Plans follow the format: user part first (target, what's being built, scope, hands-on offers when any, build log, briefings, review), agent execution below the divider; the user section is readable without the agent notes.
 - The review asks the user only for judgments that need no tool expertise; technical claims carry agent evidence.
 - Learning calibration starts from the core default and reflects only what was supplied; no prior knowledge or preferences were assumed.
-- Every briefing given is recorded in its plan; each completed milestone ends with a demo linked from `ROADMAP.md`.
+- Every briefing exists only in its plan, under its ID, and the chat points to it instead of repeating it; each completed milestone ends with a demo linked from `ROADMAP.md`.
 - Roadmap IDs, plan states, learning notes, gate definitions, the needs-you queue and current-plan pointers agree.
 - The next action or next boundary is concrete and feasible.
