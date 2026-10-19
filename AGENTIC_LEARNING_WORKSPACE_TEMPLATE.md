@@ -97,18 +97,19 @@ Briefing format:
 Briefing B<n> — [plan/task ID, boundary] · [YYYY-MM-DD]
 - Done: [what is now true]
 - Evidence: [command or observation and its result; level where defined]
+- Commands: [each command run that the user may reuse — one line on what it does, linked to its tooling-notes entry]
 - Decisions: [IDs new or changed — choice, why, rejected alternatives; or "none"]
 - Tried and dropped: [approach — the evidence that ruled it out; omit when none]
 - Next: [the immediate next increment and why this approach]
 - Watch for: [real risks, limitations, open questions]
-- Tour: [code files to read in order (per task commit), assets to open in the tool and what to look at in each]
+- Tour: [code files to read in order (per task commit) and what to look for in each; assets to open in the tool and what to look at; ends with Try it: state check first, then steps with tool/shell and expected result]
 - Hands-on: [a task offered to the user, if any (section 7)]
 - Awaiting your confirmation to proceed.
 ```
 
 Briefings are numbered per plan (`B1`, `B2`, …) and written only in the plan's 📣 section, the single place of reference. The chat doesn't repeat them: it names the ready briefing (plan + ID) and adds only what needs the user now (a confirmation, a decision, a needs-you step). Answers to status check-ins between boundaries are not briefings and are not recorded.
 
-**Tour.** The Tour turns a briefing into a reading path: the user reads the briefing, then each task's diff and the Tour, then asks questions. Binary or tool-owned assets (engine assets, scenes, design files) show nothing useful in a diff, so the Tour names where to open them and what to look at, and the agent records text read-backs of their key settings next to the evidence. **Decision links:** the first mention of a new decision ID in a plan links its row in the `MEMORY.md` decisions table, so an ID is never met without its source.
+**Tour.** The Tour turns a briefing into a reading path: the user reads the briefing, then each task's diff and the Tour, then asks questions. Binary or tool-owned assets (engine assets, scenes, design files) show nothing useful in a diff, so the Tour names where to open them and what to look at, and the agent records text read-backs of their key settings next to the evidence. The Tour ends with **Try it**: first check the current state (the tooling notes' *Check first*: what is already running and how to stop or reset it), then short steps the user can repeat, each naming the tool or shell and the expected result, including how to inspect what changed (a database query, a log view, an asset setting). **Commands** lists the reusable commands run in the increment and links each to its tooling-notes entry instead of repeating the reference there. **Decision links:** the first mention of a new decision ID in a plan links its row in the `MEMORY.md` decisions table, so an ID is never met without its source.
 
 **Milestone demo.** At the end of a milestone's last plan, the boundary briefing is a demo, written so the user can walk through the milestone cold or replay it later:
 
