@@ -47,7 +47,8 @@ foreach ($manifest in Get-ChildItem $src -Recurse -Filter manifest.txt) {
     if ($left) { throw "$output`: unreplaced tokens $($left -join ', ')" }
 
     $target = Join-Path $root $output
-    $current = if (Test-Path $target) { [IO.File]::ReadAllText($target, $utf8) } else { '' }
+    # Compare without line-ending differences: Git may check the files out with CRLF.
+    $current = if (Test-Path $target) { [IO.File]::ReadAllText($target, $utf8) -replace "`r`n", "`n" } else { '' }
     if ($current -ceq $text) { Write-Output "unchanged  $output"; continue }
     if ($Check) { $stale += $output; Write-Output "STALE      $output" }
     else { [IO.File]::WriteAllText($target, $text, $utf8); Write-Output "built      $output" }
