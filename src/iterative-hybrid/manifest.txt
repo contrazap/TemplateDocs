@@ -1,0 +1,17 @@
+# Build manifest: output file, then parts in order (paths relative to src/).
+# This template uses no shared parts: its workspaces hold no roadmap, memory or plan states, and never refer back to the template repository.
+output ITERATIVE_HYBRID_WORKSPACE_TEMPLATE.md
+part iterative-hybrid/00-intro.md
+part iterative-hybrid/20-working-agreement.md
+part iterative-hybrid/30-bootstrap.md
+part iterative-hybrid/40-structure.md
+part iterative-hybrid/50-brief-conventions.md
+part iterative-hybrid/60-planning.md
+part iterative-hybrid/62-plan-formats.md
+part iterative-hybrid/64-working-a-plan.md
+part iterative-hybrid/70-history.md
+part iterative-hybrid/75-verification.md
+part iterative-hybrid/80-skills.md
+part iterative-hybrid/90-agents.md
+part iterative-hybrid/95-audit.md
+part iterative-hybrid/99-addons.md

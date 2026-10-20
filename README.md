@@ -6,13 +6,14 @@ Canonical repository: https://github.com/contrazap/TemplateDocs
 
 ## Templates
 
-Each template is self-contained: give the agent one template (plus the add-ons the project uses) and the project requirements.
+Each template is self-contained: give the agent one template (plus the add-ons the project uses) and the project requirements. The iterative hybrid template applies add-ons only when asked, later, by creating the needed files in the project.
 
 | Template | Use when |
 |---|---|
 | `AGENTIC_LEARNING_WORKSPACE_TEMPLATE.md` | The agent implements and the user learns by building along: every plan is a from-scratch build guide split into step files; for each step the user reads what will happen, replies go, the agent executes exactly that step, and the user reads the resulting code and runs checks against expected output. Structure first, tools when needed, industry-standard tools by default. |
 | `MANUAL_IMPLEMENTATION_WORKSPACE_TEMPLATE.md` | The user implements; the agent plans, coaches with support levels, reviews and maintains the records. |
 | `AUTONOMOUS_AGENTIC_WORKSPACE_TEMPLATE.md` | Agents implement end to end: roles (orchestrator, implementer, reviewer), optional cheaper worker agents with verification economy, task-card plans, guard rails, needs-you queue; the user approves at milestone gates. |
+| `ITERATIVE_HYBRID_WORKSPACE_TEMPLATE.md` | Human-first with agent acceleration, for new or existing projects whose direction evolves as they are built: a project brief and conventions instead of a roadmap; milestone, feature and implementation plans written just in time and handed to an agent or the user per plan; bug-fix and enhancement plans in the current milestone while completed plans stay frozen; an append-only history of the order of work; skills added as the project needs them. Status lives in the user's own tracker, and generated workspaces are fully self-contained. |
 
 ## Add-ons
 
@@ -29,16 +30,18 @@ Optional; each template lists them under *Optional add-ons* with when to use the
 
 ## Maintaining the templates
 
-The three templates are generated. Their text lives in `src/`:
+The four templates are generated. Their text lives in `src/`:
 
 ```text
-src/shared/              rules every template uses: template use, shared working rules, bootstrap, structure,
-                         planning, records and evidence, decisions, resume and AGENTS.md, audit, add-ons
+src/shared/              rules the roadmap-based templates (agentic learning, manual, autonomous) use: template use,
+                         shared working rules, bootstrap, structure, planning, records and evidence, decisions,
+                         resume and AGENTS.md, audit, add-ons
+src/iterative-hybrid/    the iterative hybrid template: own parts only (no roadmap, memory or plan states to share)
 src/<template>/          the template's own parts and manifest.txt (output file, token values, part order)
 ```
 
-1. Edit the parts in `src/`, never the generated files. A rule every template uses goes in `src/shared/`; a difference between templates is either a template's own part or a `{{TOKEN}}` whose value each `manifest.txt` sets.
+1. Edit the parts in `src/`, never the generated files. A rule the roadmap-based templates share goes in `src/shared/`; a difference between templates is either a template's own part or a `{{TOKEN}}` whose value each `manifest.txt` sets.
 2. Rebuild: `powershell -File scripts/build-templates.ps1` (Windows PowerShell 5.1 or later).
 3. Before committing: `powershell -File scripts/build-templates.ps1 -Check` exits 1 if a generated file is out of date.
 
-Generated workspaces record this repository and the template file used as references instead of copying the template. When a workspace agrees a process change, it proposes the matching edit to the parts here.
+Workspaces generated from the roadmap-based templates record this repository and the template file used as references instead of copying the template; iterative hybrid workspaces do not refer back at all. When a workspace agrees a process change, it proposes the matching edit to the parts here.

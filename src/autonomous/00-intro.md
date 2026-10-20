@@ -2,7 +2,7 @@
 
 A self-contained template for agent-managed workspaces in which **agents implement the project end to end**; the user directs, makes taste calls and approves work at milestone gates. There is no learning budget: gates sit at milestones, and plans inside an approved milestone advance on agent evidence.
 
-Other templates in the family: `AGENTIC_LEARNING_WORKSPACE_TEMPLATE.md` (the agent implements step by step while the user builds along and learns) and `MANUAL_IMPLEMENTATION_WORKSPACE_TEMPLATE.md` (the user implements; the agent coaches).
+Other templates in the family: `AGENTIC_LEARNING_WORKSPACE_TEMPLATE.md` (the agent implements step by step while the user builds along and learns), `MANUAL_IMPLEMENTATION_WORKSPACE_TEMPLATE.md` (the user implements; the agent coaches) and `ITERATIVE_HYBRID_WORKSPACE_TEMPLATE.md` (human-first with agent acceleration; the direction evolves and plans are written just in time).
 
 ## How to use this template
 

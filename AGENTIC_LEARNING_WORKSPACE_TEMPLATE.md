@@ -6,7 +6,7 @@ A self-contained template for agent-managed workspaces in which **the agent impl
 
 The goal is a working project *and* a user who could set it up again: which tools, which commands, which files and settings, and why. Checks that only test behavior are not enough; every step includes reading the code and configuration it produced.
 
-Other templates in the family: `MANUAL_IMPLEMENTATION_WORKSPACE_TEMPLATE.md` (the user implements; the agent coaches) and `AUTONOMOUS_AGENTIC_WORKSPACE_TEMPLATE.md` (agents build end to end; the user approves at milestone gates).
+Other templates in the family: `MANUAL_IMPLEMENTATION_WORKSPACE_TEMPLATE.md` (the user implements; the agent coaches), `AUTONOMOUS_AGENTIC_WORKSPACE_TEMPLATE.md` (agents build end to end; the user approves at milestone gates) and `ITERATIVE_HYBRID_WORKSPACE_TEMPLATE.md` (human-first with agent acceleration; the direction evolves and plans are written just in time).
 
 ## How to use this template
 
