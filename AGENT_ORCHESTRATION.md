@@ -1,6 +1,6 @@
 # Agent orchestration — Claude Code orchestrator, OpenCode workers
 
-An optional tooling companion for autonomous workspaces (`AUTONOMOUS_AGENTIC_WORKSPACE_TEMPLATE.md`, section 3). One orchestrator client plans, dispatches task cards, verifies and records. A cheaper worker model, running in a second client, implements one card per dispatch. This file gives the recommended pairing, the configuration shapes, the dispatch wrapper and the report format.
+An optional add-on for autonomous workspaces (`AUTONOMOUS_AGENTIC_WORKSPACE_TEMPLATE.md`, *Roles and orchestrated mode*). One orchestrator client plans, dispatches task cards, verifies and records. A cheaper worker model, running in a second client, implements one card per dispatch. This file gives the recommended pairing, the configuration shapes, the dispatch wrapper and the report format.
 
 **Status.** The building blocks were checked on 2026-10-16 (versions below). **The full loop is not yet verified.** Each workspace's first plan runs a dry run (section 8) and records the result. Update this file with what the dry run teaches.
 
@@ -95,7 +95,7 @@ A project skill `.claude/skills/orchestrate/SKILL.md` holds the loop, so that "o
 
 1. Run the resume routine. Pick the next ⬜ card whose dependencies are ✅.
 2. `executor: orchestrator` → implement it directly. Otherwise dispatch it with the wrapper as a **background** shell job and wait for the completion notification (no polling).
-3. Read the report. Verify per the variant's verification economy: report vs diff vs cheap re-runs; run orchestrator-only checks yourself; run the plan's spot check.
+3. Read the report. Verify per the template's verification economy: report vs diff vs cheap re-runs; run orchestrator-only checks yourself; run the plan's spot check.
 4. Pass → commit `[P<NN>-T<n>] <title>` (when delegated), mark ✅, append the build-log entry, update the ROADMAP resume block. Fail → re-dispatch with findings (≤ 3 attempts), then take the card over or mark it ⛔ with a needs-you item.
 5. Continue until the plan is Implemented, then run its acceptance. Auto-advance inside the milestone. Stop at a milestone gate, or at a ⛔ that blocks all remaining cards, and brief the user.
 

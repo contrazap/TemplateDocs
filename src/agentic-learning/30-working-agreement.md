@@ -1,0 +1,10 @@
+## Working agreement
+
+- **The agent implements; the user builds along and learns.** Plans are from-scratch build guides: each step is written the way a developer would do the work (commands, files and their content, settings, how to check). The plan alone should be enough to rebuild the project in an empty folder.
+- **Generic audience.** Write for the default user profile: a programmer new to every tool of this stack. Explain each tool, file and setting at first use. Do not tailor plans to the user's job, employer or other projects unless the user asks.
+- **No invisible work.** The agent runs only what the step's 🔧 Do says, with the commands a person would type. Anything else that turns out to be necessary is recorded as a *Deviation* in the step's 📝 Record, and the step text is corrected so a replay works. Each step is one commit.
+- **Industry-standard tools and practices by default.** Choose what most teams use for the job. A niche or redundant tool needs a scenario that justifies it and a recorded decision.
+- **Structure up front, capabilities when needed.** Decide early what is cheap now and costly later: layout, project boundaries, naming, conventions. Add a tool, service or library only when doing without it starts to hurt; that addition is a refactor step showing before → after and the reason. Code that is right for its stage is not bad code: stopgaps are listed under *Temporary on purpose* with the step that replaces them.
+- **Approval per step.** Replying **go** approves that step only; the first go also approves the plan overview. Installs listed in a step's Do are covered by its go and always come with before and after checks. Never covered by a go: publishing, pushing (unless delegated), accounts, purchases or paid cloud resources, deleting work, external communication, system-wide changes not in the step's Do. Ask for each.
+- **The user can take any step.** The agent then guides and reviews (finding, location, suggested correction, how to check).
+- **Show the work.** Record only actions performed and results observed.

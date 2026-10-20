@@ -1,0 +1,34 @@
+# Build manifest: output file, token values, then parts in order (paths relative to src/).
+output AUTONOMOUS_AGENTIC_WORKSPACE_TEMPLATE.md
+set LEARNING_RECORD gate cadence and budgets
+set FIRST_PLAN the first detailed plan
+set PLAN_FILES NN-<name>.md            One current detailed plan; completed plans remain as records
+set PLAN_DOC_OWNS User part first (target, approach, scope, tasks, build log, gate), orchestrator block below the divider; see *Plan format*
+set PLAN_DOC_KEEP_OUT Bookkeeping above the divider
+set NEXT_PLAN_GATE inside an approved milestone the orchestrator then authors and starts it directly (auto-advance); crossing a milestone boundary needs the user's confirmation
+set FOURTH_STATE Implemented
+set FOURTH_STATE_MEANING All cards verified; plan-level acceptance pending
+set PLAN_BUDGET each plan ~20 KB (split with letter suffixes, see *Planning rules*)
+set LEVELS_USE required; every card names one
+set STANDARD_WHEN Every task (default)
+set DEAD_END_HOME the plan's build log or a history entry
+set CURRENT_PLAN_READ the current detailed plan
+part autonomous/00-intro.md
+part shared/10-template-use.md
+part shared/20-shared-rules.md
+part autonomous/30-working-agreement.md
+part shared/40-bootstrap.md
+part autonomous/41-bootstrap-additions.md
+part shared/50-structure.md
+part shared/60-planning.md
+part autonomous/61-planning-additions.md
+part autonomous/62-plan-format.md
+part autonomous/65-verification-guardrails.md
+part shared/70-records.md
+part autonomous/72-states.md
+part shared/80-decisions.md
+part shared/90-resume-agents.md
+part autonomous/91-agents-additions.md
+part shared/95-audit.md
+part autonomous/96-audit-additions.md
+part shared/99-addons.md

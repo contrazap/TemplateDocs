@@ -1,0 +1,6 @@
+## Template use and updates
+
+- The template is not retained in generated workspaces by default; a provenance note pointing to the canonical source is enough. Keep a retained copy only if the user asks for one. A template is not an automatically active `AGENTS.md` and is never copied verbatim into one.
+- Generated workspaces record the canonical template file and the add-ons used as references in `docs/MEMORY.md` and in the generated `AGENTS.md`, once each, never as a local copy. If a recorded path is missing, ask the user for the updated path instead of guessing.
+- When a workspace format or process change is agreed during a project, propose the matching template update so other workspaces inherit it. The templates are generated: edits go to the parts in the template repository's `src/` folder (`src/shared/` for rules every template uses, the template's own folder otherwise), then `scripts/build-templates.ps1` rebuilds them.
+- The agent applies the process to the actual workspace, following the applicable instruction hierarchy and the user's current directions. The user can override the workflow and role defaults at any time. Preserve already-authorized scope instead of asking for the same permission again.

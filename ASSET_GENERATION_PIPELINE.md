@@ -1,6 +1,6 @@
 # Asset generation pipeline — 3D assets and concept images
 
-An optional tooling companion for workspaces where agents source, generate and prepare content: 3D assets for the engine, and 2D concept or reference images for design review. It sets the source priority, provenance rules, the generation and cleanup steps, and how generated images feed design review packs. Engine-side import and verification belong to the engine companions. Blender steps belong to `BLENDER_MCP_BRIDGE.md`.
+An optional add-on for workspaces where agents source, generate and prepare content: 3D assets for the engine, and 2D concept or reference images for design review. It sets the source priority, provenance rules, the generation and cleanup steps, and how generated images feed design review packs. Engine-side import and verification belong to the engine add-ons. Blender steps belong to `BLENDER_MCP_BRIDGE.md`.
 
 ## 1. Source priority (3D)
 
@@ -39,4 +39,4 @@ Purpose: direction-setting images for design review packs (zone moods, vehicle c
 ## 5. Workspace integration
 
 - `MEMORY.md` conventions: source priority, register location, LFS paths, image API, budget.
-- The design review pack (core section 6, design specs; autonomous variant section 5, design before build) links the diagrams, concept images and reference sets it presents.
+- The design review pack (the templates' *Planning rules*, design specs; the autonomous template's *Planning additions*, design before build) links the diagrams, concept images and reference sets it presents.

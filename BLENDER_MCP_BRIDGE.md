@@ -1,6 +1,6 @@
 # Blender MCP bridge — setup and Unreal export conventions
 
-An optional tooling companion for workspaces that prepare 3D assets in Blender for Unreal Engine: vehicle rigs, cleanup of AI-generated or pack meshes, collision and LODs. Two ways in:
+An optional add-on for workspaces that prepare 3D assets in Blender for Unreal Engine: vehicle rigs, cleanup of AI-generated or pack meshes, collision and LODs. Two ways in:
 
 - **Interactive bridge, `blender-mcp`.** An MCP server (`uvx blender-mcp`) talks to an add-on running inside Blender over a local socket (default port `9876`, configurable via `BLENDER_PORT`). Use it to inspect scenes, take viewport screenshots and make one-off edits.
 - **Batch scripts, `blender -b`.** Headless Blender runs Python scripts kept in the repository (`tools/blender/*.py`). Use them for every repeatable pipeline step: export, validation, decimation, LOD generation. They work from any agent client, are reviewable as text and need no running Blender UI. **Prefer batch for the pipeline**, and use the bridge for looking around.

@@ -1,0 +1,33 @@
+# Build manifest: output file, token values, then parts in order (paths relative to src/).
+output MANUAL_IMPLEMENTATION_WORKSPACE_TEMPLATE.md
+set LEARNING_RECORD the skill ledger
+set FIRST_PLAN the first detailed plan
+set PLAN_FILES NN-<name>.md            One current detailed plan; completed plans remain as records
+set PLAN_DOC_OWNS User part first (target, tasks, send line), agent notes below the divider; see *Plan format*
+set PLAN_DOC_KEEP_OUT Bookkeeping above the divider
+set NEXT_PLAN_GATE the user confirms before it is authored
+set FOURTH_STATE Done
+set FOURTH_STATE_MEANING The user reports completion; review or required evidence remains
+set PLAN_BUDGET each plan ~20 KB (split with letter suffixes, see *Planning rules*)
+set LEVELS_USE optional; recommended once checks can be automated; each task then names one
+set STANDARD_WHEN Every task (default)
+set DEAD_END_HOME the plan's agent notes or a history entry
+set CURRENT_PLAN_READ the current detailed plan
+part manual/00-intro.md
+part shared/10-template-use.md
+part shared/20-shared-rules.md
+part manual/30-working-agreement.md
+part shared/40-bootstrap.md
+part manual/41-bootstrap-additions.md
+part shared/50-structure.md
+part shared/60-planning.md
+part manual/62-plan-format.md
+part manual/64-support-levels.md
+part shared/70-records.md
+part manual/72-states.md
+part shared/80-decisions.md
+part shared/90-resume-agents.md
+part manual/91-agents-additions.md
+part shared/95-audit.md
+part manual/96-audit-additions.md
+part shared/99-addons.md

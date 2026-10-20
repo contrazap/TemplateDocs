@@ -1,6 +1,6 @@
 # Unreal test automation — verification levels for agents
 
-An optional tooling companion for Unreal Engine workspaces. It maps the verification levels (`WORKSPACE_TEMPLATE_CORE.md`, section 7; required in the autonomous variant, optional in the others) onto checks that agents can run **without a human at the editor**: command-line builds, headless automation tests, functional-test maps, multi-process network tests, performance captures, screenshot comparisons and packaging. Editor-driven inspection stays with `UNREAL_MCP_BRIDGE.md`. This file covers the checks that should not need the editor's UI at all.
+An optional add-on for Unreal Engine workspaces. It maps the verification levels (defined in each workspace template under *Records, states and evidence*; required in the autonomous template) onto checks that agents can run **without a human at the editor**: command-line builds, headless automation tests, functional-test maps, multi-process network tests, performance captures, screenshot comparisons and packaging. Editor-driven inspection stays with `UNREAL_MCP_BRIDGE.md`. This file covers the checks that should not need the editor's UI at all.
 
 **Status.** The command shapes below are the standard UE 5.x ones. Each workspace verifies them on its own machine in its first plan, wraps them in `tools/build.ps1`, `tools/test.ps1` and `tools/package.ps1`, and records the verified commands in its tooling notes. Correct this file when a shape turns out wrong.
 

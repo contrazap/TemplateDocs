@@ -1,0 +1,36 @@
+# Build manifest: output file, token values, then parts in order (paths relative to src/).
+output AGENTIC_LEARNING_WORKSPACE_TEMPLATE.md
+set LEARNING_RECORD the learning record (profile, concept list, skill record)
+set FIRST_PLAN the first plan's overview and its first step file
+set PLAN_FILES NN-<name>.md + NN-<name>/T<n>-<slug>.md   Current plan: overview and one file per step; completed plans remain as records
+set PLAN_DOC_OWNS The overview (target, steps, stopgaps, decisions, review) and one file per step (concepts, before, do, decisions, read the code, check, record); see *Plan format*
+set PLAN_DOC_KEEP_OUT Step files for steps beyond the next one; content that belongs in design docs or the glossary
+set NEXT_PLAN_GATE the user confirms before it is authored
+set FOURTH_STATE Implemented
+set FOURTH_STATE_MEANING All steps verified; plan review pending
+set PLAN_BUDGET each plan overview and each step file ~10 KB (split a step that grows past it)
+set LEVELS_USE each step's self-check names its level; the user's check follows every step
+set STANDARD_WHEN Every step with behavior to test
+set DEAD_END_HOME the step's Record or a history entry
+set CURRENT_PLAN_READ the current plan's overview and its next step file
+part agentic-learning/00-intro.md
+part shared/10-template-use.md
+part shared/20-shared-rules.md
+part agentic-learning/30-working-agreement.md
+part shared/40-bootstrap.md
+part agentic-learning/41-bootstrap-additions.md
+part shared/50-structure.md
+part shared/60-planning.md
+part agentic-learning/61-planning-additions.md
+part agentic-learning/62-plan-format.md
+part agentic-learning/63-working-rhythm.md
+part agentic-learning/64-learning-support.md
+part shared/70-records.md
+part agentic-learning/72-states.md
+part shared/80-decisions.md
+part shared/90-resume-agents.md
+part agentic-learning/91-agents-additions.md
+part shared/95-audit.md
+part agentic-learning/96-audit-additions.md
+part agentic-learning/97-restarting.md
+part shared/99-addons.md
