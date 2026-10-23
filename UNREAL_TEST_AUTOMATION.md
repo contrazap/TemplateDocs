@@ -65,6 +65,7 @@ The goal is to prove that replicated state matches on server and client, and tha
   `-TestStateDump` is a **project-defined** argument, not an engine one: a small test subsystem writes the replicated facts under test (transforms within tolerance, cargo slots, mission state, winch attachments) to JSON at scenario end. A script diffs server against client with tolerances.
 - **Late join:** start the client after the scenario has changed world state, then compare. This is the join-in-progress check.
 - Use the **Null online subsystem** (direct IP) for automated tests, so they never depend on the online backend. Test the online-service path (EOS sessions and P2P) separately, at Full level.
+- **In-editor check:** a listen server and clients in one PIE session, with per-player state reads and captures through the bridges (`UNREAL_MCP_BRIDGE.md`, Appendix I). Use it for checks that need a rendered view or interactive driving; the two-process run stays the scripted, repeatable check.
 - **Gauntlet** (`RunUAT.bat RunUnreal -project=<uproject> -test=<GauntletTestName> -build=editor`) orchestrates multi-process client/server tests with timeouts and log collection. Adopt it when the two-process scripts grow beyond a few scenarios.
 
 ## 5. Performance (Full)
@@ -76,7 +77,7 @@ The goal is to prove that replicated state matches on server and client, and tha
 ## 6. Visual checks (Full)
 
 - Approved reference captures live in `docs/refs/<topic>/`. Screenshot functional tests compare against ground-truth images with a tolerance. Refresh the ground truth deliberately, never automatically.
-- Agent-viewable captures: `HighResShot` from scripted runs, or the bridge helpers (`UNREAL_MCP_BRIDGE.md`, Appendix G). Evidence is the before/after pair plus the reference, never the agent's description alone.
+- Agent-viewable captures: `HighResShot` from scripted runs, or the bridge helpers (`UNREAL_MCP_BRIDGE.md`, Appendix G; per-player captures in multiplayer PIE, Appendix I). Material shader cost on mobile: `UNREAL_MCP_BRIDGE.md`, Appendix H. Evidence is the before/after pair plus the reference, never the agent's description alone.
 
 ## 7. Packaging (Full)
 
