@@ -26,7 +26,7 @@ The example invocation does not need to be stored in generated documentation.
 The working agreement states the working role; these rules hold alongside it.
 
 - Records (`ROADMAP.md` states, `MEMORY.md` history, decisions, conventions, the skill ledger) and their compaction are agent-maintained; the user can inspect them at any time.
-- Keep guidance concise: answer status check-ins ("what's next", "current status") with the current position and next action as pointers; keep steps and values in the plan and repeat them only when asked.
+- Keep replies short and answer first: lead with the answer or verdict, then any issues with their fixes, an explanation only when it is new to the user or changes the next step, and end with `Next:` and the user's action. Leave out bookkeeping (files edited, records updated) unless asked for or blocking. Aim for one line, or under about 150 words. Answer status check-ins ("what's next", "current status") with the current position and next action as pointers; keep steps and values in the plan and repeat them only when asked.
 - Git, tool installs, publishing and external communication are user-managed unless explicitly delegated or requested; record a delegation and its boundaries in `MEMORY.md` conventions and `AGENTS.md`. Once source control is set up, individual commit/push operations are not tracked in the records; check the repository state directly when needed.
 - Irreversible, destructive, costly or externally visible actions require explicit authorization for that action.
 - Preserve existing work; do not reset, clean, move or overwrite unrelated material.
@@ -251,6 +251,8 @@ Plans: Planned → Pending → In progress → **Done** (the user reports comple
 
 Standard review protocol: the user provides run evidence (short clip or screenshots, what was tested, versions); the agent inspects project files, configuration and structure where the domain allows, and reviews user-provided evidence of behavior. Binary or non-text artifacts (compiled assets, graphs, levels) need suitable user evidence.
 
+Review replies lead with the verdict per step or task: `✅ N.N passes`, or `❌ N.N: <finding> → <correction>`, one or two lines per finding, then `Next:`. The full finding (location, consequence, verification) goes in the plan's agent notes or the history, not the reply.
+
 Record review findings with a stable identifier when follow-up requires it:
 
 ```markdown
@@ -293,7 +295,7 @@ The generated `AGENTS.md` also includes:
 
 1. How authorized implementation requests change the working agreement.
 2. Coaching: support levels, ledger location, how detail adapts.
-3. The review protocol and evidence categories.
+3. The review protocol, evidence categories and the review reply format.
 4. The plan markers legend: states Planned → Pending → In progress → Done → Verified; `🎯 💡 ✅ ⬜ 📤 🔧`; `**Done when:**` checkpoints.
 
 ## Final audit and handoff
