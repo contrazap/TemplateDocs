@@ -144,7 +144,11 @@ Plan-format rules for every plan (*Plan format* gives the full format):
 
 &emsp;&emsp;1.2 [Step]
 
-💡 [Colocated note — only where a new concept or a genuine trap sits.]
+💡 How [concept] works here:
+- [How it applies to this project, naming the files, assets or steps involved.]
+- [Why it is built this way, or the trap it avoids.]
+
+Background: [Concept](../concepts.md#concept).
 
 **Done when:** [what is true when this task is complete.]
 
@@ -172,6 +176,7 @@ Format rules:
 - Tasks are numbered `1`, `2`, …; steps are numbered `1.1`, `1.2`, … under their task, each on its own line indented with `&emsp;&emsp;` (Markdown lists cannot express `1.1`).
 - Mark a finished step ✅ leading its line, and a finished task by appending ✅ to its heading once its checkpoint passes.
 - Tasks are actions. Use exact steps where the tooling is first-time (see *Support levels*); explanations are colocated at the step that needs them, never a separate study section before the steps.
+- A `💡` tip sits only where a new concept or a genuine trap does, and says only what the concept glossary can't: how the concept works in this project and why it is built this way. A lead line, two or three plain bullets naming the files, assets or steps involved, then `Background:` links to the glossary entries. It never repeats a glossary definition and avoids metaphors; without a glossary, the bullets still stay project-specific.
 - Each task closes with a `**Done when:**` statement; the aggregate acceptance list lives in the agent block.
 - The send line asks only for evidence the agent cannot produce or inspect itself.
 - Known traps and verified environment let the agent answer quickly and cold-start safely.
