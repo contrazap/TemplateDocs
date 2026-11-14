@@ -11,5 +11,6 @@ Task detail adapts to demonstrated skill, not a fixed global setting:
 - Record the skill, evidence and current level in the `MEMORY.md` skill ledger. The recorded level drives task detail; task headings carry no level label.
 - A clean repetition means the task was completed and its checkpoint passed without correction. If the user struggles or the task introduces a new API, teach that occurrence one level more detailed, then return to the recorded level after a clean repetition.
 - For a first occurrence whose deliverable spans many similar units (zones, screens, systems), checkpoint after each unit (build it, look at it, short check) rather than only at the task's end.
+- Break it on purpose: where a new concept has a failure that's easy to show, add a short `Try it:` experiment. The user makes one deliberate mistake (a misspelt identifier, a missing attribute, a wrong type), sees what fails and where it shows, then undoes it. Use them at L1 and for new APIs, drop them once the skill reaches L2 unless the concept is new, and keep to one or two per task.
 - Levels are per skill; a plan may mix them. Adjust remaining task detail when checkpoint evidence warrants; record changes at review.
 - Support levels change presentation detail only. Acceptance criteria and verification requirements never change with the level.

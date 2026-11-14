@@ -175,6 +175,8 @@ Format rules:
 - Each task closes with a `**Done when:**` statement; the aggregate acceptance list lives in the agent block.
 - The send line asks only for evidence the agent cannot produce or inspect itself.
 - Known traps and verified environment let the agent answer quickly and cold-start safely.
+- Order steps for live feedback: wire up loading first (imports, script or asset references, routes, a running server or watcher), then add content, so every save shows a visible or checkable result. Snippets stay whole; the step tells the user to type a section at a time and save as they go. No step leaves the build broken for a later step to fix.
+- Where the tool chain has a checker with a watch mode (type checker, test runner, linter), a step starts it before the code it checks, so errors show on save instead of only at the end.
 
 **Task anatomy**
 
@@ -196,6 +198,7 @@ Task detail adapts to demonstrated skill, not a fixed global setting:
 - Record the skill, evidence and current level in the `MEMORY.md` skill ledger. The recorded level drives task detail; task headings carry no level label.
 - A clean repetition means the task was completed and its checkpoint passed without correction. If the user struggles or the task introduces a new API, teach that occurrence one level more detailed, then return to the recorded level after a clean repetition.
 - For a first occurrence whose deliverable spans many similar units (zones, screens, systems), checkpoint after each unit (build it, look at it, short check) rather than only at the task's end.
+- Break it on purpose: where a new concept has a failure that's easy to show, add a short `Try it:` experiment. The user makes one deliberate mistake (a misspelt identifier, a missing attribute, a wrong type), sees what fails and where it shows, then undoes it. Use them at L1 and for new APIs, drop them once the skill reaches L2 unless the concept is new, and keep to one or two per task.
 - Levels are per skill; a plan may mix them. Adjust remaining task detail when checkpoint evidence warrants; record changes at review.
 - Support levels change presentation detail only. Acceptance criteria and verification requirements never change with the level.
 

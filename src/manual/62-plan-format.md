@@ -42,6 +42,8 @@ Format rules:
 - Each task closes with a `**Done when:**` statement; the aggregate acceptance list lives in the agent block.
 - The send line asks only for evidence the agent cannot produce or inspect itself.
 - Known traps and verified environment let the agent answer quickly and cold-start safely.
+- Order steps for live feedback: wire up loading first (imports, script or asset references, routes, a running server or watcher), then add content, so every save shows a visible or checkable result. Snippets stay whole; the step tells the user to type a section at a time and save as they go. No step leaves the build broken for a later step to fix.
+- Where the tool chain has a checker with a watch mode (type checker, test runner, linter), a step starts it before the code it checks, so errors show on save instead of only at the end.
 
 **Task anatomy**
 
