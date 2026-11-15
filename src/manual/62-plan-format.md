@@ -49,7 +49,8 @@ Format rules:
 - Known traps and verified environment let the agent answer quickly and cold-start safely.
 - Order steps for live feedback: wire up loading first (imports, script or asset references, routes, a running server or watcher), then add content, so every save shows a visible or checkable result. Snippets stay whole; the step tells the user to type a section at a time and save as they go. No step leaves the build broken for a later step to fix.
 - Everything the user types (code, markup, commands, values) uses only characters on a standard keyboard: `-` not `—`, straight quotes not curly ones, `...` not `…`. Prose may use other characters.
-- Where the tool chain has a checker with a watch mode (type checker, test runner, linter), a step starts it before the code it checks, so errors show on save instead of only at the end.
+- Type and lint errors are watched in the editor (underlines, Problems panel); plans don't keep a type-checker watch running, and the user starts one when they want it. Where the tool chain has a test runner with a watch mode, a step starts it before the code it tests, so failures show on save instead of only at the end.
+- Every step builds the project or practises a skill on the ledger; no steps that exist only for ceremony or bookkeeping.
 
 **Task anatomy**
 

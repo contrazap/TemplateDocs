@@ -182,7 +182,8 @@ Format rules:
 - Known traps and verified environment let the agent answer quickly and cold-start safely.
 - Order steps for live feedback: wire up loading first (imports, script or asset references, routes, a running server or watcher), then add content, so every save shows a visible or checkable result. Snippets stay whole; the step tells the user to type a section at a time and save as they go. No step leaves the build broken for a later step to fix.
 - Everything the user types (code, markup, commands, values) uses only characters on a standard keyboard: `-` not `—`, straight quotes not curly ones, `...` not `…`. Prose may use other characters.
-- Where the tool chain has a checker with a watch mode (type checker, test runner, linter), a step starts it before the code it checks, so errors show on save instead of only at the end.
+- Type and lint errors are watched in the editor (underlines, Problems panel); plans don't keep a type-checker watch running, and the user starts one when they want it. Where the tool chain has a test runner with a watch mode, a step starts it before the code it tests, so failures show on save instead of only at the end.
+- Every step builds the project or practises a skill on the ledger; no steps that exist only for ceremony or bookkeeping.
 
 **Task anatomy**
 
@@ -258,7 +259,7 @@ Evidence lines record the level, command, result and artifact path, using the ev
 
 Plans: Planned → Pending → In progress → **Done** (the user reports completion; review or required evidence remains) → **Verified**.
 
-Standard review protocol: the user provides run evidence (short clip or screenshots, what was tested, versions); the agent inspects project files, configuration and structure where the domain allows, and reviews user-provided evidence of behavior. Binary or non-text artifacts (compiled assets, graphs, levels) need suitable user evidence.
+Standard review protocol: the user provides run evidence (short clip or screenshots, what was tested, versions); the agent inspects project files, configuration and structure where the domain allows, runs the non-destructive checks it can (type-check, build, lint, tests) on every reported completion, and reviews user-provided evidence of behavior. Errors found this way come back with the fix and a short why, as teaching; the send line never asks for output the agent can produce itself. Binary or non-text artifacts (compiled assets, graphs, levels) need suitable user evidence.
 
 Review replies lead with the verdict per step or task: `✅ N.N passes`, or `❌ N.N: <finding> → <correction>`, one or two lines per finding, then `Next:`. The full finding (location, consequence, verification) goes in the plan's agent notes or the history, not the reply. A pass is `✅ N.N passes` and `Next:`, nothing else; evidence goes in the history. Add one line only for a deviation the user should know about.
 
