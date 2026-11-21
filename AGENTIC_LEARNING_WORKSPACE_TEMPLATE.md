@@ -124,7 +124,7 @@ Add domain-specific documents only when the actual project needs them. Do not ge
 - Split a milestone before authoring its plan when: acceptance depends on later milestones · independent systems share only a final proof · several risky unknowns need early checks · no reviewable result appears within each group of work · a first-contact slice (what the next plans immediately depend on) separates cleanly from a completion slice that can wait until those plans need it.
 - Design decisions the user may not be able to judge (layout, composition, structure) are drafted by the agent into a spec built from the reference material and corrected by the user; build steps then link that spec so the user judges concrete options instead of inventing.
 - Keep plan IDs stable; a split after authoring keeps the number with letter suffixes (`03a`, `03b`), and any divergence between run order and numeric order is stated explicitly (for example under the roadmap table). Completed plan files remain as records.
-- Mark finished items ✅ as they complete; acceptance criteria stay `[ ]` until the plan is Verified, then mark `[x]`.
+- Mark finished items (steps, tasks, cards) ✅ when their review passes, not on the completion report alone, and update the header grid and next pointer in the same pass; acceptance criteria stay `[ ]` until the plan is Verified, then mark `[x]`.
 - Changes to acceptance criteria must be justified and recorded. Never narrow them silently.
 - Keep future roadmap entries outcome-level; treat their internals as provisional.
 - Label estimates as rough and provisional; never invent delivery dates or commitments.
@@ -331,7 +331,7 @@ The generated `AGENTS.md` includes, beyond the items in *AGENTS.md additions*:
 3. Planning rules: one current plan, on-demand authoring, verify-before-authoring, review gate before the next plan.
 4. Authorization boundaries for risky, external or costly actions; repository delegation if any.
 5. Records maintenance, compaction rules and the record size budget.
-6. The plan markers legend.
+6. The plan markers legend, and when the agent applies the progress markers (see *Planning rules*).
 7. Implementation and documentation roots, repository conventions.
 8. The user profile: the default (see *Bootstrap procedure*) plus knowledge and preferences actually supplied.
 9. The canonical template file and the add-ons used, as references only; the rule to ask the user when a path is missing; the rule to propose template updates when formats change.

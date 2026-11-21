@@ -9,7 +9,7 @@ The generated `AGENTS.md` includes, beyond the items in *AGENTS.md additions*:
 3. Planning rules: one current plan, on-demand authoring, verify-before-authoring, review gate before the next plan.
 4. Authorization boundaries for risky, external or costly actions; repository delegation if any.
 5. Records maintenance, compaction rules and the record size budget.
-6. The plan markers legend.
+6. The plan markers legend, and when the agent applies the progress markers (see *Planning rules*).
 7. Implementation and documentation roots, repository conventions.
 8. The user profile: the default (see *Bootstrap procedure*) plus knowledge and preferences actually supplied.
 9. The canonical template file and the add-ons used, as references only; the rule to ask the user when a path is missing; the rule to propose template updates when formats change.

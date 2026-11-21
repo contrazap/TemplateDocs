@@ -118,7 +118,7 @@ Add domain-specific documents only when the actual project needs them. Do not ge
 - Split a milestone before authoring its plan when: acceptance depends on later milestones · independent systems share only a final proof · several risky unknowns need early checks · no reviewable result appears within each group of work · a first-contact slice (what the next plans immediately depend on) separates cleanly from a completion slice that can wait until those plans need it.
 - Design decisions the user may not be able to judge (layout, composition, structure) are drafted by the agent into a spec built from the reference material and corrected by the user; build steps then link that spec so the user judges concrete options instead of inventing.
 - Keep plan IDs stable; a split after authoring keeps the number with letter suffixes (`03a`, `03b`), and any divergence between run order and numeric order is stated explicitly (for example under the roadmap table). Completed plan files remain as records.
-- Mark finished items ✅ as they complete; acceptance criteria stay `[ ]` until the plan is Verified, then mark `[x]`.
+- Mark finished items (steps, tasks, cards) ✅ when their review passes, not on the completion report alone, and update the header grid and next pointer in the same pass; acceptance criteria stay `[ ]` until the plan is Verified, then mark `[x]`.
 - Changes to acceptance criteria must be justified and recorded. Never narrow them silently.
 - Keep future roadmap entries outcome-level; treat their internals as provisional.
 - Label estimates as rough and provisional; never invent delivery dates or commitments.
@@ -139,10 +139,10 @@ Plan-format rules for every plan (*Plan format* gives the full format):
 
 🎯 [Target — the observable result, one or two lines.]
 
-### 1. [Action]
-&emsp;&emsp;1.1 [Step]
+### 1. [Action] ✅
+&emsp;&emsp;✅ 1.1 [Step, finished]
 
-&emsp;&emsp;1.2 [Step]
+&emsp;&emsp;✅ 1.2 [Step, finished]
 
 💡 How [concept] works here:
 - [How it applies to this project, naming the files, assets or steps involved.]
@@ -174,7 +174,7 @@ Format rules:
 - The user part comes first and carries no bookkeeping; everything after the `---` divider is agent material and can be skipped by the user.
 - The user part is target, tasks, send line. Plans contain only user actions.
 - Tasks are numbered `1`, `2`, …; steps are numbered `1.1`, `1.2`, … under their task, each on its own line indented with `&emsp;&emsp;` (Markdown lists cannot express `1.1`).
-- Mark a finished step ✅ leading its line, and a finished task by appending ✅ to its heading once its checkpoint passes.
+- When a task's checkpoint passes review, mark each of its steps ✅ at the start of the step line, before the number (`&emsp;&emsp;✅ 1.1 ...`), and append ✅ to the task heading (`### 1. [Action] ✅`). Steps have no checkpoint of their own; a step reviewed on its own is marked when it passes.
 - Tasks are actions. Use exact steps where the tooling is first-time (see *Support levels*); explanations are colocated at the step that needs them, never a separate study section before the steps.
 - A `💡` tip sits only where a new concept or a genuine trap does, and says only what the concept glossary can't: how the concept works in this project and why it is built this way. A lead line, two or three plain bullets naming the files, assets or steps involved, then `Background:` links to the glossary entries. It never repeats a glossary definition and avoids metaphors; without a glossary, the bullets still stay project-specific.
 - Each task closes with a `**Done when:**` statement; the aggregate acceptance list lives in the agent block.
@@ -290,7 +290,7 @@ The generated `AGENTS.md` includes, beyond the items in *AGENTS.md additions*:
 3. Planning rules: one current plan, on-demand authoring, verify-before-authoring, review gate before the next plan.
 4. Authorization boundaries for risky, external or costly actions; repository delegation if any.
 5. Records maintenance, compaction rules and the record size budget.
-6. The plan markers legend.
+6. The plan markers legend, and when the agent applies the progress markers (see *Planning rules*).
 7. Implementation and documentation roots, repository conventions.
 8. The user profile: the default (see *Bootstrap procedure*) plus knowledge and preferences actually supplied.
 9. The canonical template file and the add-ons used, as references only; the rule to ask the user when a path is missing; the rule to propose template updates when formats change.
@@ -305,7 +305,7 @@ The generated `AGENTS.md` also includes:
 
 1. How authorized implementation requests change the working agreement.
 2. Coaching: support levels, ledger location, how detail adapts.
-3. The review protocol, evidence categories and the review reply format.
+3. The review protocol, evidence categories and the review reply format, plus the bookkeeping done at every passing review: steps marked `✅ N.N` at the start of their lines, ✅ appended to the task heading, the plan header grid, state and `next →` updated, and the roadmap resume block updated.
 4. The plan markers legend: states Planned → Pending → In progress → Done → Verified; `🎯 💡 ✅ ⬜ 📤 🔧`; `**Done when:**` checkpoints.
 
 ## Final audit and handoff

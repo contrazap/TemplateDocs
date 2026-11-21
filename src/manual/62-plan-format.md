@@ -6,10 +6,10 @@
 
 🎯 [Target — the observable result, one or two lines.]
 
-### 1. [Action]
-&emsp;&emsp;1.1 [Step]
+### 1. [Action] ✅
+&emsp;&emsp;✅ 1.1 [Step, finished]
 
-&emsp;&emsp;1.2 [Step]
+&emsp;&emsp;✅ 1.2 [Step, finished]
 
 💡 How [concept] works here:
 - [How it applies to this project, naming the files, assets or steps involved.]
@@ -41,7 +41,7 @@ Format rules:
 - The user part comes first and carries no bookkeeping; everything after the `---` divider is agent material and can be skipped by the user.
 - The user part is target, tasks, send line. Plans contain only user actions.
 - Tasks are numbered `1`, `2`, …; steps are numbered `1.1`, `1.2`, … under their task, each on its own line indented with `&emsp;&emsp;` (Markdown lists cannot express `1.1`).
-- Mark a finished step ✅ leading its line, and a finished task by appending ✅ to its heading once its checkpoint passes.
+- When a task's checkpoint passes review, mark each of its steps ✅ at the start of the step line, before the number (`&emsp;&emsp;✅ 1.1 ...`), and append ✅ to the task heading (`### 1. [Action] ✅`). Steps have no checkpoint of their own; a step reviewed on its own is marked when it passes.
 - Tasks are actions. Use exact steps where the tooling is first-time (see *Support levels*); explanations are colocated at the step that needs them, never a separate study section before the steps.
 - A `💡` tip sits only where a new concept or a genuine trap does, and says only what the concept glossary can't: how the concept works in this project and why it is built this way. A lead line, two or three plain bullets naming the files, assets or steps involved, then `Background:` links to the glossary entries. It never repeats a glossary definition and avoids metaphors; without a glossary, the bullets still stay project-specific.
 - Each task closes with a `**Done when:**` statement; the aggregate acceptance list lives in the agent block.
