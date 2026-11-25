@@ -112,6 +112,7 @@ Proven in Diet Planner; copy from there when an app needs them. Each new plugin 
 - **Reminders:** `@capacitor/local-notifications` with a monochrome small icon (`ic_stat_notify`) and `iconColor` in `capacitor.config.ts`; tapping a reminder opens the relevant screen.
 - **Sharing and exports:** `@capacitor/share`, writing the file to the cache directory first.
 - **AI assistant:** an OpenAI-compatible chat API with tool calling (Diet Planner uses DeepSeek), the API key entered per phone in `device` settings (never synced, exported or committed). Tools map to store actions; each reply records what it changed so it can be undone on its own. Thinking models need a large `max_tokens` or they return empty answers. Reference: Diet Planner `src/lib/ai.ts`, `src/lib/changes.ts`.
+- **Voice input and spoken replies** (free, on-device, no key). The Android WebView has no Web Speech API, so use plugins: `@capacitor-community/speech-recognition` (v7 works on Capacitor 8; adds `RECORD_AUDIO` and the `RecognitionService` query itself) and `@capacitor-community/text-to-speech`. Fill the text box from dictation and let the user send; keep the language and the read-aloud choice in `device` settings. Plugin quirks: with `partialResults` the recognizer's `start()` resolves at once and later errors (silence, no network) are never reported, so poll `isListening()`; the final text arrives after the `stopped` event. TTS `stop()` drops the pending `speak()` promise (it never settles), so resolve it yourself; split long text into chunks (Android takes ~4000 characters) and strip markdown and emoji first; check `isLanguageSupported` for non-English voices. In a desktop browser fall back to `SpeechRecognition`/`speechSynthesis` for `npm run dev`. Reference: Diet Planner `src/lib/voice.ts`.
 - **First-install mirror:** an itch.io page with the APK (edited by hand) for people who can't reach the download page. Phones don't use it.
 
 ## 8. Lessons learned
@@ -122,6 +123,8 @@ Proven in Diet Planner; copy from there when an app needs them. Each new plugin 
 - **"Install unknown apps"** is asked once per source: the browser for the first install, the app itself for its updates. The app opens that setting when needed.
 - **GitHub downloads** can be very slow on some home networks; mobile data helps.
 - **`hosting/` is generated** and git-ignored; never edit it by hand.
+- **React StrictMode runs effects twice in dev:** a `mounted` ref cleared in an effect's cleanup must be set back to `true` in the effect body, or it stays `false` and silently disables whatever checks it.
+- **Visual checks without the Chrome extension:** `puppeteer-core` (installed in a scratch folder) driving the installed Chrome at a phone-sized viewport against `npm run dev`. Fake what headless Chrome can't do in `evaluateOnNewDocument` (speech APIs) and answer API calls with `setRequestInterception`; answer the CORS preflight (`OPTIONS`, allowing `authorization`) before the request itself.
 
 ## 9. Workspace integration
 
