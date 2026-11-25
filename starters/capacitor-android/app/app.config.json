@@ -1,0 +1,7 @@
+{
+  "appName": "__APP_NAME__",
+  "apkName": "__APK_NAME__",
+  "firebaseProject": "__FIREBASE_PROJECT__",
+  "releasesRepo": "__RELEASES_REPO__",
+  "themeColor": "__THEME_COLOR__"
+}

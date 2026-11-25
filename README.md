@@ -26,7 +26,9 @@ Optional; each template lists them under *Optional add-ons* with when to use the
 | `UNREAL_TEST_AUTOMATION.md` | Unreal Engine: headless, agent-runnable checks mapped to the Fast/Standard/Full verification levels: command-line builds, automation and functional tests, two-process network tests, performance captures, screenshot comparisons, packaging. |
 | `BLENDER_MCP_BRIDGE.md` | Blender: the `blender-mcp` bridge for interactive scene work, batch `blender -b` scripts for repeatable pipeline steps, and Unreal export conventions (units, orientation, pivots, UCX collision, LODs, Chaos vehicle rigs). |
 | `ASSET_GENERATION_PIPELINE.md` | 3D asset source priority (packs → AI 3D → Blender), provenance and licences, AI 3D cleanup steps, and concept/reference image generation for design review packs. |
-| `scripts/` | Helper scripts used by the add-ons (discovery probe, MCP smoke tests), the in-editor agent check helpers (`ue_checks.py`, copied to a workspace's `tools/`) and `build-templates.ps1`. |
+| `CAPACITOR_ANDROID_APP.md` | Personal Android apps (Capacitor 8 + React/TypeScript, installed directly on a few phones): stack, one-time PC setup, starting a new app, app conventions, signing, and the self-updating release pipeline (web bundles on Firebase Hosting, APKs on GitHub releases); optional sync, reminders and AI modules. Uses `starters/capacitor-android/` and `scripts/new-capacitor-android-app.ps1`. |
+| `starters/` | Working starter projects with `__PLACEHOLDERS__`, filled in by the matching `scripts/new-*.ps1`. |
+| `scripts/` | Helper scripts used by the add-ons (discovery probe, MCP smoke tests, new-app scaffolders), the in-editor agent check helpers (`ue_checks.py`, copied to a workspace's `tools/`) and `build-templates.ps1`. |
 
 ## Maintaining the templates
 

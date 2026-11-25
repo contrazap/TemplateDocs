@@ -1,0 +1,15 @@
+# Secrets: release keystore + password (back these up privately, never commit)
+app/android-signing/
+.env
+.env.*
+
+# Build outputs
+*.apk
+*.aab
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Firebase CLI logs and cache
+*-debug.log
+.firebase/
