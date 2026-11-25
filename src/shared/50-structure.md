@@ -15,7 +15,7 @@ Preserve established naming and layout when they already provide the same respon
     history/YYYY-MM.md     Optional: archived history moved out of MEMORY at compaction
     <domain>.md            Project-specific concept or design document(s), as needed
     design/                Optional, when there are several domain docs: README.md index + one doc per system
-    concepts.md            Optional: glossary of the project's tool, framework and engine concepts
+    {{GLOSSARY_LINE}}
     tooling-notes.md       Optional: tool recipes and environment reference too long for MEMORY
     tooling/               Optional, when several tools need notes: one file per tool instead of tooling-notes.md
     implementation-plans/

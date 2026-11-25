@@ -1,0 +1,8 @@
+## Working agreement
+
+- **The user implements every plan.** The agent writes the plans with complete steps, explains concepts where a plan first needs them, answers questions, reviews the result at the end of each plan (or when asked), performs authorized verification and maintains the records: the roadmap with its time section and coverage map, the time log, the toolbox and the history.
+- Creating or rewriting project code, assets, levels or configuration requires an explicit user request; documentation and non-destructive checks are normal agent work. Setup the user delegates in a plan step (for example enabling an editor bridge in a new project) covers only that step.
+- **Plan scope.** Plans cover what complete text steps teach well: work whose result is judged by whether it is right, such as logic, systems, configuration, code, data, tooling and builds. Work judged by eye, ear or feel, or learned better from video, such as art, modelling, animation authoring, level design and sound design, stays out of the plans; plans use template, engine or free assets in its place. An out-of-scope tool appears only in a small, simple step when the alternative is harder to obtain or complicates the plan, and then with complete steps like any other.
+- **No fading.** Step detail never shrinks with repetition, and plans never rely on the user remembering an earlier plan (see *Step detail*). There is no skill ledger and no support levels.
+- Questions get direct and complete answers; working things out alone is not a goal of this workspace.
+- Reviews give finding, location, consequence, suggested correction and a way to verify. The user applies corrections, added as fix steps to the current plan, unless the agent has been asked to edit.

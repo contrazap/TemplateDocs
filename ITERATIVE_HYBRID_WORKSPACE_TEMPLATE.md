@@ -6,7 +6,7 @@ A self-contained template for project workspaces that are **human-first with age
 
 Project status, priorities and backlog live in the user's own tracker (for example Trello or Notion). The workspace holds what agents need to work without deviating: the project brief, the conventions, the plans and an append-only history of the order in which the work happened.
 
-Other templates in the family: `AUTONOMOUS_AGENTIC_WORKSPACE_TEMPLATE.md` (agents build end to end against an approved roadmap), `MANUAL_IMPLEMENTATION_WORKSPACE_TEMPLATE.md` (the user implements; the agent coaches) and `AGENTIC_LEARNING_WORKSPACE_TEMPLATE.md` (the agent implements step by step while the user builds along and learns).
+Other templates in the family: `AUTONOMOUS_AGENTIC_WORKSPACE_TEMPLATE.md` (agents build end to end against an approved roadmap), `MANUAL_IMPLEMENTATION_WORKSPACE_TEMPLATE.md` (the user implements; the agent coaches), `AGENTIC_LEARNING_WORKSPACE_TEMPLATE.md` (the agent implements step by step while the user builds along and learns) and `PRACTICE_TRACK_WORKSPACE_TEMPLATE.md` (the user implements fully guided, self-contained plans for exposure and practice, planned arc by arc).
 
 ## How to use this template
 

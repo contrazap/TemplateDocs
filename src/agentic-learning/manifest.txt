@@ -13,6 +13,9 @@ set LEVELS_USE each step's self-check names its level; the user's check follows 
 set STANDARD_WHEN Every step with behavior to test
 set DEAD_END_HOME the step's Record or a history entry
 set CURRENT_PLAN_READ the current plan's overview and its next step file
+set GLOSSARY_LINE concepts.md            Optional: glossary of the project's tool, framework and engine concepts
+set MARK_WHEN when their review passes, not on the completion report alone
+set HISTORY_DETAIL History keeps the current plan's entries (at most ~5) detailed, each ≤ ~5 lines; older entries are one line each (label · what happened · outcome, with pointers to decisions or commits).
 part agentic-learning/00-intro.md
 part shared/10-template-use.md
 part shared/20-shared-rules.md

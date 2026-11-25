@@ -14,6 +14,7 @@ Each template is self-contained: give the agent one template (plus the add-ons t
 | `MANUAL_IMPLEMENTATION_WORKSPACE_TEMPLATE.md` | The user implements; the agent plans, coaches with support levels, reviews and maintains the records. |
 | `AUTONOMOUS_AGENTIC_WORKSPACE_TEMPLATE.md` | Agents implement end to end: roles (orchestrator, implementer, reviewer), optional cheaper worker agents with verification economy, task-card plans, guard rails, needs-you queue; the user approves at milestone gates. |
 | `ITERATIVE_HYBRID_WORKSPACE_TEMPLATE.md` | Human-first with agent acceleration, for new or existing projects whose direction evolves as they are built: a project brief and conventions instead of a roadmap; milestone, feature and implementation plans written just in time and handed to an agent or the user per plan; bug-fix and enhancement plans in the current milestone while completed plans stay frozen; an append-only history of the order of work; skills added as the project needs them. Status lives in the user's own tracker, and generated workspaces are fully self-contained. |
+| `PRACTICE_TRACK_WORKSPACE_TEMPLATE.md` | The user practises a tool or stack for exposure and practice, not unguided problem solving: every plan is a self-contained small project with complete steps that never fade or rely on earlier plans; tasks sized to the user's sessions; a coverage map of topic clusters (core or later, out-of-scope topics routed to other media); rolling arcs of a few plans with an arc review; a time section with estimates re-scaled from a time log; a toolbox of everything met so far (use it when, built in, nearby, docs). No skill ledger. |
 
 ## Add-ons
 
@@ -32,10 +33,10 @@ Optional; each template lists them under *Optional add-ons* with when to use the
 
 ## Maintaining the templates
 
-The four templates are generated. Their text lives in `src/`:
+The five templates are generated. Their text lives in `src/`:
 
 ```text
-src/shared/              rules the roadmap-based templates (agentic learning, manual, autonomous) use: template use,
+src/shared/              rules the roadmap-based templates (agentic learning, manual, autonomous, practice track) use: template use,
                          shared working rules, bootstrap, structure, planning, records and evidence, decisions,
                          resume and AGENTS.md, audit, add-ons
 src/iterative-hybrid/    the iterative hybrid template: own parts only (no roadmap, memory or plan states to share)

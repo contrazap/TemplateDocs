@@ -16,7 +16,7 @@ Plan states (the fourth state is described under *States*):
 
 **Record size budget.** The resume routine reads `ROADMAP.md` and `MEMORY.md` every session, so both must stay readable in one pass:
 
-- `MEMORY.md` targets ≤ ~25 KB. History keeps the current plan's entries (at most ~5) detailed, each ≤ ~5 lines; older entries are one line each (label · what happened · outcome, with pointers to decisions or commits). When the file exceeds the budget, compact proactively and say so in the history entry; the compaction rules above still apply.
+- `MEMORY.md` targets ≤ ~25 KB. {{HISTORY_DETAIL}} When the file exceeds the budget, compact proactively and say so in the history entry; the compaction rules above still apply.
 - Conventions are rules, one or two lines each. Tool recipes, API quirks, long environment inventories and engine or tool reference material go in the tooling notes (or the applicable add-on) with a one-line pointer in Conventions.
 - Tooling notes list a command only after it has been run in the workspace, with the shell it runs in. When the project starts long-running processes (servers, containers, editors), they open with a **Check first** section: how to see what is already running, what "nothing running" looks like, and how to stop it, free a port or reset state.
 - `ROADMAP.md`'s resume block is a few lines: position, current plan, next action, gate. No history; that lives in `MEMORY.md`.

@@ -4,7 +4,7 @@
 
 A self-contained template for agent-managed workspaces in which **the user implements the work** while the agent plans, coaches, reviews and maintains the records.
 
-Other templates in the family: `AGENTIC_LEARNING_WORKSPACE_TEMPLATE.md` (the agent implements step by step while the user builds along and learns), `AUTONOMOUS_AGENTIC_WORKSPACE_TEMPLATE.md` (agents build end to end; the user approves at milestone gates) and `ITERATIVE_HYBRID_WORKSPACE_TEMPLATE.md` (human-first with agent acceleration; the direction evolves and plans are written just in time).
+Other templates in the family: `AGENTIC_LEARNING_WORKSPACE_TEMPLATE.md` (the agent implements step by step while the user builds along and learns), `AUTONOMOUS_AGENTIC_WORKSPACE_TEMPLATE.md` (agents build end to end; the user approves at milestone gates), `ITERATIVE_HYBRID_WORKSPACE_TEMPLATE.md` (human-first with agent acceleration; the direction evolves and plans are written just in time) and `PRACTICE_TRACK_WORKSPACE_TEMPLATE.md` (the user implements fully guided, self-contained plans for exposure and practice, planned arc by arc).
 
 ## How to use this template
 

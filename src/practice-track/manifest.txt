@@ -1,0 +1,37 @@
+# Build manifest: output file, token values, then parts in order (paths relative to src/).
+output PRACTICE_TRACK_WORKSPACE_TEMPLATE.md
+set LEARNING_RECORD the time log
+set FIRST_PLAN the first detailed plan with its toolbox entries (`docs/toolbox.md`)
+set PLAN_FILES NN-<name>.md            One current detailed plan; completed plans remain as records
+set PLAN_DOC_OWNS User part first (target, new and also-used line, estimate, tasks, send line), agent notes below the divider; see *Plan format*
+set PLAN_DOC_KEEP_OUT Bookkeeping above the divider; steps that rely on an earlier plan
+set NEXT_PLAN_GATE the user confirms before it is authored, and an arc's first plan follows the arc review
+set FOURTH_STATE Done
+set FOURTH_STATE_MEANING The user reports every task complete; the plan-end review remains
+set PLAN_BUDGET each plan ~25 KB (complete steps make plans longer than in templates whose detail fades; split with letter suffixes, see *Planning rules*)
+set LEVELS_USE optional; recommended once checks can be automated; the plan-end review then names one
+set STANDARD_WHEN Plan-end review (default)
+set DEAD_END_HOME the plan's agent notes or a history entry
+set CURRENT_PLAN_READ the current detailed plan
+set GLOSSARY_LINE toolbox.md             The toolbox: the glossary of features met so far (what, use it when, built in, nearby, docs)
+set MARK_WHEN when the user reports them done against their **Done when:** (the plan-end review adds fix steps for anything it finds)
+set HISTORY_DETAIL History entries are one line each (label · what happened · outcome, with pointers to plans, decisions or commits); review evidence goes in the plan's agent notes, not the history.
+part practice-track/00-intro.md
+part shared/10-template-use.md
+part shared/20-shared-rules.md
+part practice-track/30-working-agreement.md
+part shared/40-bootstrap.md
+part practice-track/41-bootstrap-additions.md
+part shared/50-structure.md
+part shared/60-planning.md
+part practice-track/61-arcs-coverage-time.md
+part practice-track/62-plan-format.md
+part practice-track/64-step-detail.md
+part shared/70-records.md
+part practice-track/72-states.md
+part shared/80-decisions.md
+part shared/90-resume-agents.md
+part practice-track/91-agents-additions.md
+part shared/95-audit.md
+part practice-track/96-audit-additions.md
+part shared/99-addons.md
